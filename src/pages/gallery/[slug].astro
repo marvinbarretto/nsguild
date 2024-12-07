@@ -1,67 +1,45 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { fetchAllGalleryDocuments } from '../api/getGalleryImages';
+import { sanityClient } from '../../utils/sanity';
+import type { Gallery } from '../../utils/types';
 
 const { slug } = Astro.params;
 
-// Fetch all galleries and find the one with the matching slug
-const galleries = await fetchAllGalleryDocuments();
-const gallery = galleries.find((g) => g.slug === slug);
+// Fetch the gallery matching the provided slug
+const query = `
+  *[_type == "gallery" && slug.current == $slug][0]{
+    title,
+    "slug": slug.current,
+    images[]{
+      "thumbnailUrl": asset->url + "?w=200&h=200&fit=crop",
+      "url": asset->url,
+      altText,
+      caption
+    }
+  }
+`;
+
+const gallery: Gallery = await sanityClient.fetch(query, { slug });
 
 if (!gallery) {
-  throw new Error("Gallery not found");
+  throw new Error('Gallery not found');
 }
 ---
 
 <BaseLayout>
   <h1>{gallery.title}</h1>
   <div class="gallery-grid">
-    {gallery.images.map((image) => (
+    {gallery.images.map((image, index) => (
       <div class="gallery-item">
-        <img
-          src={image.thumbnailUrl}
-          alt={image.altText || `A photo from the ${gallery.title} event`}
-          class="thumbnail"
-        />
+        <a href={`/gallery/${gallery.slug}/${index}`}>
+
+          <img
+            src={image.thumbnailUrl}
+            alt={image.altText || `A photo from the ${gallery.title} event`}
+          />
+        </a>
+        {image.caption && <p>{image.caption}</p>}
       </div>
     ))}
   </div>
-
-
-  <style>
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 16px;
-    }
-    .gallery-item img {
-      width: 100%;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-    .gallery-item img:hover {
-      transform: scale(1.05);
-    }
-    .popup {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-    .popup img {
-      max-width: 90%;
-      max-height: 90%;
-    }
-    .popup.hidden {
-      display: none;
-    }
-  </style>
-
-
 </BaseLayout>

@@ -1,9 +1,11 @@
 ---
+import '../styles/pages/gallery.scss';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { fetchAllGalleryDocuments } from './api/getGalleryImages';
+import type { Gallery } from '../utils/types';
 
 // Fetch all gallery documents
-const galleries = await fetchAllGalleryDocuments();
+const galleries: Gallery[] = await fetchAllGalleryDocuments();
 const mostRecentGallery = galleries[0];
 ---
 
@@ -11,7 +13,6 @@ const mostRecentGallery = galleries[0];
   <h1>Photo Gallery</h1>
 
   <div class="gallery-container">
-    <!-- Sidebar listing all gallery documents -->
     <aside>
       <h2>Other Galleries</h2>
       <ul>
@@ -23,13 +24,12 @@ const mostRecentGallery = galleries[0];
       </ul>
     </aside>
 
-    <!-- Main content: Images from the most recent gallery -->
     <section>
       <h2>{mostRecentGallery.title}</h2>
       <div class="gallery-grid">
         {mostRecentGallery.images.map((image, index) => (
           <div class="gallery-item">
-            <a href={`/gallery/${mostRecentGallery._id}/${index}`}>
+            <a href={`/gallery/${mostRecentGallery.slug}/${index}`}>
               <img
                 src={image.thumbnailUrl}
                 alt={image.altText || `A photo from the ${mostRecentGallery.title} event`}
@@ -39,35 +39,6 @@ const mostRecentGallery = galleries[0];
           </div>
         ))}
       </div>
-      
     </section>
   </div>
-
-  <style>
-    .gallery-container {
-      display: flex;
-      gap: 16px;
-    }
-    aside {
-      width: 25%;
-      background: #f9f9f9;
-      padding: 16px;
-      border-radius: 8px;
-    }
-    .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 16px;
-  }
-  .gallery-item img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
-    transition: transform 0.2s ease;
-  }
-  .gallery-item img:hover {
-    transform: scale(1.05);
-  }
-  </style>
 </BaseLayout>

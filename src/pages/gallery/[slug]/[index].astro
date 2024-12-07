@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { sanityClient } from '../../../utils/sanity';
+import type { Gallery } from '../../../utils/types';
+
+const { slug, index } = Astro.params;
+
+// Fetch the gallery by slug
+const query = `
+  *[_type == "gallery" && slug.current == $slug][0]{
+    title,
+    images[]{
+      "url": asset->url,
+      altText,
+      caption
+    }
+  }
+`;
+const gallery: Gallery = await sanityClient.fetch(query, { slug });
+
+if (!gallery) {
+  throw new Error('Gallery not found');
+}
+
+const imageIndex = parseInt(index || '0', 10);
+
+const image = gallery.images[imageIndex];
+
+if (!image) {
+  throw new Error('Image not found');
+}
+---
+
+<BaseLayout>
+  <h1>{gallery.title}</h1>
+  <div class="image-page">
+    <img
+      src={image.url}
+      alt={image.altText || `A photo from the ${gallery.title} event`}
+    />
+    {image.caption && <p>{image.caption}</p>}
+    <a href={`/gallery/${slug}`}>Back to {gallery.title}</a>
+  </div>
+</BaseLayout>
