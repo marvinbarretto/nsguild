@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { fetchGalleryImages } from './api/getGalleryImages';
+
+const images = await fetchGalleryImages();
+---
+
+<BaseLayout>
+  <h1>Gallery</h1>
+  <div class="gallery-grid">
+    {images.map((image) => (
+      <div class="gallery-item">
+        <img src={image.url} alt={image.altText} />
+        {image.caption && <p>{image.caption}</p>}
+      </div>
+    ))}
+  </div>
+
+  <style>
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+  </style>
+</BaseLayout>
