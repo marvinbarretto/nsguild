@@ -1,42 +1,60 @@
 import type { APIRoute } from "astro";
 import { sanityClient } from '../../utils/sanity';
 
-
-type GalleryImage = {
+type GalleryDocument = {
+  _id: string;
+  title: string;
+  slug: string; // Add slug property
+  images: {
     url: string;
-    altText: string;
+    thumbnailUrl: string;
+    altText?: string;
     caption?: string;
+  }[];
+  _createdAt: string; // For sorting by creation date
 };
 
-// Create a standalone function to fetch gallery images
-export const fetchGalleryImages = async (): Promise<GalleryImage[]> => {
-    const galleryDocuments = await sanityClient.fetch(`
-      *[_type == "gallery"]{
-        images[]{
-          "url": asset->url,
-          altText,
-          caption
-        }
-      }
-    `);
-    return galleryDocuments.flatMap((doc: any) => doc.images); // Flatten nested images
-  };
+type GalleryImage = {
+  url: string;
+  altText: string; // Standard alt text applied if not provided
+  caption?: string;
+};
 
-// Define the API route for HTTP requests
-export const GET = async () => {
-    try {
-      const galleryImages = await fetchGalleryImages();
-      return new Response(JSON.stringify(galleryImages), {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    } catch (error) {
-      console.error("Error fetching gallery images:", error);
-      return new Response(
-        JSON.stringify({ error: "Failed to fetch gallery images" }),
-        { status: 500, headers: { "Content-Type": "application/json" } }
-      );
+export const fetchAllGalleryDocuments = async (): Promise<GalleryDocument[]> => {
+  const query = `
+    *[_type == "gallery"] | order(_createdAt desc){
+      _id,
+      title,
+      "slug": slug.current,
+      images[]{
+        "url": asset->url,
+        "thumbnailUrl": asset->url + "?w=200&h=200&fit=crop",
+        altText,
+        caption
+      },
+      _createdAt
     }
-  };
+  `;
+  return await sanityClient.fetch(query);
+};
+
+
+
+// API route to fetch galleries (optional)
+export const GET = async () => {
+  try {
+    const galleries = await fetchAllGalleryDocuments();
+    return new Response(JSON.stringify(galleries), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching gallery documents:", error);
+    return new Response(
+      JSON.stringify({ error: "Failed to fetch galleries" }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
+  }
+};

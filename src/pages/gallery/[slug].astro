@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { fetchAllGalleryDocuments } from '../api/getGalleryImages';
+
+const { slug } = Astro.params;
+
+// Fetch all galleries and find the one with the matching slug
+const galleries = await fetchAllGalleryDocuments();
+const gallery = galleries.find((g) => g.slug === slug);
+
+if (!gallery) {
+  throw new Error("Gallery not found");
+}
+---
+
+<BaseLayout>
+  <h1>{gallery.title}</h1>
+  <div class="gallery-grid">
+    {gallery.images.map((image) => (
+      <div class="gallery-item">
+        <img
+          src={image.thumbnailUrl}
+          alt={image.altText || `A photo from the ${gallery.title} event`}
+          class="thumbnail"
+        />
+      </div>
+    ))}
+  </div>
+
+
+  <style>
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .gallery-item img {
+      width: 100%;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .gallery-item img:hover {
+      transform: scale(1.05);
+    }
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .popup img {
+      max-width: 90%;
+      max-height: 90%;
+    }
+    .popup.hidden {
+      display: none;
+    }
+  </style>
+
+
+</BaseLayout>
