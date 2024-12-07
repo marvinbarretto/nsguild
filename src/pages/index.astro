@@ -1,7 +1,10 @@
 ---
+// import Test from '../components/Test.vue'
 import BaseLayout from '../layouts/BaseLayout.astro'
 
 import { GET } from './api/hello'
+
+
 
 let response = await GET(Astro)
 const data = await response.json()
@@ -9,4 +12,6 @@ const data = await response.json()
 
 <BaseLayout>
   <h1>{data.greeting}</h1>
+  <!-- <Test /> -->
+
 </BaseLayout>

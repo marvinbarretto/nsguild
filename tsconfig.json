@@ -2,12 +2,18 @@
   "extends": "astro/tsconfigs/strict",
   "include": [
     ".astro/types.d.ts",
-    "**/*"
-  ],
-  "exclude": [
-    "dist"
+    "**/*.astro",
+    "**/*.vue",
+    "**/*.ts",
+    "**/*.d.ts"
   ],
   "compilerOptions": {
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "types": ["vite/client"]
   }
 }
