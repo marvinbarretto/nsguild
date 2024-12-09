@@ -2,9 +2,17 @@
 import Header from '../components/Header.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-const { content } = Astro.props;
+import Meta from '../components/Meta.astro';
+
+const {
+  metadata = { title: "Default Title", description: "Default description", keywords: "default, keywords" },
+} = Astro.props;
+
+
+
 ---
 <html lang="en">
+  <Meta {...metadata} />
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,3 +28,28 @@ const { content } = Astro.props;
     <Footer />
   </body>
 </html>
+
+<style>
+  
+  @import '../styles/reset.scss';
+
+
+  html, body {
+    height: 100%;
+  }
+  body {
+    border: solid 1px red;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1;
+  }
+
+  footer {
+    margin-top: auto;
+  }
+
+</style>

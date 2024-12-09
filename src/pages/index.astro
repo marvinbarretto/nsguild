@@ -1,17 +1,21 @@
 ---
-// import Test from '../components/Test.vue'
+import type { MetaProps } from '../components/Meta.astro';
 import BaseLayout from '../layouts/BaseLayout.astro'
 
 import { GET } from './api/hello'
-
-
-
 let response = await GET(Astro)
 const data = await response.json()
+
+const metadata: MetaProps = {
+  title: "Home",
+  description: "This is the home page",
+  keywords: "home, page"
+};
+
 ---
 
-<BaseLayout>
+<BaseLayout metadata={metadata}>
+  
   <h1>{data.greeting}</h1>
-  <!-- <Test /> -->
 
 </BaseLayout>

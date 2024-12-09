@@ -1,0 +1,25 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+input, button, textarea, select {
+    font: inherit; /* Ensure inputs match the font */
+}
+
+ol, ul {
+    list-style: none; /* Remove default list styling */
+}
+
+img, video {
+    max-width: 100%; /* Ensure media does not overflow */
+    height: auto;
+}
