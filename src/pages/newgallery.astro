@@ -1,0 +1,23 @@
+---
+import LightboxGallery from '../components/LightboxGallery.astro';
+import { sanityClient } from '../utils/sanity';
+
+const galleries = await sanityClient.fetch(`
+  *[_type == "gallery"]{
+    title,
+    images[]{
+      "thumbnailUrl": asset->url + "?w=200&h=200&fit=crop",
+      "url": asset->url,
+      altText,
+      caption
+    }
+  }
+`);
+
+const mostRecentGallery = galleries[0];
+---
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+
+<h1>{mostRecentGallery.title}</h1>
+<LightboxGallery images={mostRecentGallery.images} />

@@ -1,0 +1,71 @@
+---
+export interface GalleryImage {
+  url: string;
+  thumbnailUrl: string;
+  altText?: string;
+  caption?: string;
+}
+
+export interface Props {
+  images: GalleryImage[];
+}
+
+const { images }: Props = Astro.props;
+---
+
+<div class="gallery-grid">
+  {images.map((image, index) => (
+    <a
+      href={image.url}
+      class="gallery-item glightbox"
+      data-glightbox={
+        image.caption
+          ? `title: ${image.caption}`
+          : undefined
+      }
+    >
+      <img
+        src={image.thumbnailUrl}
+        alt={image.altText || `Image ${index + 1}`}
+        class="thumbnail"
+      />
+    </a>
+  ))}
+</div>
+
+<script>
+  import GLightbox from 'glightbox';
+
+  // Initialize lightbox on DOM content load
+  document.addEventListener('DOMContentLoaded', () => {
+    GLightbox({
+      selector: '.glightbox',
+      touchNavigation: true,
+      loop: true,
+      zoomable: true,
+      openEffect: 'zoom',
+      closeEffect: 'fade',
+    });
+  });
+</script>
+
+<style>
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+  }
+
+  .gallery-item img:hover {
+    transform: scale(1.05);
+  }
+</style>
