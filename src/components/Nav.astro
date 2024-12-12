@@ -1,10 +1,170 @@
 ---
-
+const currentPath = Astro.url.pathname; // Access the current path
 ---
 
 <nav class="bg-blue-200 text-black p-4 flex">
   <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/gallery">Gallery</a></li>
+    <li>
+      <a href="/" class={`button-wonky ${currentPath === '/' ? 'selected' : ''}`}>Home</a>
+    </li>
+    <li>
+      <a href="/gallery" class={`button-wonky ${currentPath === '/gallery' ? 'selected' : ''}`}>Gallery</a>
+    </li>
+    <!-- <li>
+      <a href="/newgallery" class={`button-wonky ${currentPath === '/newgallery' ? 'selected' : ''}`}>Gallery</a>
+    </li> -->
+    <li>
+      <a href="/events" class={`button-wonky ${currentPath === '/events' ? 'selected' : ''}`}>Events</a>
+    </li>
+    <li>
+      <a href="/posts" class={`button-wonky ${currentPath === '/posts' ? 'selected' : ''}`}>News</a>
+    </li>
   </ul>
 </nav>
+
+<style>
+
+/* @keyframes wiggle {
+  0%, 100% { transform: rotate(calc(var(--wonkiness, 0deg))); }
+  50% { transform: rotate(calc(var(--wonkiness, 0deg) + 2deg)); }
+}
+
+.button-wonky:hover {
+  animation: wiggle 0.2s ease-in-out;
+} */
+
+
+  nav {
+    background-color: rgb(122 123 135);
+    padding: 0.5rem;
+    background-image: url('../images/noisy-texture.png');
+
+    ul {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .button-wonky {
+      clip-path: polygon(2% 0%, 98% 2%, 100% 98%, 0% 96%);
+
+
+      transform: rotate(calc(var(--wonkiness, 0deg)));
+      box-shadow: inset -2px -2px 0px #ddd, 2px 2px 4px rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border: 2px dotted #aaa;
+      background-color: #eee;
+      position: relative;
+      font-family: "Delius Swash Caps", cursive;
+      text-decoration: none;
+      color: #333;
+
+      background-color: rgba(250, 250, 250, 0.8);
+      /* mix-blend-mode: multiply; */
+      
+      border: 2px dotted rgba(150, 150, 150, 0.5);
+
+
+
+      /* background-image: url('../images/noisy-texture-100x100-o23-d17-c-f5f5dc-t1.png'); */
+      background-size: cover;
+      background-blend-mode: multiply;
+      /* background: linear-gradient(45deg, #eee, #ddd 50%, #eee 75%); */
+
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.8),
+        var(--pastel-1)
+      );
+
+    }
+
+    
+
+    /* Randomize rotation for each item */
+ul li:nth-child(1) a {
+  --wonkiness: -2deg;
+}
+ul li:nth-child(2) a {
+  --wonkiness: 1deg;
+}
+ul li:nth-child(3) a {
+  --wonkiness: -1.5deg;
+}
+ul li:nth-child(4) a {
+  --wonkiness: 0.5deg;
+}
+
+
+ul li:nth-child(1) a {
+  background-color: white;
+}
+ul li:nth-child(2) a {
+  background-color: white;
+}
+ul li:nth-child(3) a {
+  background-color: white; 
+}
+ul li:nth-child(4) a {
+  background-color: white;
+}
+ul li:nth-child(5) a {
+  background-color: white;
+}  
+
+/* Add a hover effect for consistency */
+a:hover {
+  filter: brightness(1.1);
+}
+
+
+.button-wonky:hover {
+  background-color: #e0e0d0;
+  box-shadow: inset -1px -1px 0px #ccc, 3px 3px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* Pseudo-element threading */
+.button-wonky::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: 2px dotted #bbb;
+  pointer-events: none;
+}
+
+  }
+
+
+  /* Selected state styles */
+a.selected {
+  transform: scale(1.2); 
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add depth */
+
+}
+
+
+/* TODO: Experiemnt with clip path more */
+/* TODO: simplify the animation so it just jags a bit but doesnt wiggle  */
+
+/* TODO: Make the images look like polaroid, clip path and slightly wonky */
+/* TODO: Lighten up the background */
+
+/* TODO: Very subtle loop animation with weavers, spinners and dyers texts */
+
+
+/* Add a bunch of images with a post */
+
+/* Add the contact form */
+
+/* Homepage should be the posts */
+/* with some static content in a slot */
+
+
+
+</style>

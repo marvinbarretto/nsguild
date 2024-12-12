@@ -8,7 +8,7 @@ import svelte from '@astrojs/svelte';
 export default defineConfig({
     output: 'server', // TODO: check..
     integrations: [
-        tailwind(),
+        // tailwind(),
         sanity({
             projectId: "8cxh2o2e",
             dataset: "production",

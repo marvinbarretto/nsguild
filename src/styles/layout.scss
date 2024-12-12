@@ -1,0 +1,30 @@
+
+html, body {
+    height: 100%;
+  }
+body {
+  // background-image: url('../images/fabric-texture.jpg');
+
+  // background-image: url('../images/bg2.png');
+
+  background-color: rgb(178, 183, 204);
+  // background-image: url('../images/noisy-texture.png');
+  
+  background-repeat: repeat;
+  background-blend-mode: multiply;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  padding: 1rem;
+}
+
+footer {
+  background-color: #CCC;
+  margin-top: auto;
+  padding: 1rem;
+  text-align: center;
+}

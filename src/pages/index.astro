@@ -12,10 +12,54 @@ const metadata: MetaProps = {
   keywords: "home, page"
 };
 
+import { fetchFeaturedPosts } from '../utils/sanity';
+const featuredPosts = await fetchFeaturedPosts();
 ---
 
 <BaseLayout metadata={metadata}>
   
-  <h1>{data.greeting}</h1>
+  <!-- <h1>{data.greeting}</h1> -->
+
+  <section class="featured-posts">
+
+    <div class="posts-grid">
+      <!-- TODO: add typescript type for Post -->
+      {featuredPosts.map((post: any) => (
+        <article >
+          <h3>{post.title}</h3>
+          {post.image && <img src={post.image.asset.url} alt={`Image for ${post.title}`} />}
+          <p>
+            {post.file && (
+              <a href={post.file.asset.url} target="_blank" rel="noopener noreferrer">
+                Download PDF
+              </a>
+            )}
+          </p>
+          <p>{post.body ? post.body[0].children[0].text : ''}</p>
+        </article>
+      ))}
+    </div>
+  </section>
 
 </BaseLayout>
+
+
+<style>
+  .featured-posts {
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .posts-grid img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  </style>

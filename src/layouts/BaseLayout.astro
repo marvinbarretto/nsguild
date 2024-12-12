@@ -4,15 +4,21 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Meta from '../components/Meta.astro';
 
-const {
-  metadata = { title: "Default Title", description: "Default description", keywords: "default, keywords" },
-} = Astro.props;
-
-
+const metadata = Astro.props.metadata || {
+  title: "Default Title",
+  description: "Default description",
+  keywords: "default, keywords",
+};
 
 ---
 <html lang="en">
   <Meta {...metadata} />
+  <link rel="stylesheet" href="/src/styles/global.scss" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&family=Mystery+Quest&family=Twinkle+Star&display=swap" rel="stylesheet">
+
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,27 +35,3 @@ const {
   </body>
 </html>
 
-<style>
-  
-  @import '../styles/reset.scss';
-
-
-  html, body {
-    height: 100%;
-  }
-  body {
-    border: solid 1px red;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  main {
-    flex: 1;
-  }
-
-  footer {
-    margin-top: auto;
-  }
-
-</style>

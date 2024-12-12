@@ -7,11 +7,42 @@ const siteTitle = settings?.siteTitle || "My Site";
 
 ---
 <header class="bg-blue-600 text-white p-4 flex items-center justify-between">
-  <h1 class="text-xl font-bold">{siteTitle}</h1>
-  <button class="bg-white text-blue-600 px-4 py-2 rounded">
-    <a href="/admin">Admin</a>
-  </button>
+  <h1 class="text-xl font-bold">
+    <span class="ns">Norfolk and Suffolk Guild of</span>
+    <span class="wsd">Weavers, Spinners and Dyers</span>
+
+    <!-- {siteTitle} -->
+  </h1>
 </header>
 
+<style>
+  header {
+    background-color: #34334c;
+
+    background-image: url('../images/noisy-texture.png');
+    color: white;
+    padding: 1rem;
+
+    text-align: center;
+
+  }
+
+  h1 {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .ns {
+    font-size: 1.4rem;
+    line-height: 1;
+  }
+
+  .wsd {
+    font-size: 2.8rem;
+    line-height: 1;
+  }
+</style>
 
 <!-- TODO: Improve typescript types -->

@@ -36,7 +36,7 @@ if (!image) {
   <div class="image-page">
     <img
       src={image.url}
-      alt={image.altText || `A photo from the ${gallery.title} event`}
+      alt={image.altText || ``}
     />
     {image.caption && <p>{image.caption}</p>}
     <a href={`/gallery/${slug}`}>Back to {gallery.title}</a>

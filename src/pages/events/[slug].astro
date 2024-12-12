@@ -1,0 +1,30 @@
+---
+import { sanityClient } from '../../utils/sanity';
+
+const { slug } = Astro.params;
+
+const event = await sanityClient.fetch(`
+  *[_type == "event" && slug.current == $slug][0] {
+    title,
+    date,
+    description,
+    "relatedGallery": relatedGallery->{
+      title,
+      slug
+    }
+  }
+`);
+
+if (!event) {
+  throw new Error('Event not found');
+}
+---
+
+<article>
+  <h1>{event.title}</h1>
+  <p>{new Date(event.date).toLocaleDateString()}</p>
+  <div>{event.description}</div>
+  {event.relatedGallery && (
+    <a href={`/gallery/${event.relatedGallery.slug}`}>View Related Gallery</a>
+  )}
+</article>
