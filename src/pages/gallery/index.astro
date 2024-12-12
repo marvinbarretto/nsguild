@@ -27,6 +27,6 @@ const allImages = galleries.flatMap((post: any) => post.images || []);
   <h1>Photo Gallery</h1>
   
   <div class="gallery-content">
-    <LightboxGallery images={allImages} />
+    <LightboxGallery images={allImages} style="polaroid" />
   </div>
 </BaseLayout>

@@ -1,30 +1,82 @@
 ---
 import { sanityClient } from '../../utils/sanity';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const { slug } = Astro.params;
 
-const event = await sanityClient.fetch(`
-  *[_type == "event" && slug.current == $slug][0] {
+interface Event {
+  title: string;
+  date: string;
+  description: string;
+  relatedGallery?: {
+    title: string;
+    slug: string;
+  };
+  images?: {
+    url: string;
+    caption?: string;
+  }[];
+}
+
+const event = await sanityClient.fetch<Event>(
+  `*[_type == "event" && slug.current == $slug][0] {
     title,
     date,
     description,
     "relatedGallery": relatedGallery->{
       title,
       slug
+    },
+    images[]{
+      "url": asset->url,
+      caption
     }
-  }
-`);
+  }`,
+  { slug }
+);
 
 if (!event) {
-  throw new Error('Event not found');
+  throw new Error(`Event not found for slug: ${slug}`);
 }
+
+console.log('Event data:', event);
 ---
 
-<article>
-  <h1>{event.title}</h1>
-  <p>{new Date(event.date).toLocaleDateString()}</p>
-  <div>{event.description}</div>
-  {event.relatedGallery && (
-    <a href={`/gallery/${event.relatedGallery.slug}`}>View Related Gallery</a>
-  )}
-</article>
+<BaseLayout>
+  <article class="event">
+    <header>
+      <h1>{event.title}</h1>
+      <p class="event-date">
+        {new Date(event.date).toLocaleDateString('en-GB', {
+          weekday: 'long',
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        })}
+      </p>
+    </header>
+    <div class="event-description">
+      {event.description || 'No description available.'}
+    </div>
+    {event.images && event.images.length > 0 && (
+      <div class="event-images">
+        <h2>Related Images</h2>
+        <div class="image-grid">
+          {event.images.map((image) => (
+            <figure>
+              <img src={image?.url || '/path-to-placeholder.jpg'} alt={image?.caption || 'Event image'} />
+              {image.caption && <figcaption>{image.caption}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      </div>
+    )}
+    {event.relatedGallery && (
+      <footer>
+        <a class="gallery-link" href={`/gallery/${event.relatedGallery.slug}`}>
+          View Related Gallery: {event.relatedGallery.title}
+        </a>
+      </footer>
+    )}
+  </article>
+</BaseLayout>

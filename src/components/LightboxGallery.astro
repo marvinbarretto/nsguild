@@ -1,4 +1,6 @@
 ---
+
+
 export interface GalleryImage {
   url: string;
   thumbnailUrl: string;
@@ -8,20 +10,26 @@ export interface GalleryImage {
 
 export interface Props {
   images: GalleryImage[];
+  style?: string; // Add style prop
+
 }
 
-const { images }: Props = Astro.props;
+const { images, style }: Props = Astro.props;
+
+
+// Determine the gallery style class
+const galleryClass = style === 'polaroid' ? 'polaroid-style' : 'default-style';
+
+
 ---
 
-<div class="gallery-grid">
+<div class={`gallery-grid ${galleryClass}`}>
   {images.map((image, index) => (
     <a
       href={image.url}
       class="gallery-item glightbox"
       data-glightbox={
-        image.caption
-          ? `title: ${image.caption}`
-          : undefined
+        image.caption ? `title: ${image.caption}` : undefined
       }
     >
       <img
@@ -29,6 +37,7 @@ const { images }: Props = Astro.props;
         alt={image.altText || `Image ${index + 1}`}
         class="thumbnail"
       />
+
     </a>
   ))}
 </div>
@@ -52,20 +61,66 @@ const { images }: Props = Astro.props;
 <style>
   .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: .5rem;
   }
 
   .gallery-item img {
     width: 100%;
-    height: 150px;
-    object-fit: cover;
+    height: auto;
     border-radius: 8px;
-    transition: transform 0.2s ease;
     cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .gallery-item img:hover {
-    transform: scale(1.05);
+
+  /* Default Style */
+  .default-style .gallery-item img {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Polaroid Style */
+  .polaroid-style .gallery-item {
+    position: relative;
+    display: inline-block;
+    margin: 8px;
+    padding: 12px 8px 20px;
+    background: white;
+    border: 2px solid #ddd;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: rotate(calc(var(--angle, -3deg)));
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+
+  .polaroid-style .gallery-item img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    clip-path: inset(10px);
+  }
+
+  .polaroid-style .gallery-item:hover {
+    transform: scale(1.02) rotate(calc(var(--angle, -3deg) + 1deg));
+  }
+
+  .polaroid-style .gallery-item figcaption {
+    font-size: 0.85rem;
+    color: #555;
+    margin-top: 8px;
+    text-align: center;
+    font-family: "Courier New", Courier, monospace;
+  }
+
+  /* Random Rotation for Janky Feel */
+  .polaroid-style .gallery-item:nth-child(odd) {
+    --angle: -3deg;
+  }
+
+  .polaroid-style .gallery-item:nth-child(even) {
+    --angle: 3deg;
+  }
+
+  .polaroid-style .gallery-item:nth-child(3n) {
+    --angle: -1deg;
   }
 </style>

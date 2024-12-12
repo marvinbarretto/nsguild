@@ -1,0 +1,10 @@
+---
+const { url, alt } = Astro.props;
+---
+
+<img
+  src={url}
+  alt={alt || "Image"}
+  class="rounded-lg my-4"
+  loading="lazy"
+/>

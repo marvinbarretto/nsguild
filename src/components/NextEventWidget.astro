@@ -1,0 +1,62 @@
+---
+import { sanityClient } from '../utils/sanity';
+import { PortableText } from 'astro-portabletext';
+
+// Fetch the next event
+const NEXT_EVENT_QUERY = `
+  *[_type == "event" && date >= now()] 
+  | order(date asc)[0] {
+    title,
+    date,
+    description,
+    "slug": slug.current
+  }
+`;
+const nextEvent = await sanityClient.fetch(NEXT_EVENT_QUERY);
+---
+
+{nextEvent ? (
+  <div class="event-widget">
+    <h2>Next Event</h2>
+    <div class="event-details">
+      <h3>{nextEvent.title}</h3>
+      <p>
+        {new Date(nextEvent.date).toLocaleDateString('en-GB', {
+          weekday: 'long',
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+        })}
+      </p>
+      <PortableText value={nextEvent.description} />
+      <a href={`/events/${nextEvent.slug}`} class="event-link">Learn More</a>
+    </div>
+  </div>
+) : (
+  <p>No upcoming events available.</p>
+)}
+
+<style>
+   .post-images {
+    margin-top: 2rem;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+  }
+
+  .gallery-thumbnail {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+  }
+
+  .gallery-thumbnail:hover {
+    transform: scale(1.05);
+  }
+</style>

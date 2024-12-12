@@ -8,6 +8,7 @@ import svelte from '@astrojs/svelte';
 export default defineConfig({
     output: 'server', // TODO: check..
     integrations: [
+        
         // tailwind(),
         sanity({
             projectId: "8cxh2o2e",
@@ -15,4 +16,5 @@ export default defineConfig({
             useCdn: false, // for static builds      
         })
     ],
+
 });
