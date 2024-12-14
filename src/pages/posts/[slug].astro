@@ -1,47 +1,46 @@
 ---
-import type { SanityDocument } from "@sanity/client";
-import { sanityClient } from "../../utils/sanity";
-import { PortableText } from "astro-portabletext";
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import LightboxGallery from '../../components/LightboxGallery.astro';
-import { Image } from "astro:assets";
-import { List } from 'astro-portabletext/components';
-import ImageComponent from '../../components/Image.astro';
+import { sanityClient } from "sanity:client";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PortableText from "../../components/PortableText.astro";
+import SanityImage from "../../components/SanityImage.astro";
+
+export const prerender = true;
 
 
-// Fetch data for the current post
-const { slug } = Astro.params;
+export async function getStaticPaths() {
+  const posts = await sanityClient.fetch(
+    `*[_type == "post" && defined(publishedAt)] | order(publishedAt desc) {
+			...
+		}`,
+  )
+  return posts.map((post: any) => ({
+    params: {slug: post.slug.current},
+    props: {post},
+  }))
+}
 
-const POST_QUERY = `*[_type == "post" && slug.current == $slug][0] {
-  title,
-  slug,
-  publishedAt,
-  body,
-  image,
-  images[]{
-    asset->{
-      url
-    },
-    caption
-  }
-}`;
+interface Post {
+  title: string;
+  publishedAt: string;
+  mainImage: {
+    alt: string;
+  };
+  body: any;
+}
 
+const { post }: { post: Post } = Astro.props;
 
-
+console.log("!!!", post);
 
 ---
 
 <BaseLayout>
-
-
-  
-
+  <article>
+    <h1>{post.title}</h1>
+    <p>{post.publishedAt}</p>
+    <PortableText value={post.body} />
+    <!-- <SanityImage image={post.mainImage} alt="" /> -->
+    <!-- <PortableText blocks={post.body} /> -->
+  </article>
 </BaseLayout>
 
-<style>
-  .post-images {
-    margin-top: 2rem;
-  }
-</style>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />

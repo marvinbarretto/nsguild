@@ -5,20 +5,26 @@ const currentPath = Astro.url.pathname; // Access the current path
 <nav class="bg-blue-200 text-black p-4 flex">
   <ul>
     <li>
-      <a href="/" class={`button-wonky ${currentPath === '/' ? 'selected' : ''}`}>Home</a>
+      <a href="/" class={`xbutton-wonky ${currentPath === '/' ? 'selected' : ''}`}>Home</a>
     </li>
     <li>
-      <a href="/gallery" class={`button-wonky ${currentPath === '/gallery' ? 'selected' : ''}`}>Gallery</a>
+      <a href="/posts" class={`xbutton-wonky ${currentPath === '/posts' ? 'selected' : ''}`}>News</a>
     </li>
     <!-- <li>
-      <a href="/newgallery" class={`button-wonky ${currentPath === '/newgallery' ? 'selected' : ''}`}>Gallery</a>
+      <a href="/newgallery" class={`xbutton-wonky ${currentPath === '/newgallery' ? 'selected' : ''}`}>Gallery</a>
     </li> -->
     <li>
-      <a href="/events" class={`button-wonky ${currentPath === '/events' ? 'selected' : ''}`}>Events</a>
+      <a href="/events" class={`xbutton-wonky ${currentPath === '/events' ? 'selected' : ''}`}>Events</a>
     </li>
+
     <li>
-      <a href="/posts" class={`button-wonky ${currentPath === '/posts' ? 'selected' : ''}`}>News</a>
+      <a href="/gallery" class={`xbutton-wonky ${currentPath === '/gallery' ? 'selected' : ''}`}>Photo gallery</a>
     </li>
+
+    <li>
+      <a href="/contact">Contact</a>
+    </li>
+
   </ul>
 </nav>
 
@@ -35,14 +41,21 @@ const currentPath = Astro.url.pathname; // Access the current path
 
 
   nav {
-    background-color: rgb(122 123 135);
+    /* background-color: rgb(122 123 135); */
+    background-color: #666;
     padding: 0.5rem;
-    background-image: url('../images/noisy-texture.png');
+    /* background-image: url('../images/noisy-texture.png'); */
 
     ul {
       display: flex;
       gap: 1rem;
-      justify-content: center;
+      /* justify-content: center; */
+    }
+
+    a { 
+      padding: .5rem;
+      color: white;
+      display: block;
     }
 
     .button-wonky {
@@ -84,7 +97,7 @@ const currentPath = Astro.url.pathname; // Access the current path
     
 
     /* Randomize rotation for each item */
-ul li:nth-child(1) a {
+/* ul li:nth-child(1) a {
   --wonkiness: -2deg;
 }
 ul li:nth-child(2) a {
@@ -95,10 +108,10 @@ ul li:nth-child(3) a {
 }
 ul li:nth-child(4) a {
   --wonkiness: 0.5deg;
-}
+} */
 
 
-ul li:nth-child(1) a {
+/* ul li:nth-child(1) a {
   background-color: white;
 }
 ul li:nth-child(2) a {
@@ -112,7 +125,7 @@ ul li:nth-child(4) a {
 }
 ul li:nth-child(5) a {
   background-color: white;
-}  
+}   */
 
 /* Add a hover effect for consistency */
 a:hover {

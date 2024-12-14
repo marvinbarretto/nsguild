@@ -4,17 +4,21 @@ import { fetchSettings, type ImageBlock, type RichTextBlock } from "./api/getSet
 
 // Fetch settings at build time
 const settings = await fetchSettings();
+
+console.log('settings', settings);
 ---
 
 <BaseLayout>
-  <div class="container">
-    <section>
-      <h2>{settings.siteTitle}</h2>
-      <p>{settings.siteDescription}</p>
-    </section>
+  <section id="photo">
+    <!-- <h2>{settings.siteTitle}</h2>
+    <p>{settings.siteDescription}</p> -->
+  </section>
+    <div class="container">
+
     <section>
       <h2>Welcome</h2>
       <div>
+        <!-- TODO: Experiement with cleaner implementation -->
         {settings.welcomeWidget?.map((block: RichTextBlock | ImageBlock) => {
           if (block._type === 'block') {
             return <p>{block.children.map((child: { text: string }) => child.text).join(' ')}</p>;
@@ -23,7 +27,6 @@ const settings = await fetchSettings();
             return <img src={block.asset.url} alt={block.alt || 'Welcome image'} />;
           }
         })}
-        
       </div>
     </section>
     <section>
@@ -41,8 +44,6 @@ const settings = await fetchSettings();
 
 <style>
   .container {
-    padding: 1rem;
-    border: solid;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -51,5 +52,10 @@ const settings = await fetchSettings();
   section {
     background-color: rgba(255, 255, 255, 0.5);
     padding: 1rem;
+  }
+
+  #photo {
+    min-height: 200px;
+    background-color: azure;
   }
 </style>
