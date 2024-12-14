@@ -13,7 +13,11 @@ const metadata = Astro.props.metadata || {
 ---
 <html lang="en">
   <Meta {...metadata} />
-  <link rel="stylesheet" href="/src/styles/global.scss" />
+  <link rel="stylesheet" href="/src/styles/global.css" />
+  <!-- <style lang="scss">
+    @use '../styles/global.scss';
+  </style> -->
+
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
