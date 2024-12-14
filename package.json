@@ -9,28 +9,18 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/mdx": "4.0.2",
+    "@astrojs/check": "0.9.4",
     "@astrojs/vercel": "8.0.1",
     "@sanity/astro": "3.1.8",
-    "@sanity/client": "6.22.5",
+    "@sanity/client": "6.24.1",
     "@sanity/image-url": "1.1.0",
-    "@sanity/visual-editing": "2.10.2",
     "astro": "5.0.5",
     "astro-portabletext": "0.10.1",
-    "basiclightbox": "5.0.4",
     "glightbox": "3.3.0",
-    "nodemailer": "6.9.16",
-    "sanity": "3.67.1",
     "sass": "1.83.0",
-    "svelte": "4.2.19",
-    "tailwindcss": "^3.4.14",
-    "typescript": "^5.7.2"
+    "typescript": "5.7.2"
   },
   "devDependencies": {
-    "@types/basiclightbox": "5.0.4",
-    "@types/nodemailer": "6.4.17",
-    "sass-embedded": "1.82.0",
-    "svelte-lightbox": "1.1.6"
+    "sass-embedded": "1.82.0"
   }
 }
