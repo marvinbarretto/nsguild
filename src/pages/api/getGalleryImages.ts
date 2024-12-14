@@ -1,4 +1,3 @@
-import type { APIRoute } from "astro";
 import { sanityClient } from '../../utils/sanity';
 
 type GalleryDocument = {
@@ -12,12 +11,6 @@ type GalleryDocument = {
     caption?: string;
   }[];
   _createdAt: string; // For sorting by creation date
-};
-
-type GalleryImage = {
-  url: string;
-  altText: string; // Standard alt text applied if not provided
-  caption?: string;
 };
 
 export const fetchAllGalleryDocuments = async (): Promise<GalleryDocument[]> => {

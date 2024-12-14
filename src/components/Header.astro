@@ -1,9 +1,6 @@
 ---
 import {getSanityData} from '../utils/sanity'; // Utility to fetch data
-// const settings = await getSanityData('settings');
 const settings = await getSanityData(`*[_type == "settings"][0]`);
-const siteTitle = settings?.siteTitle || "My Site";
-
 
 ---
 <header class="bg-blue-600 text-white p-4 flex items-center justify-between">

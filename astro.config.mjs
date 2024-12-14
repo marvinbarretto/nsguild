@@ -1,8 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sanity from '@sanity/astro';
-import tailwind from '@astrojs/tailwind';
-import svelte from '@astrojs/svelte';
 
 // https://astro.build/config
 export default defineConfig({
@@ -11,7 +9,7 @@ export default defineConfig({
         sanity({
             projectId: "8cxh2o2e",
             dataset: "production",
-            useCdn: false, // for static builds      
+            useCdn: false, // for static builds
         })
     ],
 });
