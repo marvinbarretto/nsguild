@@ -6,15 +6,12 @@ import svelte from '@astrojs/svelte';
 
 // https://astro.build/config
 export default defineConfig({
-    output: 'server', // TODO: check..
+    output: 'server', 
     integrations: [
-        
-        // tailwind(),
         sanity({
             projectId: "8cxh2o2e",
             dataset: "production",
             useCdn: false, // for static builds      
         })
     ],
-
 });

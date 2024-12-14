@@ -1,0 +1,53 @@
+---
+import { sanityClient } from '../../utils/sanity';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const query = `
+    *[_type == "publication"] | order(_createdAt desc) {
+        _id,
+        title,
+        description,
+        "documentUrl": document.asset->url,
+    }
+`;
+
+const publications = await sanityClient.fetch(query);
+
+export type Publication = {
+  _id: string;
+  title: string;
+  description: string;
+  documentUrl: string;
+};
+
+console.log(publications);
+---
+
+<BaseLayout>
+    <h1>Publications</h1>
+    <ul>
+      {publications.map((publication: Publication) => (
+        <li>
+          <h2>{publication.title}</h2>
+          <p>{publication.description}</p>
+          <a href={publication.documentUrl} target="_blank" rel="noopener noreferrer">
+            Download PDF
+          </a>
+        </li>
+      ))}
+    </ul>
+</BaseLayout>
+
+<style>
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    li {
+        border: 1px solid #ddd;
+        padding: 16px;
+        background-color: rgba(255,255,255,.5);
+    }  
+</style>

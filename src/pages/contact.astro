@@ -1,0 +1,140 @@
+--- 
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+if (Astro.request.method === 'POST') {
+    try {
+
+        const data = await Astro.request.formData();
+        const name = data.get('name');
+        const email = data.get('email');
+        const message = data.get('message');
+        
+    } catch (error) {
+        if ( error instanceof Error ) {
+            console.error('Error parsing form data:', error);
+        }
+    }
+}
+
+
+---
+
+<BaseLayout>
+    <div>
+        <h1>Contact</h1>
+
+        <div class="container">
+            <div class="map">
+                <!-- Static map here for now -->
+                We are here...
+                <img src="https://via.placeholder.com/600x400" alt="Map" />
+            </div>
+
+            <div id="response-message" style="display: none;"></div>
+
+            <form action="/api/contact" method="POST">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required />
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required />
+
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required></textarea>
+
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    
+</BaseLayout>
+
+<style>
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        flex: 1;
+    }
+
+    button {
+        padding: 0.5rem;
+        background-color: #666;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: row-reverse;
+        gap: 1rem;
+    }
+
+    .map {
+        display: flex;
+        flex-direction: column;
+    }
+</style>
+
+
+<!-- <script>
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+const responseMessage = document.getElementById('response-message') as HTMLDivElement | null;
+
+if (form) {
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault(); // Prevent page reload
+        console.log('Form submitted');
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const result = await response.json(); // Parse JSON response
+
+            if (response.ok) {
+                if (responseMessage) {
+                    responseMessage.textContent = result.message || 'Thank you! Your message has been sent.';
+                    responseMessage.style.color = 'green';
+                    responseMessage.style.display = 'block';
+                }
+                form.reset(); // Clear the form
+            } else {
+                if (responseMessage) {
+                    responseMessage.textContent = result.error || 'An error occurred.';
+                    responseMessage.style.color = 'red';
+                    responseMessage.style.display = 'block';
+                }
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            if (responseMessage) {
+                responseMessage.textContent = 'Something went wrong. Please try again later.';
+                responseMessage.style.color = 'red';
+                responseMessage.style.display = 'block';
+            }
+        }
+    });
+}
+
+
+</script> -->
+
+<script>
+    let responseMessage;
+  
+    async function submit(e: SubmitEvent) {
+      e.preventDefault();
+      const formData = new FormData(e.currentTarget as HTMLFormElement);
+      const response = await fetch("/api/feedback", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+      responseMessage = data.message;
+    }
+  </script>

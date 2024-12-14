@@ -21,8 +21,13 @@ const currentPath = Astro.url.pathname; // Access the current path
       <a href="/gallery" class={`xbutton-wonky ${currentPath === '/gallery' ? 'selected' : ''}`}>Photo gallery</a>
     </li>
 
+
     <li>
-      <a href="/contact">Contact</a>
+      <a href="/publications" class={`xbutton-wonky ${currentPath === '/gallery' ? 'selected' : ''}`}>Publications</a>
+    </li>
+
+    <li>
+      <a href="/newcontact">Contact</a>
     </li>
 
   </ul>
