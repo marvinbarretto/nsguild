@@ -32,8 +32,9 @@ const metadata = Astro.props.metadata || {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- <title>{content.title}</title> -->
-    <title>My Astro Site</title>
+   <!-- TODO: Fix Site Title -->
+    <!-- <title>{siteTitle}</title>  -->
+    <slot name="head" />
   </head>
   <body>
     <Header />

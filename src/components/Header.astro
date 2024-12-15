@@ -1,14 +1,10 @@
 ---
-import {getSanityData} from '../utils/sanity'; // Utility to fetch data
-const settings = await getSanityData(`*[_type == "settings"][0]`);
-
 ---
-<header class="bg-blue-600 text-white p-4 flex items-center justify-between">
-  <h1 class="text-xl font-bold">
+
+<header>
+  <h1>
     <span class="ns">Norfolk and Suffolk Guild of</span>
     <span class="wsd">Weavers, Spinners and Dyers</span>
-
-    <!-- {siteTitle} -->
   </h1>
 </header>
 
@@ -19,9 +15,7 @@ const settings = await getSanityData(`*[_type == "settings"][0]`);
     /* background-image: url('../images/noisy-texture.png'); */
     color: white;
     padding: 1rem;
-
     text-align: center;
-
   }
 
   h1 {
@@ -41,5 +35,3 @@ const settings = await getSanityData(`*[_type == "settings"][0]`);
     line-height: 1;
   }
 </style>
-
-<!-- TODO: Improve typescript types -->
