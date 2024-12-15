@@ -1,36 +1,33 @@
 ---
-import { sanityClient } from "sanity:client";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PortableText from "../../components/PortableText.astro";
-import SanityImage from "../../components/SanityImage.astro";
+import LightboxGallery from "../../components/LightboxGallery.astro";
+import type { Post } from "../../utils/types";
+import { fetchAllPosts, transformImagesToGalleryFormat } from "../../utils/sanity";
 
+// Prerender static HTML at build time, good to do when poss
 export const prerender = true;
 
-
+// Fetch all slugs and corresponding post data
 export async function getStaticPaths() {
-  const posts = await sanityClient.fetch(
-    `*[_type == "post" && defined(publishedAt)] | order(publishedAt desc) {
-			...
-		}`,
-  )
+  const posts = await fetchAllPosts();
+
+  // Return an array of slugs and post props
   return posts.map((post: any) => ({
     params: {slug: post.slug.current},
     props: {post},
   }))
 }
 
-interface Post {
-  title: string;
-  publishedAt: string;
-  mainImage: {
-    alt: string;
-  };
-  body: any;
-}
-
+// Astro provides 'post' via props from getStaticPaths
 const { post }: { post: Post } = Astro.props;
 
-console.log("!!!", post);
+// Transform the images for the LightboxGallery
+const galleryImages = post.images ? transformImagesToGalleryFormat(post.images) : [];
+
+// Debugging Output
+console.log("Post Object:", post);
+console.log("Gallery Images:", galleryImages);
 
 ---
 
@@ -39,8 +36,12 @@ console.log("!!!", post);
     <h1>{post.title}</h1>
     <p>{post.publishedAt}</p>
     <PortableText value={post.body} />
-    <!-- <SanityImage image={post.mainImage} alt="" /> -->
-    <!-- <PortableText blocks={post.body} /> -->
-  </article>
+
+    {galleryImages.length > 0 ? (
+      <LightboxGallery images={galleryImages} style="default-style" />
+    ) : (
+      <p>No images available for this post.</p>
+    )}
+  </article> 
 </BaseLayout>
 

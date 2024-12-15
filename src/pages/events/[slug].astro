@@ -1,45 +1,16 @@
 ---
-import { sanityClient } from '../../utils/sanity';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { EventType } from '../../utils/types';
+import { fetchEventBySlug } from '../../utils/sanity';
 
 const { slug } = Astro.params;
 
-interface Event {
-  title: string;
-  date: string;
-  description: string;
-  relatedGallery?: {
-    title: string;
-    slug: string;
-  };
-  images?: {
-    url: string;
-    caption?: string;
-  }[];
-}
-
-const event = await sanityClient.fetch<Event>(
-  `*[_type == "event" && slug.current == $slug][0] {
-    title,
-    date,
-    description,
-    "relatedGallery": relatedGallery->{
-      title,
-      slug
-    },
-    images[]{
-      "url": asset->url,
-      caption
-    }
-  }`,
-  { slug }
-);
+const event: EventType | null = await fetchEventBySlug(slug!);
 
 if (!event) {
   throw new Error(`Event not found for slug: ${slug}`);
 }
 
-console.log('Event data:', event);
 ---
 
 <BaseLayout>
@@ -55,9 +26,11 @@ console.log('Event data:', event);
         })}
       </p>
     </header>
+    
     <div class="event-description">
       {event.description || 'No description available.'}
     </div>
+
     {event.images && event.images.length > 0 && (
       <div class="event-images">
         <h2>Related Images</h2>
@@ -71,6 +44,7 @@ console.log('Event data:', event);
         </div>
       </div>
     )}
+
     {event.relatedGallery && (
       <footer>
         <a class="gallery-link" href={`/gallery/${event.relatedGallery.slug}`}>

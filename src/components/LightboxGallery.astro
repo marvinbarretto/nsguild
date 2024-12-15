@@ -1,27 +1,19 @@
 ---
-
-
-export interface GalleryImage {
-  url: string;
-  thumbnailUrl: string;
-  altText?: string;
-  caption?: string;
-}
+import type { GalleryImage } from '../utils/types';
 
 export interface Props {
   images: GalleryImage[];
   style?: string; // Add style prop
-
 }
 
 const { images, style }: Props = Astro.props;
 
-
 // Determine the gallery style class
 const galleryClass = style === 'polaroid' ? 'polaroid-style' : 'default-style';
 
-
 ---
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 
 <div class={`gallery-grid ${galleryClass}`}>
   {images.map((image, index) => (

@@ -2,9 +2,13 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY;
+
 ---
 
 <BaseLayout>
+  <h1>Contact</h1>
+  <p>Fetch content</p>
+  <!-- Fill out contact form -->
   <form
     action="https://api.web3forms.com/submit"
     method="POST"

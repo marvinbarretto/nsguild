@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { fetchSettings, type ImageBlock, type RichTextBlock } from "./api/getSettings";
+import { fetchSettings } from "../utils/sanity";
+import type { RichTextBlock, ImageBlock } from "../utils/types";
 
 // Fetch settings at build time
 const settings = await fetchSettings();

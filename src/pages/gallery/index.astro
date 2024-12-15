@@ -21,8 +21,6 @@ const galleries = await sanityClient.fetch(`
 const allImages = galleries.flatMap((post: any) => post.images || []);
 ---
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
-
 <BaseLayout>
   <h1>Photo Gallery</h1>
   

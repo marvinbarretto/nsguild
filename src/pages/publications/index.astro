@@ -1,26 +1,9 @@
 ---
-import { sanityClient } from '../../utils/sanity';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { Publication } from '../../utils/types';
+import { fetchAllPublications } from '../../utils/sanity';
 
-const query = `
-    *[_type == "publication"] | order(_createdAt desc) {
-        _id,
-        title,
-        description,
-        "documentUrl": document.asset->url,
-    }
-`;
-
-const publications = await sanityClient.fetch(query);
-
-export type Publication = {
-  _id: string;
-  title: string;
-  description: string;
-  documentUrl: string;
-};
-
-console.log(publications);
+const publications = await fetchAllPublications();
 ---
 
 <BaseLayout>

@@ -1,9 +1,6 @@
 ---
-import {getSanityData} from '../utils/sanity';
-const settings = await getSanityData(`*[_id == "settings"][0]`);
-const footerText = settings?.footerText || "My Site";
-// TODO: Improve typescript types
 
+const { footerText } = Astro.props;
 
 ---
 <footer class="bg-gray-800 text-white p-4 text-center">

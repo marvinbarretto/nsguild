@@ -18,8 +18,6 @@ const galleries = await sanityClient.fetch(`
 const mostRecentGallery = galleries[0];
 ---
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
-
 <BaseLayout>
   <h1>{mostRecentGallery.title}</h1>
   <LightboxGallery images={mostRecentGallery.images} />
