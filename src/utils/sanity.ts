@@ -19,18 +19,18 @@ export async function getSanityData<T>(query: string, params?: {}): Promise<T> {
 }
 
 export async function fetchSettings(): Promise<Settings> {
-  const query = `*[_type == "settings"][0]{
-    siteTitle,
-    siteDescription,
-    ogImage{asset->{url}},
-    headerLinks[]{title, href},
-    footerLinks[]{title, href},
-    footerText,
-    welcomeWidget[]{
-      _type == 'block' => { _type, children },
-      _type == 'image' => { _type, asset->{url}, alt }
+  const query = `
+    *[_type == "settings"][0]{
+      siteTitle,
+      siteDescription,
+      homepageImage{asset->{url}},
+      footerText,
+      welcomeWidget[]{
+        _type == 'block' => { _type, children },
+        _type == 'image' => { _type, asset->{url}, alt }
+      }
     }
-  }`;
+  `;
   return await getSanityData<Settings>(query);
 }
 

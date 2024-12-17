@@ -11,9 +11,7 @@ export type ImageBlock = {
 export interface Settings {
   siteTitle: string;
   siteDescription: string;
-  ogImage?: { asset: { url: string } };
-  headerLinks?: { title: string; href: string }[];
-  footerLinks?: { title: string; href: string }[];
+  homepageImage?: { asset: { url: string } };
   footerText?: string;
   welcomeWidget?: (RichTextBlock | ImageBlock)[];
 }

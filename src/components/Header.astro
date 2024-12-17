@@ -1,10 +1,18 @@
 ---
+import { fetchSettings } from "../utils/sanity"
+import type { Settings } from "../utils/types"
+
+const settings: Settings = await fetchSettings();
+
+const siteTitle = settings.siteTitle || "Norfolk and Suffolk Guild of Weavers, Spinners and Dyers";
 ---
 
 <header>
   <h1>
-    <span class="ns">Norfolk and Suffolk Guild of</span>
-    <span class="wsd">Weavers, Spinners and Dyers</span>
+    {siteTitle}
+    <!-- TODO: Establish if this can be static -->
+    <!-- <span class="ns">Norfolk and Suffolk Guild of</span>
+    <span class="wsd">Weavers, Spinners and Dyers</span> -->
   </h1>
 </header>
 
