@@ -8,11 +8,13 @@ export const postType = defineType({
     defineField({
       name: 'title',
       type: 'string',
+      description: 'This is the title of the post. It will show up in the header.',
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'slug',
       type: 'slug',
+      description: 'This is the what will appear in the URL.. Press the "generate" button to create a slug derived from the title above.',
       options: {source: 'title'},
       validation: (rule) => rule.required(),
     }),

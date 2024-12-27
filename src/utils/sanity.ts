@@ -42,7 +42,7 @@ export async function fetchAllPosts(): Promise<Post[]> {
       publishedAt,
       body,
       images[]{
-        asset->{url},
+        "asset": {"url": asset->url},
         alt,
         caption
       }
