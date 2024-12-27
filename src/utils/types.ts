@@ -8,7 +8,7 @@ export type ImageBlock = {
   asset: { url: string };
   alt?: string;
 };
-export interface Settings {
+export interface Homepage {
   siteTitle: string;
   siteDescription: string;
   homepageImage?: { asset: { url: string } };

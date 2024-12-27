@@ -1,5 +1,5 @@
 import { createClient } from "@sanity/client";
-import type { Settings, EventType, GalleryImage, Post, Publication } from "./types";
+import type { Homepage, EventType, GalleryImage, Post, Publication } from "./types";
 import type { APIRoute } from "astro";
 
 export const sanityClient = createClient({
@@ -18,20 +18,37 @@ export async function getSanityData<T>(query: string, params?: {}): Promise<T> {
   return await sanityClient.fetch<T>(query, params);
 }
 
-export async function fetchSettings(): Promise<Settings> {
+export async function fetchHomepage(): Promise<Homepage | null> {
   const query = `
-    *[_type == "settings"][0]{
+    *[_type == "homepage" && _id == "homepage"][0]{
+      _id,
       siteTitle,
-      siteDescription,
-      homepageImage{asset->{url}},
+      homepageImage{
+        asset->{
+          url
+        }
+      },
       footerText,
       welcomeWidget[]{
-        _type == 'block' => { _type, children },
-        _type == 'image' => { _type, asset->{url}, alt }
+        _type == 'block' => { 
+          _type, 
+          children[]{
+            text,
+            marks
+          }
+        },
+        _type == 'image' => { 
+          _type, 
+          asset->{ url }, 
+          alt 
+        }
       }
     }
   `;
-  return await getSanityData<Settings>(query);
+  
+  const homepage = await getSanityData<Homepage | null>(query);
+  console.log('Fetched homepage:', homepage);
+  return homepage;
 }
 
 export async function fetchAllPosts(): Promise<Post[]> {
@@ -68,7 +85,7 @@ export async function fetchFeaturedPosts(): Promise<Post[]> {
   return await getSanityData<Post[]>(query);
 }
 
-export async function fetchAllEvents(): Promise<Event[]> {
+export async function fetchAllEvents(): Promise<EventType[]> {
   const query = `
     *[_type == "event"] | order(date asc) {
       title,
@@ -81,7 +98,7 @@ export async function fetchAllEvents(): Promise<Event[]> {
       }
     }
   `;
-  return await getSanityData<Event[]>(query);
+  return await getSanityData<EventType[]>(query);
 }
 
 export async function fetchEventBySlug(slug: string): Promise<EventType | null> {
@@ -128,15 +145,15 @@ export function transformImagesToGalleryFormat(images: Post["images"] = []): Gal
 // API Route
 export const GET: APIRoute = async () => {
   try {
-    const settings = await fetchSettings();
-    return new Response(JSON.stringify(settings), {
+    const homepage = await fetchHomepage();
+    return new Response(JSON.stringify(homepage), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error("Error fetching settings:", error);
+    console.error("Error fetching homepage:", error);
     return new Response(
-      JSON.stringify({ error: "Failed to fetch settings" }),
+      JSON.stringify({ error: "Failed to fetch homepage" }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }

@@ -4,13 +4,13 @@ import { eventType } from "./event";
 import { linkType } from "./link";
 import { postType } from "./post";
 import { publicationType } from "./publication";
-import { settingsType } from "./settings";
+import { homepageType } from "./homepage";
 import { contactType } from "./contact";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [postType,
     linkType,
-    settingsType,
+    homepageType,
     eventType,
     publicationType,
     contactType],

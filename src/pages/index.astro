@@ -1,25 +1,28 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { fetchSettings } from "../utils/sanity";
+import { fetchHomepage } from "../utils/sanity";
 import type { RichTextBlock, ImageBlock } from "../utils/types";
 
-// Fetch settings at build time
-const settings = await fetchSettings();
+// Fetch homepage data at build time
+const homepage = await fetchHomepage();
 
-console.log('settings', settings);
+console.log('homepage data:', JSON.stringify(homepage, null, 2));
 ---
 
 <BaseLayout>
   <section id="photo">
-    <img src={settings.homepageImage?.asset.url} alt="" />
+    {homepage?.homepageImage?.asset?.url ? (
+      <img src={homepage.homepageImage.asset.url} alt="" />
+    ) : (
+      <div>No homepage image set</div>
+    )}
   </section>
-    <div class="container">
+  <div class="container">
 
     <section>
       <h2>Welcome</h2>
       <div>
-        <!-- TODO: Experiement with cleaner implementation -->
-        {settings.welcomeWidget?.map((block: RichTextBlock | ImageBlock) => {
+        {homepage?.welcomeWidget?.map((block: RichTextBlock | ImageBlock) => {
           if (block._type === 'block') {
             return <p>{block.children.map((child: { text: string }) => child.text).join(' ')}</p>;
           }
@@ -55,12 +58,8 @@ console.log('settings', settings);
   }
 
   section {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: white;
     padding: 1rem;
   }
 
-  #photo {
-    min-height: 200px;
-    background-color: azure;
-  }
 </style>

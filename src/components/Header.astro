@@ -1,10 +1,8 @@
 ---
-import { fetchSettings } from "../utils/sanity"
-import type { Settings } from "../utils/types"
+import { fetchHomepage } from "../utils/sanity"
 
-const settings: Settings = await fetchSettings();
-
-const siteTitle = settings.siteTitle || "Norfolk and Suffolk Guild of Weavers, Spinners and Dyers";
+const homepage = await fetchHomepage();
+const siteTitle = homepage?.siteTitle || "Norfolk and Suffolk Guild of Weavers, Spinners and Dyers";
 ---
 
 
