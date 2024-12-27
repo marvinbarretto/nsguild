@@ -5,8 +5,8 @@ import Footer from '../components/Footer.astro';
 import Meta from '../components/Meta.astro';
 import { fetchSettings } from '../utils/sanity';
 import type { Settings } from '../utils/types';
-import Analytics from '@vercel/analytics/astro'
-import SpeedInsights from "@vercel/speed-insights/astro"
+import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 import '../styles/global.scss';
 
 const settings: Settings = await fetchSettings();
@@ -22,11 +22,10 @@ const metadata = Astro.props.metadata || {
 <html lang="en">
   <Meta {...metadata} />
   
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&family=Mystery+Quest&family=Twinkle+Star&display=swap" rel="stylesheet">
-import  SpeedInsights  from "@vercel/speed-insights/astro"
+  <SpeedInsights />
   <Analytics/>
 
   <head>
