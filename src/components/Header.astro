@@ -1,18 +1,24 @@
 ---
 import { fetchHomepage } from "../utils/sanity"
 
+interface Props {
+  isHomePage?: boolean;
+}
+
+const { isHomePage = false } = Astro.props;
 const homepage = await fetchHomepage();
 const siteTitle = homepage?.siteTitle || "Norfolk and Suffolk Guild of Weavers, Spinners and Dyers";
 ---
 
-
-<header>
-  <h1>
-    {siteTitle}
-    <!-- TODO: Establish if this can be static -->
+ <!-- TODO: Establish if this can be static -->
     <!-- <span class="ns">Norfolk and Suffolk Guild of</span>
     <span class="wsd">Weavers, Spinners and Dyers</span> -->
-  </h1>
+<header>
+  {isHomePage ? (
+    <h1 class="site-title">{siteTitle}</h1>
+  ) : (
+    <a href="/" class="site-title">{siteTitle}</a>
+  )}
 </header>
 
 <style>
@@ -20,13 +26,18 @@ const siteTitle = homepage?.siteTitle || "Norfolk and Suffolk Guild of Weavers, 
     /* background-color: #34334c; */
     background-color: #333;
     /* background-image: url('../images/noisy-texture.png'); */
-    color: white;
+
     padding: 1rem;
     text-align: center;
   }
 
-  h1 {
+  .site-title {
     display: flex;
+    color: white;
+    font-size: 2rem;
+    text-decoration: none;
+    font-weight: bold;
+    line-height: 1;
     justify-content: center;
     flex-direction: column;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);

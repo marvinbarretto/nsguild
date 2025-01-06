@@ -11,6 +11,7 @@ import '../styles/global.scss';
 
 const homepage = await fetchHomepage();
 const footerText = homepage?.footerText || "NS Guild";
+const isHomePage = Astro.url.pathname === '/';
 
 const metadata = Astro.props.metadata || {
   title: homepage?.siteTitle || "NS Guild",
@@ -35,7 +36,7 @@ const metadata = Astro.props.metadata || {
     <slot name="head" />
   </head>
   <body>
-    <Header />
+    <Header isHomePage={isHomePage} />
     <Nav />
     <main>
       <slot />
