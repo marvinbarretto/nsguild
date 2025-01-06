@@ -8,15 +8,24 @@ export const structure = (S: StructureBuilder) =>
     .items([
       // Singleton for homepage
       S.listItem()
-        .title('Homepage')
+        .title('Home Page')
         .id('homepage')
         .child(
           S.document()
             .schemaType('homepage')
             .documentId('homepage')
         ),
+      // Singleton for contact page
+      S.listItem()
+        .title('Contact Page')
+        .id('contact')
+        .child(
+          S.document()
+            .schemaType('contact')
+            .documentId('contact')
+        ),
       // Other document types
       ...S.documentTypeListItems().filter(
-        (listItem) => !['homepage'].includes(listItem.getId() as string)
+        (listItem) => !['homepage', 'contact'].includes(listItem.getId() as string)
       ),
     ])

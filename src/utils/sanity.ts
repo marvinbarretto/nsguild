@@ -51,6 +51,19 @@ export async function fetchHomepage(): Promise<Homepage | null> {
   return homepage;
 }
 
+export async function fetchContactPage(): Promise<any> {
+  const query = `
+    *[_type == "contact" && _id == "contact"][0]{
+      _id,
+      title,
+      description,
+      email,
+      address
+    }
+  `;
+  return await getSanityData(query);
+}
+
 export async function fetchAllPosts(): Promise<Post[]> {
   const query = `
     *[_type == "post"] | order(publishedAt desc) {
