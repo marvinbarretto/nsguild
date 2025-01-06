@@ -1,0 +1,56 @@
+@function generate-jagged-edge($side, $triangles: 20, $height: 5px, $width: 2%) {
+  $points: ();
+  $step: $width;
+  // Convert percentage to number
+  $width-number: $width / 1%;
+  $total: ceil(100 / $width-number);
+  
+  @if $side == 'top' {
+    @for $i from 0 through $total {
+      $x: $i * $width-number;
+      @if $i % 2 == 0 {
+        $points: append($points, "#{$x}% #{$height}", comma);
+      } @else {
+        $points: append($points, "#{$x}% 0", comma);
+      }
+    }
+  } @else if $side == 'right' {
+    @for $i from 0 through $total {
+      $y: $i * $width-number;
+      @if $i % 2 == 0 {
+        $points: append($points, "calc(100% - #{$height}) #{$y}%", comma);
+      } @else {
+        $points: append($points, "100% #{$y}%", comma);
+      }
+    }
+  } @else if $side == 'bottom' {
+    @for $i from 0 through $total {
+      $x: 100 - ($i * $width-number);
+      @if $i % 2 == 0 {
+        $points: append($points, "#{$x}% calc(100% - #{$height})", comma);
+      } @else {
+        $points: append($points, "#{$x}% 100%", comma);
+      }
+    }
+  } @else if $side == 'left' {
+    @for $i from 0 through $total {
+      $y: 100 - ($i * $width-number);
+      @if $i % 2 == 0 {
+        $points: append($points, "#{$height} #{$y}%", comma);
+      } @else {
+        $points: append($points, "0 #{$y}%", comma);
+      }
+    }
+  }
+  
+  @return $points;
+}
+
+@mixin jagged-border($height: 5px, $width: 2%) {
+  $top: generate-jagged-edge('top', 20, $height, $width);
+  $right: generate-jagged-edge('right', 20, $height, $width);
+  $bottom: generate-jagged-edge('bottom', 20, $height, $width);
+  $left: generate-jagged-edge('left', 20, $height, $width);
+  
+  clip-path: polygon(#{$top}, #{$right}, #{$bottom}, #{$left});
+}

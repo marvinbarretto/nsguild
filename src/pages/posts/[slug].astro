@@ -52,7 +52,6 @@ console.log("Post Data:", JSON.stringify({
       {post.attachPublication && post.attachedPublication && (
         <a 
           href={post.attachedPublication.documentUrl}
-          class="text-blue-600 hover:text-blue-800 mt-4 inline-flex items-center gap-2"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -61,7 +60,7 @@ console.log("Post Data:", JSON.stringify({
         </a>
       )}
     </div>
-    <div class="post-body">
+    <div class="post-body test">
       <PortableText value={post.body} />
     </div>
     {galleryImages.length > 0 ? (
@@ -72,24 +71,42 @@ console.log("Post Data:", JSON.stringify({
   </article> 
 </BaseLayout>
 
-<style>
+<style lang="scss">
+  @import "../../styles/jagged-edge";
+
   h1 {
     font-size: 2rem;
     font-weight: bold;
   }
   
   .post-header {
-    padding: 1rem;
     background-color: white;
   }
-  
-  .post-body {
-    border-top: solid 1px #ccc;
-    border-bottom: solid 1px #ccc;
+
+  .test {
+    position: relative;
     padding: 1rem;
-    background-color: white;
+    margin: 1rem;
+    background-color: red;
   }
-  
+
+  .test::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background-color: red;
+    z-index: -1;
+    @include jagged-border(5px, 1%); // 
+  }
+
+  .test > * {
+    position: relative;
+    z-index: 1;
+  }
+
   .post-images {
     background-color: #CCC;
     margin-top: 1rem;
