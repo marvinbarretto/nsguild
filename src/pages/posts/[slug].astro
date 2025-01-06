@@ -22,26 +22,77 @@ export async function getStaticPaths() {
 // Astro provides 'post' via props from getStaticPaths
 const { post }: { post: Post } = Astro.props;
 
-// Transform the images for the LightboxGallery
 const galleryImages = post.images ? transformImagesToGalleryFormat(post.images) : [];
 
+const formattedDate = new Date(post.publishedAt).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+
+// Debug output
+console.log("Post Data:", JSON.stringify({
+  title: post.title,
+  publishedAt: post.publishedAt,
+  attachPublication: post.attachPublication,
+  attachedPublication: post.attachedPublication
+}, null, 2));
+
 // Debugging Output
-console.log("Post Object:", post);
-console.log("Gallery Images:", galleryImages);
+// console.log("Post Object:", post);
+// console.log("Gallery Images:", galleryImages);
 
 ---
 
 <BaseLayout>
   <article>
-    <h1>{post.title}</h1>
-    <p>{post.publishedAt}</p>
-    <PortableText value={post.body} />
-
+    <div class="post-header">
+      <h1>{post.title}</h1>
+      <p>Published on {formattedDate}</p>
+      {post.attachPublication && post.attachedPublication && (
+        <a 
+          href={post.attachedPublication.documentUrl}
+          class="text-blue-600 hover:text-blue-800 mt-4 inline-flex items-center gap-2"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="text-xl">📄</span>
+          <span>{post.attachedPublication.title}</span>
+        </a>
+      )}
+    </div>
+    <div class="post-body">
+      <PortableText value={post.body} />
+    </div>
     {galleryImages.length > 0 ? (
-      <LightboxGallery images={galleryImages} style="default-style" />
-    ) : (
-      <p>No images available for this post.</p>
-    )}
+      <div class="post-images">
+        <LightboxGallery images={galleryImages} style="default" />
+      </div>
+    ) : null}
   </article> 
 </BaseLayout>
 
+<style>
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .post-header {
+    padding: 1rem;
+    background-color: white;
+  }
+  
+  .post-body {
+    border-top: solid 1px #ccc;
+    border-bottom: solid 1px #ccc;
+    padding: 1rem;
+    background-color: white;
+  }
+  
+  .post-images {
+    background-color: #CCC;
+    margin-top: 1rem;
+    padding: 1rem;
+  }
+</style>

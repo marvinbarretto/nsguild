@@ -36,6 +36,9 @@ export interface EventType {
 export interface Post {
   title: string;
   publishedAt: string;
+  slug: { current: string };
+  attachPublication?: boolean;
+  attachedPublication?: Publication;
   images?: {
     asset: {
       url: string;

@@ -1,24 +1,17 @@
 ---
 import type { SanityDocument } from "@sanity/client";
-import { sanityClient } from "sanity:client";
+import { fetchPostsPage } from '../../utils/sanity';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const POSTS_QUERY = `*[
-  _type == "post"
-  && defined(slug.current)
-]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt}`;
-
-const posts = await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY);
+const posts = await fetchPostsPage();
 ---
 
 <BaseLayout>
   <h1>News</h1>
 
-  <div class="news-list">
 
-  </div>
 
-  <ul class="flex flex-col gap-y-4">
+  <ul >
       {posts.map((post) => (
         <li>
           <a href={`/posts/${post.slug.current}`}>

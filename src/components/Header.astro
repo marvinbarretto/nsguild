@@ -11,13 +11,18 @@ const siteTitle = globals?.siteTitle || "Norfolk and Suffolk Guild of Weavers, S
 ---
 
  <!-- TODO: Establish if this can be static -->
-    <!-- <span class="ns">Norfolk and Suffolk Guild of</span>
-    <span class="wsd">Weavers, Spinners and Dyers</span> -->
+    
 <header>
   {isHomePage ? (
-    <h1 class="site-title">{siteTitle}</h1>
+    <h1 class="site-title">
+      <span class="ns">Norfolk and Suffolk Guild of</span>
+      <span class="wsd">Weavers, Spinners and Dyers</span>
+    </h1>
   ) : (
-    <a href="/" class="site-title">{siteTitle}</a>
+    <a href="/" class="site-title">
+      <span class="ns">Norfolk and Suffolk Guild of</span>
+      <span class="wsd">Weavers, Spinners and Dyers</span>
+    </a>
   )}
 </header>
 
@@ -44,12 +49,12 @@ const siteTitle = globals?.siteTitle || "Norfolk and Suffolk Guild of Weavers, S
   }
 
   .ns {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     line-height: 1;
   }
 
   .wsd {
-    font-size: 2.8rem;
+    font-size: 1.8rem;
     line-height: 1;
   }
 </style>

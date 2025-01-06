@@ -1,24 +1,14 @@
 ---
 import LightboxGallery from '../../components/LightboxGallery.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { sanityClient } from '../../utils/sanity';
+import { fetchGalleryPage } from '../../utils/sanity';
 
 // Fetch posts with images
-const galleries = await sanityClient.fetch(`
-  *[_type == "post" && defined(images)]{
-    title,
-    slug,
-    images[]{
-      "thumbnailUrl": asset->url + "?w=200&h=200&fit=crop",
-      "url": asset->url,
-      altText,
-      caption
-    }
-  }
-`);
+const galleries = await fetchGalleryPage();
 
 // Merge all images
-const allImages = galleries.flatMap((post: any) => post.images || []);
+const allImages = galleries.flatMap((post) => post.images || []);
+
 ---
 
 <BaseLayout>

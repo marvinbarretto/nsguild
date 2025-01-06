@@ -19,50 +19,6 @@ export const postType = defineType({
       validation: (rule) => rule.required(),
     }),
 
-    // defineField({
-    //   name: 'blockContent',
-    //   title: "Block Content",
-    //   type: 'array',
-    //   of: [
-    //     defineArrayMember({
-    //       title: 'Block',
-    //       type: 'block',
-    //       styles: [
-    //         { title: 'H1', value: 'h1' },
-    //         { title: 'H2', value: 'h2' },
-    //         { title: 'H3', value: 'h3' },
-    //         { title: 'H4', value: 'h4' },
-    //         { title: 'Quote', value: 'blockquote' },
-    //         { title: 'Normal', value: 'p' },
-    //       ],
-    //       lists: [
-    //         { title: 'Bullet', value: 'bullet' },
-    //         { title: 'Number', value: 'number' },
-    //       ],
-    //       marks: {
-    //         decorators: [
-    //           { title: 'Strong', value: 'strong' },
-    //           { title: 'Emphasis', value: 'em' },
-    //           { title: 'Code', value: 'code' },
-    //           { title: 'Underline', value: 'underline' },
-    //           { title: 'Strike', value: 'strike-through' },
-    //         ],
-    //         annotations: [
-    //           { title: 'URL', name: 'link', type: 'object', fields: [{ title: 'URL', name: 'href', type: 'url' }] },
-    //         ]
-    //       }
-    //     }),
-    //     defineArrayMember({
-    //       title: 'Image',
-    //       type: 'image',
-    //       fields: [{
-    //         name: 'alt',
-    //         title: 'Alternative Text',
-    //         type: 'string',
-    //       }]
-    //     })
-    //   ]
-    // }),
 
     defineField({
       name: 'publishedAt',
@@ -70,14 +26,7 @@ export const postType = defineType({
       initialValue: () => new Date().toISOString(),
       validation: (rule) => rule.required(),
     }),
-    // defineField({
-    //   name: 'file',
-    //   title: 'Attach File (PDF)',
-    //   type: 'file',
-    //   options: {
-    //     accept: '.pdf',
-    //   },
-    // }),
+
     defineField({
       name: 'body',
       type: 'array',

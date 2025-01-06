@@ -1,25 +1,11 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { sanityClient } from '../../utils/sanity';
+import { fetchGalleryBySlug } from '../../utils/sanity';
 import type { Gallery } from '../../utils/types';
 
 const { slug } = Astro.params;
 
-// Fetch the gallery matching the provided slug
-const query = `
-  *[_type == "gallery" && slug.current == $slug][0]{
-    title,
-    "slug": slug.current,
-    images[]{
-      "thumbnailUrl": asset->url + "?w=200&h=200&fit=crop",
-      "url": asset->url,
-      altText,
-      caption
-    }
-  }
-`;
-
-const gallery: Gallery = await sanityClient.fetch(query, { slug });
+const gallery = await fetchGalleryBySlug(slug!);
 
 if (!gallery) {
   throw new Error('Gallery not found');

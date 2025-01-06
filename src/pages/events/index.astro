@@ -1,22 +1,10 @@
 ---
 import EventCard from '../../components/EventCard.astro';
-import { sanityClient } from '../../utils/sanity';
+import { fetchEventsPage } from '../../utils/sanity';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-
 // Fetch events sorted by date
-const events = await sanityClient.fetch(`
-  *[_type == "event"] | order(date asc) {
-    title,
-    slug,
-    date,
-    description,
-    "relatedGallery": relatedGallery->{
-      title,
-      slug
-    }
-  }
-`);
+const events = await fetchEventsPage();
 ---
 <BaseLayout>
   <h1>Upcoming Events</h1>

@@ -3,33 +3,32 @@ import type { GalleryImage } from '../utils/types';
 
 export interface Props {
   images: GalleryImage[];
-  style?: string; // Add style prop
+  columnSize?: number; // Size in pixels for the minimum column width
+  style?: 'default' | 'polaroid'; // Restrict style to specific values
 }
 
-const { images, style }: Props = Astro.props;
-
-// Determine the gallery style class
-const galleryClass = style === 'polaroid' ? 'polaroid-style' : 'default-style';
+const { 
+  images, 
+  style = 'default',
+  columnSize = 150 
+}: Props = Astro.props;
 
 ---
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 
-<div class={`gallery-grid ${galleryClass}`}>
+<div class={`gallery-grid gallery-${style}`} style={`--column-size: ${columnSize}px`}>
   {images.map((image, index) => (
     <a
       href={image.url}
       class="gallery-item glightbox"
-      data-glightbox={
-        image.caption ? `title: ${image.caption}` : undefined
-      }
+      data-glightbox={image.caption ? `title: ${image.caption}` : undefined}
     >
       <img
         src={image.thumbnailUrl}
         alt={image.altText || `Image ${index + 1}`}
-        class="thumbnail"
+        loading="lazy"
       />
-
     </a>
   ))}
 </div>
@@ -40,7 +39,7 @@ const galleryClass = style === 'polaroid' ? 'polaroid-style' : 'default-style';
   // Initialize lightbox on DOM content load
   document.addEventListener('DOMContentLoaded', () => {
     GLightbox({
-      selector: '.glightbox',
+      // selector: '.glightbox',
       touchNavigation: true,
       loop: true,
       zoomable: true,
@@ -53,66 +52,35 @@ const galleryClass = style === 'polaroid' ? 'polaroid-style' : 'default-style';
 <style>
   .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: .5rem;
+    grid-template-columns: repeat(auto-fill, minmax(var(--column-size), 1fr));
+    gap: 0.5rem;
+  }
+
+  .gallery-item {
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: #f5f5f5;
   }
 
   .gallery-item img {
     width: 100%;
-    height: auto;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s ease;
   }
+/* 
+  .gallery-item:hover img {
+    transform: scale(1.05);
+  } */
 
-
-  /* Default Style */
-  .default-style .gallery-item img {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  /* Polaroid Style */
-  .polaroid-style .gallery-item {
-    position: relative;
-    display: inline-block;
-    margin: 8px;
-    padding: 12px 8px 20px;
+  /* Polaroid style variant */
+  .gallery-polaroid .gallery-item {
+    padding: 8px 8px 20px 8px;
     background: white;
-    border: 2px solid #ddd;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    transform: rotate(calc(var(--angle, -3deg)));
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
-  .polaroid-style .gallery-item img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    clip-path: inset(10px);
-  }
-
-  .polaroid-style .gallery-item:hover {
-    transform: scale(1.02) rotate(calc(var(--angle, -3deg) + 1deg));
-  }
-
-  .polaroid-style .gallery-item figcaption {
-    font-size: 0.85rem;
-    color: #555;
-    margin-top: 8px;
-    text-align: center;
-    font-family: "Courier New", Courier, monospace;
-  }
-
-  /* Random Rotation for Janky Feel */
-  .polaroid-style .gallery-item:nth-child(odd) {
-    --angle: -3deg;
-  }
-
-  .polaroid-style .gallery-item:nth-child(even) {
-    --angle: 3deg;
-  }
-
-  .polaroid-style .gallery-item:nth-child(3n) {
-    --angle: -1deg;
+  .gallery-polaroid .gallery-item img {
+    border-radius: 0;
   }
 </style>

@@ -2,17 +2,25 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { fetchHomepage } from "../utils/sanity";
 import type { RichTextBlock, ImageBlock } from "../utils/types";
+import { Image } from 'astro:assets';
+
 
 // Fetch homepage data at build time
-const homepage = await fetchHomepage();
+const vm = await fetchHomepage();
 
-console.log('homepage data:', JSON.stringify(homepage, null, 2));
+console.log('homepage data:', JSON.stringify(vm, null, 2));
 ---
 
 <BaseLayout>
   <section id="photo">
-    {homepage?.homepageImage?.asset?.url ? (
-      <img src={homepage.homepageImage.asset.url} alt="" />
+    {vm?.homepageImage?.asset?.url ? (
+      
+      <Image 
+        src={vm.homepageImage.asset.url} 
+        alt="" 
+        inferSize={true}
+      />
+
     ) : (
       <div>No homepage image set</div>
     )}
@@ -22,7 +30,7 @@ console.log('homepage data:', JSON.stringify(homepage, null, 2));
     <section>
       <h2>Welcome</h2>
       <div>
-        {homepage?.welcomeWidget?.map((block: RichTextBlock | ImageBlock) => {
+        {vm?.welcomeWidget?.map((block: RichTextBlock | ImageBlock) => {
           if (block._type === 'block') {
             return <p>{block.children.map((child: { text: string }) => child.text).join(' ')}</p>;
           }
