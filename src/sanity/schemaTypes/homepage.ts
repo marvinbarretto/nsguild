@@ -5,12 +5,7 @@ export const homepageType = defineType({
   title: 'Homepage',
   type: 'document',
   fields: [
-    defineField({
-      name: 'siteTitle',
-      title: 'Site Title',
-      type: 'string',
-      validation: (rule) => rule.required(),
-    }),
+
     defineField({
       name: 'welcomeWidget',
       title: 'Welcome Widget',
@@ -26,10 +21,6 @@ export const homepageType = defineType({
       title: 'Homepage Image',
       type: 'image',
     }),
-    defineField({
-      name: 'footerText',
-      title: 'Footer Text',
-      type: 'string',
-    }),
+
   ],
 });

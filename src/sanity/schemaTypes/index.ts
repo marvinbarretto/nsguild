@@ -6,12 +6,16 @@ import { postType } from "./post";
 import { publicationType } from "./publication";
 import { homepageType } from "./homepage";
 import { contactType } from "./contact";
+import { globalsType } from "./globals";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [postType,
+  types: [
+    postType,
     linkType,
     homepageType,
     eventType,
     publicationType,
-    contactType],
+    contactType,
+    globalsType,
+  ],
 };

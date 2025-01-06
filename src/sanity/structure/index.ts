@@ -6,6 +6,15 @@ export const structure = (S: StructureBuilder) =>
   S.list()
     .title('Content')
     .items([
+      // Singleton for global settings
+      S.listItem()
+        .title('Global Settings')
+        .id('globals')
+        .child(
+          S.document()
+            .schemaType('globals')
+            .documentId('globals')
+        ),
       // Singleton for homepage
       S.listItem()
         .title('Home Page')
@@ -24,8 +33,9 @@ export const structure = (S: StructureBuilder) =>
             .schemaType('contact')
             .documentId('contact')
         ),
+      
       // Other document types
       ...S.documentTypeListItems().filter(
-        (listItem) => !['homepage', 'contact'].includes(listItem.getId() as string)
+        (listItem) => !['homepage', 'contact', 'globals'].includes(listItem.getId() as string)
       ),
     ])

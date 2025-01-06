@@ -3,18 +3,17 @@ import Header from '../components/Header.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Meta from '../components/Meta.astro';
-import { fetchHomepage } from '../utils/sanity';
-import type { Homepage } from '../utils/types';
+import { fetchGlobals } from '../utils/sanity';
+import type { Globals } from '../utils/types';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 import '../styles/global.scss';
 
-const homepage = await fetchHomepage();
-const footerText = homepage?.footerText || "NS Guild";
+const globals = await fetchGlobals();
 const isHomePage = Astro.url.pathname === '/';
 
 const metadata = Astro.props.metadata || {
-  title: homepage?.siteTitle || "NS Guild",
+  title: globals?.siteTitle || "NS Guild",
   description: "Default description",
   keywords: "default, keywords",
 };
@@ -32,7 +31,7 @@ const metadata = Astro.props.metadata || {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{homepage?.siteTitle || "NS Guild"}</title>
+    <title>{globals?.siteTitle || "NS Guild"}</title>
     <slot name="head" />
   </head>
   <body>
@@ -41,7 +40,7 @@ const metadata = Astro.props.metadata || {
     <main>
       <slot />
     </main>
-    <Footer footerText={footerText} />
+    <Footer footerText={globals?.footerText || "NS Guild"} />
     <SpeedInsights />
   </body>
 </html>

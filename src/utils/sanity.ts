@@ -1,5 +1,5 @@
 import { createClient } from "@sanity/client";
-import type { Homepage, EventType, GalleryImage, Post, Publication } from "./types";
+import type { Homepage, EventType, GalleryImage, Post, Publication, Globals } from "./types";
 import type { APIRoute } from "astro";
 
 export const sanityClient = createClient({
@@ -10,25 +10,30 @@ export const sanityClient = createClient({
     token: import.meta.env.SANITY_TOKEN,
 })
 
-// export async function getSanityData(query: string, params?: {}) {
-//     return await sanityClient.fetch(query, params);
-// }
-
 export async function getSanityData<T>(query: string, params?: {}): Promise<T> {
   return await sanityClient.fetch<T>(query, params);
+}
+
+export async function fetchGlobals(): Promise<Globals | null> {
+  const query = `
+    *[_type == "globals" && _id == "globals"][0]{
+      siteTitle,
+      footerText
+    }
+  `;
+  
+  const globals = await getSanityData<Globals | null>(query);
+  return globals;
 }
 
 export async function fetchHomepage(): Promise<Homepage | null> {
   const query = `
     *[_type == "homepage" && _id == "homepage"][0]{
-      _id,
-      siteTitle,
       homepageImage{
         asset->{
           url
         }
       },
-      footerText,
       welcomeWidget[]{
         _type == 'block' => { 
           _type, 
@@ -47,7 +52,6 @@ export async function fetchHomepage(): Promise<Homepage | null> {
   `;
   
   const homepage = await getSanityData<Homepage | null>(query);
-  console.log('Fetched homepage:', homepage);
   return homepage;
 }
 

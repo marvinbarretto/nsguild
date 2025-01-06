@@ -8,11 +8,14 @@ export type ImageBlock = {
   asset: { url: string };
   alt?: string;
 };
-export interface Homepage {
+
+export interface Globals {
   siteTitle: string;
-  siteDescription: string;
+  footerText: string;
+}
+
+export interface Homepage {
   homepageImage?: { asset: { url: string } };
-  footerText?: string;
   welcomeWidget?: (RichTextBlock | ImageBlock)[];
 }
 
@@ -48,7 +51,6 @@ export interface Gallery {
   slug: string;
   images: GalleryImage[];
 };
-
 
 export interface GalleryImage {
   url: string;
