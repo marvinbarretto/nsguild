@@ -1,6 +1,5 @@
-@function generate-jagged-edge($side, $triangles: 20, $height: 5px, $width: 2%) {
+@function generate-jagged-edge($side, $height: 5px, $width: 1%) {
   $points: ();
-  $step: $width;
   // Convert percentage to number
   $width-number: $width / 1%;
   $total: ceil(100 / $width-number);
@@ -46,11 +45,44 @@
   @return $points;
 }
 
-@mixin jagged-border($height: 5px, $width: 2%) {
-  $top: generate-jagged-edge('top', 20, $height, $width);
-  $right: generate-jagged-edge('right', 20, $height, $width);
-  $bottom: generate-jagged-edge('bottom', 20, $height, $width);
-  $left: generate-jagged-edge('left', 20, $height, $width);
+@mixin jagged-border($background-color: #000, $height: 5px, $width: 1%) {
+  position: relative;
+  margin: 5px;
+  background-color: $background-color;
+
+  &::after {
+    position: relative;
+    content: '';
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    z-index: -1;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  }
+
+  &::before {
+    $top: generate-jagged-edge('top', $height, $width);
+    $right: generate-jagged-edge('right', $height, $width);
+    $bottom: generate-jagged-edge('bottom', $height, $width);
+    $left: generate-jagged-edge('left', $height, $width);
+    
+    clip-path: polygon(#{$top}, #{$right}, #{$bottom}, #{$left});
   
-  clip-path: polygon(#{$top}, #{$right}, #{$bottom}, #{$left});
+    background-color: $background-color;
+    position: absolute;
+    content: '';
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    z-index: -1;
+  }
+
+  // > * {
+  //   position: relative;
+  //   z-index: 1;
+  // }
+
+
 }

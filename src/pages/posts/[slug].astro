@@ -45,7 +45,7 @@ console.log("Post Data:", JSON.stringify({
 ---
 
 <BaseLayout>
-  <article>
+  <article class="test">
     <div class="post-header">
       <h1>{post.title}</h1>
       <p>Published on {formattedDate}</p>
@@ -60,7 +60,7 @@ console.log("Post Data:", JSON.stringify({
         </a>
       )}
     </div>
-    <div class="post-body test">
+    <div class="post-body">
       <PortableText value={post.body} />
     </div>
     {galleryImages.length > 0 ? (
@@ -83,28 +83,11 @@ console.log("Post Data:", JSON.stringify({
     background-color: white;
   }
 
+  $background-color: white;
+
   .test {
-    position: relative;
+    @include jagged-border($background-color);
     padding: 1rem;
-    margin: 1rem;
-    background-color: red;
-  }
-
-  .test::before {
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    background-color: red;
-    z-index: -1;
-    @include jagged-border(5px, 1%); // 
-  }
-
-  .test > * {
-    position: relative;
-    z-index: 1;
   }
 
   .post-images {
