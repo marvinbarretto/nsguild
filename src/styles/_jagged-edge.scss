@@ -1,43 +1,42 @@
-@function generate-jagged-edge($side, $height: 5px, $width: 1%) {
+@function generate-jagged-edge($side, $height: 5px, $width: 10px) {
   $points: ();
-  // Convert percentage to number
-  $width-number: $width / 1%;
-  $total: ceil(100 / $width-number);
+  // Total number of triangles based on width
+  $total: ceil(2000 / $width); // Assuming a width of 1000px for full coverage
   
   @if $side == 'top' {
     @for $i from 0 through $total {
-      $x: $i * $width-number;
+      $x: $i * $width;
       @if $i % 2 == 0 {
-        $points: append($points, "#{$x}% #{$height}", comma);
+        $points: append($points, "#{$x} #{$height}", comma);
       } @else {
-        $points: append($points, "#{$x}% 0", comma);
+        $points: append($points, "#{$x} 0", comma);
       }
     }
   } @else if $side == 'right' {
     @for $i from 0 through $total {
-      $y: $i * $width-number;
+      $y: $i * $width;
       @if $i % 2 == 0 {
-        $points: append($points, "calc(100% - #{$height}) #{$y}%", comma);
+        $points: append($points, "calc(100% - #{$height}) #{$y}", comma);
       } @else {
-        $points: append($points, "100% #{$y}%", comma);
+        $points: append($points, "100% #{$y}", comma);
       }
     }
   } @else if $side == 'bottom' {
     @for $i from 0 through $total {
-      $x: 100 - ($i * $width-number);
+      $x: 2000 - ($i * $width);
       @if $i % 2 == 0 {
-        $points: append($points, "#{$x}% calc(100% - #{$height})", comma);
+        $points: append($points, "#{$x} calc(100% - #{$height})", comma);
       } @else {
-        $points: append($points, "#{$x}% 100%", comma);
+        $points: append($points, "#{$x} 100%", comma);
       }
     }
   } @else if $side == 'left' {
     @for $i from 0 through $total {
-      $y: 100 - ($i * $width-number);
+      $y: 2000 - ($i * $width);
       @if $i % 2 == 0 {
-        $points: append($points, "#{$height} #{$y}%", comma);
+        $points: append($points, "#{$height} #{$y}", comma);
       } @else {
-        $points: append($points, "0 #{$y}%", comma);
+        $points: append($points, "0 #{$y}", comma);
       }
     }
   }
@@ -45,7 +44,7 @@
   @return $points;
 }
 
-@mixin jagged-border($background-color: #000, $height: 5px, $width: 1%) {
+@mixin jagged-border($background-color: #000, $height: 5px, $width: 10px) {
   position: relative;
   margin: 5px;
   background-color: $background-color;
@@ -66,7 +65,10 @@
     $right: generate-jagged-edge('right', $height, $width);
     $bottom: generate-jagged-edge('bottom', $height, $width);
     $left: generate-jagged-edge('left', $height, $width);
-    
+
+    // Debugging output
+    @debug "Top: #{$top}, Right: #{$right}, Bottom: #{$bottom}, Left: #{$left}";
+
     clip-path: polygon(#{$top}, #{$right}, #{$bottom}, #{$left});
   
     background-color: $background-color;
@@ -78,11 +80,4 @@
     bottom: -5px;
     z-index: -1;
   }
-
-  // > * {
-  //   position: relative;
-  //   z-index: 1;
-  // }
-
-
 }

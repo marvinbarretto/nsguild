@@ -12,7 +12,7 @@ console.log('homepage data:', JSON.stringify(vm, null, 2));
 ---
 
 <BaseLayout>
-  <section id="photo">
+  <div id="photo">
     {vm?.homepageImage?.asset?.url ? (
       
       <Image 
@@ -24,10 +24,10 @@ console.log('homepage data:', JSON.stringify(vm, null, 2));
     ) : (
       <div>No homepage image set</div>
     )}
-  </section>
+  </div>
   <div class="container">
 
-    <section>
+    <div>
       <h2>Welcome</h2>
       <div>
         {vm?.welcomeWidget?.map((block: RichTextBlock | ImageBlock) => {
@@ -39,7 +39,7 @@ console.log('homepage data:', JSON.stringify(vm, null, 2));
           }
         })}
       </div>
-    </section>
+    </div>
     <section>
       <h2>Next event</h2>
       <!-- Next event component -->
@@ -58,16 +58,20 @@ console.log('homepage data:', JSON.stringify(vm, null, 2));
   </div>
 </BaseLayout>
 
-<style>
+<style lang="scss">
+  @import "../styles/_jagged-edge.scss";
+
   .container {
     display: flex;
     flex-direction: column;
     gap: 1rem;
   }
-
+  $background-color: white;
   section {
-    background-color: white;
+    @include jagged-border($background-color);
+    background-color: $background-color;
     padding: 1rem;
+    margin: 1rem;
   }
 
 </style>

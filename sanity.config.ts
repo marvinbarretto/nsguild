@@ -11,12 +11,12 @@ export default defineConfig({
   projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
   dataset: import.meta.env.PUBLIC_SANITY_DATASET,
   plugins: [
-    visionTool(),
     structureTool({ structure }),
     presentationTool({
       resolve,
       previewUrl: location.origin
-    })
+    }),
+    visionTool()
   ],
   schema
 });
