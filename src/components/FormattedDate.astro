@@ -1,0 +1,20 @@
+---
+const { date, format = "long" } = Astro.props;
+
+// Ensure `date` is a valid Date object
+const parsedDate = new Date(date);
+const isValidDate = !isNaN(parsedDate.getTime());
+
+const options = {
+  year: "numeric",
+  month: format === "short" ? "short" : "long",
+  day: "numeric",
+};
+
+// Format only if valid; otherwise, display a fallback
+const formattedDate = isValidDate
+  ? parsedDate.toLocaleDateString("en-GB")
+  : "Invalid date";
+---
+
+<span>{formattedDate}</span>

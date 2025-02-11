@@ -2,6 +2,8 @@
 import type { SanityDocument } from "@sanity/client";
 import { fetchPostsPage } from '../../utils/sanity';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from "../../components/FormattedDate.astro";
+
 
 const posts = await fetchPostsPage();
 ---
@@ -16,7 +18,7 @@ const posts = await fetchPostsPage();
         <li>
           <a href={`/news/${post.slug.current}`}>
             <h2>{post.title}</h2>
-            <p>{new Date(post.publishedAt).toLocaleDateString()}</p>
+            <FormattedDate date={post.publishedAt} />
           </a>
         </li>
         ))}

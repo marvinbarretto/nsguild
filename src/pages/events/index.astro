@@ -3,6 +3,7 @@ import EventCard from '../../components/EventCard.astro';
 import { fetchEventsPage } from '../../utils/sanity';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
+
 // Fetch events sorted by date
 const events = await fetchEventsPage();
 ---
@@ -12,6 +13,7 @@ const events = await fetchEventsPage();
   <div class="events-list">
     {events.map((event: any) => (
       <EventCard event={event} />
+      
     ))}
   </div>
 
