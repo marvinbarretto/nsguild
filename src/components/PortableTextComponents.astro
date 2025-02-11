@@ -1,0 +1,30 @@
+---
+// PortableTextComponents.astro
+const { node, children } = Astro.props;
+
+if (node._type === 'block') {
+  const style = node.style || 'normal';
+
+  switch (style) {
+    case 'h1':
+      return <h1 class="custom-heading">{children}</h1>;
+    case 'h2':
+      return <h2 class="custom-heading">{children}</h2>;
+    case 'h3':
+      return <h3 class="custom-heading">{children}</h3>;
+    case 'blockquote':
+      return <blockquote class="custom-blockquote">{children}</blockquote>;
+    default:
+      return <p class="custom-paragraph">{children}</p>;
+  }
+}
+
+if (node._type === 'image') {
+  const imageUrl = node.asset.url;
+  const altText = node.alt || 'Image';
+  return <img src={imageUrl} alt={altText} class="custom-image" />;
+}
+
+// Handle other custom types or return null
+return null;
+---

@@ -1,9 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import PortableText from "../../components/PortableText.astro";
-import LightboxGallery from "../../components/LightboxGallery.astro";
 import type { Post } from "../../utils/types";
 import { fetchAllPosts, transformImagesToGalleryFormat } from "../../utils/sanity";
+import PortableText from "../../components/PortableText.astro";
 
 // Prerender static HTML at build time, good to do when poss
 export const prerender = true;
@@ -22,8 +21,6 @@ export async function getStaticPaths() {
 // Astro provides 'post' via props from getStaticPaths
 const { post }: { post: Post } = Astro.props;
 
-const galleryImages = post.images ? transformImagesToGalleryFormat(post.images) : [];
-
 const formattedDate = new Date(post.publishedAt).toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
@@ -38,62 +35,53 @@ console.log("Post Data:", JSON.stringify({
   attachedPublication: post.attachedPublication
 }, null, 2));
 
-// Debugging Output
-// console.log("Post Object:", post);
-// console.log("Gallery Images:", galleryImages);
-
 ---
 
 <BaseLayout>
-  <article class="test">
-    <div class="post-header">
+  <article>
+    <header>
       <h1>{post.title}</h1>
-      <p>Published on {formattedDate}</p>
-      {post.attachPublication && post.attachedPublication && (
-        <a 
-          href={post.attachedPublication.documentUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <span class="text-xl">📄</span>
-          <span>{post.attachedPublication.title}</span>
-        </a>
-      )}
-    </div>
-    <div class="post-body">
-      <PortableText value={post.body} />
-    </div>
-    {galleryImages.length > 0 ? (
-      <div class="post-images">
-        <LightboxGallery images={galleryImages} style="default" />
-      </div>
-    ) : null}
+      <p>
+        <span>Published on {formattedDate}</span>
+        <span>
+          {post.attachPublication && post.attachedPublication && (
+            <a 
+              href={post.attachedPublication.documentUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="text-xl">📄</span>
+              <span>{post.attachedPublication.title}</span>
+            </a>
+          )}
+        </span>
+      </p>
+    </header>
+    <section class="post-body">
+      <div class="portable-text">
+        <PortableText portableText={post.body} />
+        
+      </div>  
+    </section>
   </article> 
 </BaseLayout>
 
 <style lang="scss">
-  @import "../../styles/jagged-edge";
-
-  h1 {
-    font-size: 2rem;
-    font-weight: bold;
-  }
-  
-  .post-header {
-    // background-color: white;
-    margin: 1rem 0;
-  }
-
-  // $background-color: white;
-
-  .test {
-    // @include jagged-border($background-color);
-    // padding: 1rem;
-  }
-
-  .post-images {
-    background-color: #CCC;
-    margin-top: 1rem;
-    padding: 1rem;
+  header {
+    background-color: rgba(black, .2);
+    padding: .5rem;
   }
 </style>
+
+
+<!-- import LightboxGallery from "../../components/LightboxGallery.astro";
+ -->
+
+<!-- const galleryImages = post.images ? transformImagesToGalleryFormat(post.images) : [];
+ -->
+
+ <!-- {galleryImages.length > 0 ? (
+  <div class="post-images">
+    <LightboxGallery images={galleryImages} style="default" />
+  </div>
+) : null} -->

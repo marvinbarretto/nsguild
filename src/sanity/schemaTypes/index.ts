@@ -7,6 +7,12 @@ import { publicationType } from "./publication";
 import { homepageType } from "./homepage";
 import { contactType } from "./contact";
 import { globalsType } from "./globals";
+import { blockContentType } from "./blockContent";
+import { authorType } from "./author";
+import { categoryType } from "./category";
+
+import { defineConfig, defineArrayMember } from "sanity";
+
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -17,5 +23,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     publicationType,
     contactType,
     globalsType,
+    blockContentType,
+    authorType,
+    categoryType
   ],
 };

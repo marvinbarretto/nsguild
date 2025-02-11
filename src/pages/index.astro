@@ -1,66 +1,25 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { fetchHomepage } from "../utils/sanity";
-import type { RichTextBlock, ImageBlock } from "../utils/types";
-import { Image } from 'astro:assets';
 
+import PortableText from "../components/PortableText.astro";
 
 // Fetch homepage data at build time
 const vm = await fetchHomepage();
 
-console.log('homepage data:', JSON.stringify(vm, null, 2));
 ---
 
 <BaseLayout>
-  <div id="photo">
-    {vm?.homepageImage?.asset?.url ? (
-      
-      <Image 
-        src={vm.homepageImage.asset.url} 
-        alt="" 
-        inferSize={true}
-      />
-
-    ) : (
-      <div>No homepage image set</div>
-    )}
-  </div>
   <div class="container">
-
-    <div>
-      <h2>Welcome</h2>
-      <div>
-        {vm?.welcomeWidget?.map((block: RichTextBlock | ImageBlock) => {
-          if (block._type === 'block') {
-            return <p>{block.children.map((child: { text: string }) => child.text).join(' ')}</p>;
-          }
-          if (block._type === 'image') {
-            return <img src={block.asset.url} alt={block.alt || 'Welcome image'} />;
-          }
-        })}
+    <section class="welcome">
+      <div class="portable-text">
+        <PortableText portableText={vm?.welcomeWidget} />
       </div>
     </div>
-    <section>
-      <h2>Next event</h2>
-      <!-- Next event component -->
-      <p><a href="/events">View all upcoming events</a></p>
-    </section>
-    <section>
-      <h2>Latest news / News feed</h2>
-      <!-- Latest news component -->
-      <p>?</p>
-    </section>
-    <section>
-      <h2>Featured gallery</h2>
-      <!-- Latest news component -->
-      <p>?</p>
-    </section>
   </div>
 </BaseLayout>
 
 <style lang="scss">
-  @import "../styles/_jagged-edge.scss";
-
   .container {
     display: flex;
     flex-direction: column;
@@ -68,10 +27,10 @@ console.log('homepage data:', JSON.stringify(vm, null, 2));
   }
   $background-color: white;
   section {
-    @include jagged-border($background-color);
+    // @include jagged-border($background-color);
     background-color: $background-color;
     padding: 1rem;
     margin: 1rem;
   }
-
 </style>
+

@@ -11,7 +11,15 @@ export const homepageType = defineType({
       title: 'Welcome Widget',
       type: 'array',
       of: [
-        { type: 'block' },
+        {
+          type: 'block',
+          styles: [
+            { title: 'Normal', value: 'normal' },
+            { title: 'Heading', value: 'h3' },
+            { title: 'Subheading', value: 'h4' },
+            { title: 'Quote', value: 'blockquote' },
+          ],
+        },
         { type: 'image', options: { hotspot: true } },
       ],
       description: 'Rich text area for a welcome message to display on the homepage.',
