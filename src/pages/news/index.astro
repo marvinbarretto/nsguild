@@ -14,7 +14,7 @@ const posts = await fetchPostsPage();
   <ul >
       {posts.map((post) => (
         <li>
-          <a href={`/posts/${post.slug.current}`}>
+          <a href={`/news/${post.slug.current}`}>
             <h2>{post.title}</h2>
             <p>{new Date(post.publishedAt).toLocaleDateString()}</p>
           </a>
