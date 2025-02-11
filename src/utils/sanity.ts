@@ -28,30 +28,13 @@ export async function fetchGlobals(): Promise<Globals | null> {
 
 export async function fetchHomepage(): Promise<Homepage | null> {
   const query = `
-    *[_type == "homepage" && _id == "homepage"][0]{
-      _id,
-      homepageImage{
-        asset->{
-          url
-        }
-      },
-      welcomeWidget[]{
-        _type,
-        ...select(
-          _type == 'block' => { 
-            children[]{
-              text,
-              marks
-            }
-          },
-          _type == 'image' => { 
-            asset->{ url }, 
-            alt 
-          }
-        )
-      }
-    }
-  `;
+  *[_type == "homepage"][0]{
+    homepageImage {
+      asset->{ url }
+    },
+    welcomeWidget
+  }
+`;
   return await getSanityData(query);
 }
 
