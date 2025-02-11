@@ -23,12 +23,11 @@ export const blockContentType = defineType({
       // set corresponds with HTML tags, but you can set any title or value
       // you want, and decide how you want to deal with it where you want to
       // use your content.
+      
       styles: [
-        { title: "Normal", value: "normal" },
-        { title: "H1", value: "h1" },
-        { title: "H2", value: "h2" },
-        { title: "H3", value: "h3" },
-        { title: "H4", value: "h4" },
+        { title: 'Normal', value: 'normal' },
+        { title: 'Heading', value: 'h3' },
+        { title: 'Subheading', value: 'h4' },
         { title: "Quote", value: "blockquote" },
       ],
       lists: [{ title: "Bullet", value: "bullet" }],

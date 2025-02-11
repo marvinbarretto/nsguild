@@ -59,7 +59,7 @@ export async function fetchContactPage(): Promise<{
 
 export async function fetchEventsPage(): Promise<EventType[]> {
   const query = `
-    *[_type == "event"] | order(date asc) {
+    *[_type == "event"] | order(date desc) {
       _id,
       title,
       slug,

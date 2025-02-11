@@ -6,6 +6,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 // Fetch events sorted by date
 const events = await fetchEventsPage();
+
+console.log("Sorted Events:", events);
+
+
 ---
 <BaseLayout>
   <h1>Upcoming Events</h1>
