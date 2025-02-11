@@ -10,21 +10,20 @@ import { globalsType } from "./globals";
 import { blockContentType } from "./blockContent";
 import { authorType } from "./author";
 import { categoryType } from "./category";
-
-import { defineConfig, defineArrayMember } from "sanity";
-
+import { photoGalleryType } from "./photoGallery";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
-    postType,
-    linkType,
-    homepageType,
-    eventType,
-    publicationType,
-    contactType,
-    globalsType,
-    blockContentType,
-    authorType,
-    categoryType
+    homepageType,   // Home
+    postType,       // News
+    eventType,      // Events
+    photoGalleryType, 
+    publicationType,// Publications
+    contactType,    // Contact
+    globalsType,    // Global Settings (moved to bottom)
+    authorType,     // Other
+    categoryType,   // Other
+    linkType,       // Other
+    blockContentType // Other
   ],
 };
