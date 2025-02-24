@@ -34,10 +34,11 @@ export const eventType = defineType({
         },
         { type: 'image', options: { hotspot: true } },
       ],
+      initialValue: [],
     }),
     defineField({
       name: 'relatedPost',
-      title: 'Related Post',
+      title: 'Related News',
       type: 'reference',
       to: [{ type: 'post' }],
     }),
