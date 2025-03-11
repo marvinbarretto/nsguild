@@ -119,13 +119,10 @@ export async function fetchAllEvents(): Promise<EventType[]> {
   const query = `
     *[_type == "event"] | order(date asc) {
       title,
-      slug,
+      "slug": slug.current,
       date,
       description,
-      "relatedGallery": relatedGallery->{
-        title,
-        slug
-      }
+      "imageUrl": image.asset->url
     }
   `;
   return await getSanityData<EventType[]>(query);
@@ -137,18 +134,12 @@ export async function fetchEventBySlug(slug: string): Promise<EventType | null> 
       title,
       date,
       description,
-      "relatedGallery": relatedGallery->{
-        title,
-        slug
-      },
-      images[]{
-        "url": asset->url,
-        caption
-      }
+      "imageUrl": image.asset->url
     }
   `;
-  return await getSanityData<EventType>(query, { slug });
+  return await getSanityData<EventType | null>(query, { slug });
 }
+
 
 export async function fetchAllPublications(): Promise<Publication[]> {
   const query = `

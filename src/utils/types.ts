@@ -22,15 +22,13 @@ export interface Homepage {
 export interface EventType {
   title: string;
   date: string;
+  slug: { current: string };
   description: string;
   relatedGallery?: {
     title: string;
     slug: string;
   };
-  images?: {
-    url: string;
-    caption?: string;
-  }[];
+  imageUrl?: string;
 }
 
 export interface Post {

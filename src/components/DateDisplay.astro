@@ -1,0 +1,24 @@
+---
+export interface Props {
+  date: string; // Expecting an ISO string like "2025-03-20"
+}
+
+const { date } = Astro.props;
+
+// Format the date consistently
+const formattedDate = new Date(date).toLocaleDateString("en-GB", {
+  weekday: "short", // e.g., "Mon"
+  day: "2-digit", // e.g., "20"
+  month: "long", // e.g., "March"
+  year: "numeric", // e.g., "2025"
+});
+---
+
+<span class="date-display">{formattedDate}</span>
+
+<style>
+  .date-display {
+    font-weight: bold;
+    color: #333;
+  }
+</style>

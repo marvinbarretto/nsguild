@@ -1,56 +1,33 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import type { EventType } from '../../utils/types';
-import { fetchEventBySlug } from '../../utils/sanity';
+import type { EventType } from "../../utils/types";
+import { fetchEventBySlug } from "../../utils/sanity";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PortableText from "../../components/PortableText.astro";
 
 const { slug } = Astro.params;
 
-const event: EventType | null = await fetchEventBySlug(slug!);
-
-if (!event) {
-  throw new Error(`Event not found for slug: ${slug}`);
+if (!slug) {
+  throw new Error("Slug is missing from URL");
 }
 
+const event: EventType | null = await fetchEventBySlug(slug);
 ---
 
 <BaseLayout>
-  <article class="event">
-    <header>
+  {event ? (
+    <>
       <h1>{event.title}</h1>
-      <p class="event-date">
-        {new Date(event.date).toLocaleDateString('en-GB', {
-          weekday: 'long',
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric'
-        })}
-      </p>
-    </header>
-    
-    <div class="event-description">
-      {event.description || 'No description available.'}
-    </div>
+      <p><strong>Event Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
 
-    {event.images && event.images.length > 0 && (
-      <div class="event-images">
-        <h2>Related Images</h2>
-        <div class="image-grid">
-          {event.images.map((image) => (
-            <figure>
-              <img src={image?.url || '/path-to-placeholder.jpg'} alt={image?.caption || 'Event image'} />
-              {image.caption && <figcaption>{image.caption}</figcaption>}
-            </figure>
-          ))}
-        </div>
+      {event.imageUrl && (
+        <img src={event.imageUrl} alt={`Image for ${event.title}`} width="600" />
+      )}
+
+      <div class="event-description">
+        <PortableText portableText={event.description} />
       </div>
-    )}
-
-    {event.relatedGallery && (
-      <footer>
-        <a class="gallery-link" href={`/gallery/${event.relatedGallery.slug}`}>
-          View Related Gallery: {event.relatedGallery.title}
-        </a>
-      </footer>
-    )}
-  </article>
+    </>
+  ) : (
+    <p>Event not found.</p>
+  )}
 </BaseLayout>

@@ -1,26 +1,67 @@
 ---
-import EventCard from '../../components/EventCard.astro';
-import { fetchEventsPage } from '../../utils/sanity';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { EventType } from "../../utils/types";
+import { fetchAllEvents } from "../../utils/sanity";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import DateDisplay from "../../components/DateDisplay.astro";
+import EventCard from "../../components/EventCard.astro";
 
+const events: EventType[] = await fetchAllEvents();
+console.log("Fetched Events:", JSON.stringify(events, null, 2));
 
-// Fetch events sorted by date
-const events = await fetchEventsPage();
+const today = new Date().toISOString().split("T")[0]; // Get today's date
 
-console.log("Sorted Events:", events);
+// Separate upcoming & past events
+const upcomingEvents = events.filter(event => event.date >= today);
+const pastEvents = events.filter(event => event.date < today);
 
+// Sort events
+upcomingEvents.sort((a, b) => a.date.localeCompare(b.date));
+pastEvents.sort((a, b) => b.date.localeCompare(a.date)); 
 
 ---
 <BaseLayout>
   <h1>Upcoming Events</h1>
 
-  <div class="events-list">
-    {events.map((event: any) => (
-      <EventCard event={event} />
-      
-    ))}
-  </div>
+  <!-- Upcoming Events -->
+  <section>
+    <h2>Upcoming Events</h2>
+    
+    <ul>
+      {upcomingEvents.length > 0 ? (
+        upcomingEvents.map((event) => (
+          <li>
+            {/* TODO: Make EventCArd */}
+            <a href={`/events/${event.slug}`}>
+              <h2>{event.title}</h2>
+              <DateDisplay date={event.date} />
+            </a>
+            
+          </li>
+        ))
+      ) : (
+        <p>No upcoming events.</p>
+      )}
+    </ul>
+  </section>
 
+  <!-- Past Events -->
+  <section>
+    <h2>Past Events</h2>
+    <ul>
+      {pastEvents.length > 0 ? (
+        pastEvents.map((event) => (
+          <li>
+            <a href={`/events/${event.slug}`}>
+              <h2>{event.title}</h2>
+              <DateDisplay date={event.date} />
+            </a>
+          </li>
+        ))
+      ) : (
+        <p>No past events.</p>
+      )}
+    </ul>
+  </section>
 </BaseLayout>
 
 

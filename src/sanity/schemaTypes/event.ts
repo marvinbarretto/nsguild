@@ -28,13 +28,14 @@ export const eventType = defineType({
       name: 'description',
       title: 'Description',
       type: 'array',
-      of: [
-        {
-          type: 'blockContent',
-        },
-        { type: 'image', options: { hotspot: true } },
-      ],
-      initialValue: [],
+      of: [{ type: "block" }], 
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "image",
+      title: "Event Image",
+      type: "image",
+      options: { hotspot: true },
     }),
     defineField({
       name: 'relatedPost',
