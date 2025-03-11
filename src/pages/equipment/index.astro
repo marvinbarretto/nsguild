@@ -14,8 +14,11 @@ console.log("Fetched Equipment:", JSON.stringify(equipmentList, null, 2));  // â
 
   <div class="equipment-grid">
     {equipmentList.map((item) => (
-      <div class="equipment-card">
-        <!-- Graphic Label for Sale / Rent -->
+
+    <a href={`/equipment/${item.slug}`} class="equipment-card">
+
+<div>
+    <!-- Graphic Label for Sale / Rent -->
         <span class={`tag ${item.category === "For Sale" ? "for-sale" : "for-hire"}`}>
           {item.category}
         </span>
@@ -33,23 +36,24 @@ console.log("Fetched Equipment:", JSON.stringify(equipmentList, null, 2));  // â
         />
         ) : (
         <p class="no-image">No Image Available</p>
+        // TODO: Fix this - clean up
         )}
+</div>
+        
 
 
-        <a href={`/equipment/${item.slug}`}>
         <h2>{item.title}</h2>
-        </a>
-
-      </div>
+    </a>
     ))}
   </div>
 </BaseLayout>
 
 <style>
   .equipment-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    
+    gap: 1rem;
   }
 
   .equipment-card {
@@ -72,10 +76,10 @@ console.log("Fetched Equipment:", JSON.stringify(equipmentList, null, 2));  // â
   }
 
   .for-sale {
-    background: red;
+    background: darkmagenta;
   }
 
   .for-hire {
-    background: green;
+    background: darkgray;
   }
 </style>
