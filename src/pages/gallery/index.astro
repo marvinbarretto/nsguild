@@ -1,20 +1,51 @@
 ---
-import LightboxGallery from '../../components/LightboxGallery.astro';
+import { fetchLatestGallery, fetchGalleryList } from '../../utils/sanity';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { fetchGalleryPage } from '../../utils/sanity';
 
-// Fetch posts with images
-const galleries = await fetchGalleryPage();
+import type { Gallery, GalleryData } from '../../types/gallery';
 
-// Merge all images
-const allImages = galleries.flatMap((post) => post.images || []);
+const latestGallery: GalleryData | null = await fetchLatestGallery();
+const galleries: Gallery[] = await fetchGalleryList();
 
 ---
 
 <BaseLayout>
-  <h1>Photo Gallery</h1>
-  
-  <div class="gallery-content">
-    <LightboxGallery images={allImages} style="polaroid" />
-  </div>
+  <h1>Photo Galleries</h1>
+
+  <!-- Section 1: Most Recent Gallery -->
+  <section>
+    {latestGallery ? (
+      <>
+        <h2>Latest Gallery: {latestGallery.title}</h2>
+        {latestGallery.date && <p>{latestGallery.date}</p>}
+
+        <div>
+          {latestGallery.images && latestGallery.images.length > 0 ? (
+            latestGallery.images.map((img) => (
+              <img src={img.url} alt="Gallery Image" />
+            ))
+          ) : (
+            <p>No images available.</p>
+          )}
+        </div>
+      </>
+    ) : (
+      <p>No galleries found.</p>
+    )}
+  </section>
+
+  <!-- Section 2: Other Galleries Navigation -->
+  <section>
+    <h2>Other Galleries</h2>
+    <nav>
+      <ul>
+        {galleries.map((g) => (
+          <li>
+            <a href={`/gallery/${g.slug}`}>{g.title}</a>
+            {g.date && <span> ({g.date})</span>}
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </section>
 </BaseLayout>

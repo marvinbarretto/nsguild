@@ -12,6 +12,12 @@ export const photoGalleryType = defineType({
       description: 'Give this gallery a name',
     }),
     defineField({
+      name: "date",
+      title: "Date",
+      type: "string",
+      description: "Optional: Enter a custom date format (e.g., 'Easter 2024' or '5 May 2025')",
+    }),
+    defineField({
       name: 'images',
       title: 'Images',
       type: 'array',

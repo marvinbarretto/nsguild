@@ -1,31 +1,40 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { fetchGalleryBySlug } from '../../utils/sanity';
-import type { Gallery } from '../../utils/types';
+import { fetchGalleryList, fetchGalleryBySlug } from '../../utils/sanity';
 
 const { slug } = Astro.params;
 
+const galleries = await fetchGalleryList();
 const gallery = await fetchGalleryBySlug(slug!);
-
-if (!gallery) {
-  throw new Error('Gallery not found');
-}
 ---
 
 <BaseLayout>
-  <h1>{gallery.title}</h1>
-  <div class="gallery-grid">
-    {gallery.images.map((image, index) => (
-      <div class="gallery-item">
-        <a href={`/gallery/${gallery.slug}/${index}`}>
+  <h1>Photo Gallery</h1>
+  
+  <!-- Left side: Navigation -->
+  <nav>
+    <ul>
+      {galleries.map((g) => (
+        <li>
+          <a href={`/gallery/${g.slug}`}>{g.title}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
 
-          <img
-            src={image.thumbnailUrl}
-            alt={image.altText || ''}
-          />
-        </a>
-        {image.caption && <p>{image.caption}</p>}
-      </div>
-    ))}
-  </div>
+  <!-- Right side: Gallery images -->
+  <section>
+    {gallery ? (
+      <>
+        <h2>{gallery.title}</h2>
+        <div>
+          {gallery.images.map((img) => (
+            <img src={img.url} alt="Gallery Image" />
+          ))}
+        </div>
+      </>
+    ) : (
+      <p>No gallery found.</p>
+    )}
+  </section>
 </BaseLayout>

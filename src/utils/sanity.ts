@@ -1,6 +1,7 @@
 import { createClient } from "@sanity/client";
-import type { Homepage, EventType, GalleryImage, Post, Publication, Globals, Gallery } from "./types";
+import type { Homepage, EventType, Post, Publication, Globals } from "./types";
 import type { APIRoute } from "astro";
+import type { Gallery, GalleryData } from "../types/gallery";
 
 export const sanityClient = createClient({
     projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
@@ -161,46 +162,61 @@ export async function fetchAllPublications(): Promise<Publication[]> {
   return await getSanityData<Publication[]>(query);
 }
 
-export async function fetchGalleryBySlug(slug: string): Promise<Gallery | null> {
+// Fetch the most recent gallery (for the main display)
+export async function fetchLatestGallery(): Promise<GalleryData | null> {
   const query = `
-    *[_type == "gallery" && slug.current == $slug][0]{
+    *[_type == "photoGallery"] | order(_createdAt desc)[0] {
       title,
-      "slug": slug.current,
-      images[]{
-        "thumbnailUrl": asset->url + "?w=200&h=200&fit=crop",
-        "url": asset->url,
-        altText,
-        caption
+      "images": images[].asset->{
+        url
       }
     }
   `;
-  return await getSanityData(query, { slug });
+  return await getSanityData<GalleryData | null>(query);
+}
+
+// Fetch all galleries (for navigation)
+export async function fetchGalleryList(): Promise<Gallery[]> {
+  const query = `
+    *[_type == "photoGallery" && defined(slug.current)] | order(_createdAt desc) {
+      title,
+      "slug": slug.current,
+      date
+    }
+  `;
+  return await getSanityData<Gallery[]>(query);
+}
+
+// Fetch images for a single gallery
+export async function fetchGalleryBySlug(slug: string): Promise<GalleryData | null> {
+  if (!slug) return null; // Prevent undefined issues
+
+  const query = `
+    *[_type == "photoGallery" && slug.current == $slug][0] {
+      title,
+      "images": images[].asset->{
+        url
+      }
+    }
+  `;
+  return await getSanityData<GalleryData | null>(query, { slug });
 }
 
 export async function fetchGalleryPage(): Promise<{
   title: string;
-  slug: { current: string };
-  images: {
-    thumbnailUrl: string;
-    url: string;
-    altText?: string;
-    caption?: string;
-  }[];
+  images: { url: string }[];
 }[]> {
   const query = `
-    *[_type == "post" && defined(images)]{
+    *[_type == "photoGallery"] {
       title,
-      slug,
-      images[]{
-        "thumbnailUrl": asset->url + "?w=200&h=200&fit=crop",
-        "url": asset->url,
-        altText,
-        caption
+      "images": images[].asset->{
+        url
       }
     }
   `;
   return await getSanityData(query);
 }
+
 
 export async function fetchPostsPage(): Promise<Post[]> {
   const query = `
