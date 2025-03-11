@@ -17,7 +17,7 @@ const {
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 
-<div class={`gallery-grid gallery-${style}`} style={`--column-size: ${columnSize}px`}>
+<div class="gallery-grid">
   {images.map((image, index) => (
     <a
       href={image.url}
@@ -64,23 +64,9 @@ const {
 
   .gallery-item img {
     width: 100%;
-    height: 100%;
+    height: auto; /* ✅ Fix: Preserve aspect ratio */
     object-fit: cover;
     transition: transform 0.2s ease;
   }
-/* 
-  .gallery-item:hover img {
-    transform: scale(1.05);
-  } */
 
-  /* Polaroid style variant */
-  .gallery-polaroid .gallery-item {
-    padding: 8px 8px 20px 8px;
-    background: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .gallery-polaroid .gallery-item img {
-    border-radius: 0;
-  }
 </style>

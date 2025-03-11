@@ -163,44 +163,55 @@ export async function fetchAllPublications(): Promise<Publication[]> {
 }
 
 // Fetch the most recent gallery (for the main display)
+// Make sure we get smaller images
 export async function fetchLatestGallery(): Promise<GalleryData | null> {
   const query = `
     *[_type == "photoGallery"] | order(_createdAt desc)[0] {
       title,
-      "images": images[].asset->{
-        url
+      "images": images[]{
+        "url": asset->url,
+        "thumbnailUrl": asset->url + "?w=300&h=200&fit=crop&q=80&auto=format",
+        "lightboxUrl": asset->url + "?w=1200&q=80&auto=format",
+        altText,
+        caption
       }
     }
   `;
   return await getSanityData<GalleryData | null>(query);
 }
 
+
+
+
+
+
 // Fetch all galleries (for navigation)
 export async function fetchGalleryList(): Promise<Gallery[]> {
   const query = `
     *[_type == "photoGallery" && defined(slug.current)] | order(_createdAt desc) {
       title,
-      "slug": slug.current,
-      date
+      "slug": slug.current
     }
   `;
   return await getSanityData<Gallery[]>(query);
 }
 
+
 // Fetch images for a single gallery
 export async function fetchGalleryBySlug(slug: string): Promise<GalleryData | null> {
-  if (!slug) return null; // Prevent undefined issues
-
   const query = `
     *[_type == "photoGallery" && slug.current == $slug][0] {
       title,
-      "images": images[].asset->{
-        url
+      "images": images[]{
+        "url": asset->url,
+        "thumbnailUrl": asset->url + "?w=300&h=200&fit=crop&q=80&auto=format",
+        "lightboxUrl": asset->url + "?w=1200&q=70&auto=format"
       }
     }
   `;
   return await getSanityData<GalleryData | null>(query, { slug });
 }
+
 
 export async function fetchGalleryPage(): Promise<{
   title: string;

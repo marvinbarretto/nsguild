@@ -1,40 +1,53 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { fetchGalleryList, fetchGalleryBySlug } from '../../utils/sanity';
+import { fetchGalleryBySlug } from '../../utils/sanity';
+import Lightbox from '../../components/Lightbox.astro';
 
 const { slug } = Astro.params;
 
-const galleries = await fetchGalleryList();
-const gallery = await fetchGalleryBySlug(slug!);
+if (!slug) {
+  throw new Error("Slug is missing"); // ✅ Properly handle missing slugs
+}
+
+const gallery = await fetchGalleryBySlug(slug);
 ---
 
 <BaseLayout>
-  <h1>Photo Gallery</h1>
-  
-  <!-- Left side: Navigation -->
-  <nav>
-    <ul>
-      {galleries.map((g) => (
-        <li>
-          <a href={`/gallery/${g.slug}`}>{g.title}</a>
-        </li>
-      ))}
-    </ul>
-  </nav>
+  {gallery ? (
+    <>
+      <h1>{gallery.title}</h1>
 
-  <!-- Right side: Gallery images -->
-  <section>
-    {gallery ? (
-      <>
-        <h2>{gallery.title}</h2>
-        <div>
-          {gallery.images.map((img) => (
-            <img src={img.url} alt="Gallery Image" />
-          ))}
-        </div>
-      </>
-    ) : (
-      <p>No gallery found.</p>
-    )}
-  </section>
+      <p><a href="/gallery">← Back to All Galleries</a></p>
+
+      <div class="gallery-grid">
+        {gallery.images.map((img) => (
+          <Lightbox 
+            lightboxImage={img.lightboxUrl}  
+            thumbnail={img.thumbnailUrl} 
+          />
+        ))}
+      </div>
+    </>
+  ) : (
+    <p>Gallery not found.</p>  
+  )}
 </BaseLayout>
+
+<style>
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+
+  a {
+    display: inline-block;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: blue;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+</style>

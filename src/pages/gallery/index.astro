@@ -1,9 +1,14 @@
 ---
+import type { Gallery, GalleryData } from '../../types/gallery';
+import Lightbox from '../../components/Lightbox.astro';
+
+// import LightboxGallery from '../../components/LightboxGallery.astro';
+
 import { fetchLatestGallery, fetchGalleryList } from '../../utils/sanity';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Image from 'astro/components/Image.astro';
 
-import type { Gallery, GalleryData } from '../../types/gallery';
-
+// Fetch latest gallery and all gallery links
 const latestGallery: GalleryData | null = await fetchLatestGallery();
 const galleries: Gallery[] = await fetchGalleryList();
 
@@ -11,41 +16,57 @@ const galleries: Gallery[] = await fetchGalleryList();
 
 <BaseLayout>
   <h1>Photo Galleries</h1>
-
-  <!-- Section 1: Most Recent Gallery -->
+  <!-- Section 1: Most Recent Gallery with Lightbox -->
   <section>
     {latestGallery ? (
       <>
         <h2>Latest Gallery: {latestGallery.title}</h2>
-        {latestGallery.date && <p>{latestGallery.date}</p>}
-
-        <div>
-          {latestGallery.images && latestGallery.images.length > 0 ? (
-            latestGallery.images.map((img) => (
-              <img src={img.url} alt="Gallery Image" />
-            ))
-          ) : (
-            <p>No images available.</p>
-          )}
+        <div class="gallery-grid">
+          {latestGallery.images.map((img) => (
+            <Lightbox 
+              lightboxImage={img.lightboxUrl}
+              thumbnail={img.thumbnailUrl} 
+              altText={img.altText} 
+              caption={img.caption} 
+            />
+          ))}
         </div>
       </>
     ) : (
       <p>No galleries found.</p>
     )}
   </section>
+  
+ 
 
-  <!-- Section 2: Other Galleries Navigation -->
+  <!-- Section 2: List of Other Galleries -->
   <section>
     <h2>Other Galleries</h2>
-    <nav>
-      <ul>
-        {galleries.map((g) => (
-          <li>
-            <a href={`/gallery/${g.slug}`}>{g.title}</a>
-            {g.date && <span> ({g.date})</span>}
-          </li>
-        ))}
-      </ul>
-    </nav>
+    {galleries.length > 0 ? (
+      <nav>
+        <ul>
+          {galleries.map((gallery) => (
+            <li>
+              <a href={`/gallery/${gallery.slug}`}>{gallery.title}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    ) : (
+      <p>No other galleries available.</p>
+    )}
   </section>
+
 </BaseLayout>
+
+<style>
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+
+    img {
+      border: solid 5px white;
+    }
+  }
+</style>
