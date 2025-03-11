@@ -31,6 +31,11 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .title('Publications')
         .child(S.documentTypeList('publication').title('Publications')),
 
+      // Equipment
+      S.listItem()
+        .title('Equipment')
+        .child(S.documentTypeList('equipment').title('Equipment')),
+
       // Contact Page (Singleton)
       S.listItem()
         .title('Contact')
@@ -48,7 +53,7 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
       // Other document types not explicitly listed above
       ...S.documentTypeListItems().filter(
         (listItem) =>
-          !['homepage', 'contact', 'globals', 'post', 'event', 'photoGallery', 'publication'].includes(
+          !['homepage', 'contact', 'globals', 'post', 'event', 'photoGallery', 'equipment', 'publication'].includes(
             listItem.getId() as string
           )
       ),

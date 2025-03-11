@@ -1,0 +1,86 @@
+---
+import type { EquipmentType } from "../../utils/types";
+import { fetchEquipmentBySlug } from "../../utils/sanity";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Image from "astro/components/Image.astro";
+import PortableText from "../../components/PortableText.astro";
+
+const { slug } = Astro.params;
+
+// Ensure `slug` is a string before using it
+if (!slug) {
+  throw new Error("Slug is missing!");  // ✅ Handle missing slugs explicitly
+}
+
+const equipment: EquipmentType | null = await fetchEquipmentBySlug(slug);
+
+---
+
+<BaseLayout>
+  {equipment ? (
+    <article>
+      <h1>{equipment.title}</h1>
+
+      <!-- Category Label -->
+      <span class={`tag ${equipment.category === "For Sale" ? "for-sale" : "for-hire"}`}>
+        {equipment.category}
+      </span>
+
+      <!-- Images -->
+      <div class="image-gallery">
+        {equipment.images && equipment.images.map((img) => (
+          <Image 
+            src={img.url} 
+            alt={equipment.title} 
+            width={600} 
+            height={400} 
+            format="webp"
+            quality={80}
+            loading="lazy"
+          />
+        ))}
+      </div>
+
+      <!-- Description -->
+      <div class="description">
+        <PortableText portableText={equipment.description} />
+      </div>
+
+      <!-- Download Link -->
+      {equipment.documentUrl && (
+        <p><a href={equipment.documentUrl} download>📄 Download File</a></p>
+      )}
+    </article>
+  ) : (
+    <p>Equipment not found.</p>
+  )}
+</BaseLayout>
+
+<style>
+  .image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 1rem;
+    color: #fff;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+
+  .for-sale {
+    background: red;
+  }
+
+  .for-hire {
+    background: green;
+  }
+
+  .description {
+    margin-top: 20px;
+  }
+</style>

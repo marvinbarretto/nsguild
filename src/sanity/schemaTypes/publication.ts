@@ -21,10 +21,9 @@ export const publicationType = defineType({
             title: 'document',
             type: 'file',
             options: {
-                accept: '.pdf',
+                accept: '.pdf, .doc, .docx',
             },
             validation: (rule) => rule.required(),
         })
     ],
 });
-  

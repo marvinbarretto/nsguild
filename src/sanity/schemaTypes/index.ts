@@ -11,19 +11,21 @@ import { blockContentType } from "./blockContent";
 import { authorType } from "./author";
 import { categoryType } from "./category";
 import { photoGalleryType } from "./photoGallery";
+import { equipmentType } from "./equipment";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
-    homepageType,   // Home
-    postType,       // News
-    eventType,      // Events
-    photoGalleryType, 
-    publicationType,// Publications
-    contactType,    // Contact
-    globalsType,    // Global Settings (moved to bottom)
-    authorType,     // Other
-    categoryType,   // Other
-    linkType,       // Other
-    blockContentType // Other
+    homepageType,
+    postType,
+    eventType,
+    photoGalleryType,
+    equipmentType,
+    publicationType,
+    contactType,
+    globalsType,    
+    authorType,     
+    categoryType,   
+    linkType,      
+    blockContentType,
   ],
 };

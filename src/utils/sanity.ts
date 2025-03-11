@@ -1,7 +1,7 @@
 import { createClient } from "@sanity/client";
 import type { Homepage, EventType, Post, Publication, Globals } from "./types";
 import type { APIRoute } from "astro";
-import type { Gallery, GalleryData } from "../types/gallery";
+import type { Gallery, GalleryData, EquipmentType } from "../utils/types";
 
 export const sanityClient = createClient({
     projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
@@ -233,15 +233,37 @@ export async function fetchPostsPage(): Promise<Post[]> {
   return await getSanityData(query);
 }
 
-// Transform gallery images (if needed for a gallery component)
-export function transformImagesToGalleryFormat(images: Post["images"] = []): GalleryImage[] {
-  return images.map((image) => ({
-    url: image.asset.url,
-    thumbnailUrl: image.asset.url,
-    altText: image.alt || "Image",
-    caption: image.caption || "",
-  }));
+export async function fetchAllEquipment(): Promise<EquipmentType[]> {
+  const query = `
+    *[_type == "equipment"] | order(_createdAt desc) {
+      title,
+      "slug": slug.current,
+      category,
+      description,
+      "images": coalesce(images[].asset->{url}, []),  // ✅ Always return an array
+
+      "documentUrl": document.asset->url
+    }
+  `;
+  return await getSanityData<EquipmentType[]>(query);
+        // "images": images[].asset->{url},
+
 }
+
+
+export async function fetchEquipmentBySlug(slug: string): Promise<EquipmentType | null> {
+  const query = `
+    *[_type == "equipment" && slug.current == $slug][0] {
+      title,
+      category,
+      description,
+      "images": images[].asset->{url},
+      "documentUrl": document.asset->url
+    }
+  `;
+  return await getSanityData<EquipmentType | null>(query, { slug });
+}
+
 
 // API Route
 export const GET: APIRoute = async () => {

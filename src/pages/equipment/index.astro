@@ -1,0 +1,81 @@
+---
+import type { EquipmentType } from "../../utils/types";
+import { fetchAllEquipment } from "../../utils/sanity";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Image from "astro/components/Image.astro";
+
+const equipmentList: EquipmentType[] = await fetchAllEquipment();
+console.log("Fetched Equipment:", JSON.stringify(equipmentList, null, 2));  // ✅ Debug Output
+
+---
+
+<BaseLayout>
+  <h1>Equipment</h1>
+
+  <div class="equipment-grid">
+    {equipmentList.map((item) => (
+      <div class="equipment-card">
+        <!-- Graphic Label for Sale / Rent -->
+        <span class={`tag ${item.category === "For Sale" ? "for-sale" : "for-hire"}`}>
+          {item.category}
+        </span>
+
+        <!-- Equipment Image (Select first available one) -->
+        {item.images && item.images.length > 0 ? (
+        <Image 
+            src={item.images[0].url} 
+            alt={item.title} 
+            width={200} 
+            height={150} 
+            format="webp"
+            quality={80}
+            loading="lazy"
+        />
+        ) : (
+        <p class="no-image">No Image Available</p>
+        )}
+
+
+        <a href={`/equipment/${item.slug}`}>
+        <h2>{item.title}</h2>
+        </a>
+
+      </div>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .equipment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .equipment-card {
+    position: relative;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    background: #fff;
+    text-align: center;
+  }
+
+  .tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    color: #fff;
+    border-radius: 4px;
+  }
+
+  .for-sale {
+    background: red;
+  }
+
+  .for-hire {
+    background: green;
+  }
+</style>
