@@ -3,7 +3,6 @@ import type { EventType } from "../../utils/types";
 import { fetchAllEvents } from "../../sanity/queries/event";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import DateDisplay from "../../components/shared/DateDisplay.astro";
-import EventCard from "../../components/EventCard.astro";
 import { isToday } from "../../utils/dates";
 const events: EventType[] = await fetchAllEvents();
 // console.log("Fetched Events:", JSON.stringify(events, null, 2));
@@ -63,7 +62,8 @@ pastEvents.sort((a, b) => b.date.localeCompare(a.date));
             title={event.title}
             date={event.date}
             slug={event.slug}
-            description={event.description || ""}
+            description={Array.isArray(event.description) ? portableTextToPlainText(event.description) : event.description} 
+
             basePath="/events"
           />
         ))
