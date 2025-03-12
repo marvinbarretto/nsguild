@@ -10,7 +10,8 @@ const publications = await fetchAllPublications();
     <h1>Publications</h1>
     <ul>
       {publications.map((publication: Publication) => (
-        <li>
+        
+        <li class="list-item">
           <h2>{publication.title}</h2>
           <p>{publication.description}</p>
           <a href={publication.documentUrl} target="_blank" rel="noopener noreferrer">
@@ -22,15 +23,24 @@ const publications = await fetchAllPublications();
 </BaseLayout>
 
 <style>
-    ul {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    li {
-        border: 1px solid #ddd;
-        padding: 16px;
-        background-color: rgba(255,255,255,.5);
-    }  
+
+  /* TOOD: avoid repitition */
+  .list-item {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+  }
+
+  .list-item a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .snippet {
+    font-size: 0.9rem;
+    color: #444;
+    margin-top: 5px;
+  }
 </style>
