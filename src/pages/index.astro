@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { fetchHomepage } from "../utils/sanity";
+import { fetchHomepage } from "../sanity/queries/homepage";
 
 import PortableText from "../components/PortableText.astro";
 import Banner from '../components/Banner.astro';
@@ -35,4 +35,3 @@ const vm = await fetchHomepage();
     margin: 1rem;
   }
 </style>
-

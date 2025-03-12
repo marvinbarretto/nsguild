@@ -1,5 +1,5 @@
 ---
-import { fetchHomepage } from "../utils/sanity";
+import { fetchHomepage } from "../sanity/queries/homepage";
 import type { Homepage } from "../utils/types";
 
 const homepage: Homepage | null = await fetchHomepage();

@@ -1,7 +1,9 @@
 import { createClient } from "@sanity/client";
-import type { Homepage, EventType, Post, Publication, Globals } from "./types";
+import type { EventType, Post, Publication, Globals } from "./types";
 import type { APIRoute } from "astro";
 import type { Gallery, GalleryData, EquipmentType } from "../utils/types";
+import { fetchHomepage } from "../sanity/queries/homepage";
+
 
 export const sanityClient = createClient({
     projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
@@ -27,22 +29,18 @@ export async function fetchGlobals(): Promise<Globals | null> {
   return globals;
 }
 
-export async function fetchHomepage(): Promise<Homepage | null> {
-  const query = `
-    *[_type == "homepage"][0] {
-      homepageImage {
-        asset->{ url }
-      },
-      welcomeWidget,
-      banner {
-        isActive,
-        message,
-        link
-      }
-    }
-  `;
-  return await getSanityData<Homepage | null>(query);
+
+export function formatGalleryImages(images: any[]) {
+  return images.map((img) => ({
+    url: img.asset?.url,
+    thumbnailUrl: img.asset?.url + "?w=300&h=200&fit=crop&q=80&auto=format",
+    lightboxUrl: img.asset?.url + "?w=1200&q=80&auto=format",
+    altText: img.altText,
+    caption: img.caption,
+  }));
 }
+
+
 
 export async function fetchContactPage(): Promise<{
   _id: string;
@@ -63,22 +61,6 @@ export async function fetchContactPage(): Promise<{
   return await getSanityData(query);
 }
 
-export async function fetchEventsPage(): Promise<EventType[]> {
-  const query = `
-    *[_type == "event"] | order(date desc) {
-      _id,
-      title,
-      slug,
-      date,
-      description,
-      "relatedGallery": relatedGallery->{
-        title,
-        slug
-      }
-    }
-  `;
-  return await getSanityData(query);
-}
 
 export async function fetchAllPosts(): Promise<Post[]> {
   const query = `
@@ -120,31 +102,6 @@ export async function fetchFeaturedPosts(): Promise<Post[]> {
   return await getSanityData<Post[]>(query);
 }
 
-export async function fetchAllEvents(): Promise<EventType[]> {
-  const query = `
-    *[_type == "event"] | order(date asc) {
-      title,
-      "slug": slug.current,
-      date,
-      description,
-      "imageUrl": image.asset->url
-    }
-  `;
-  return await getSanityData<EventType[]>(query);
-}
-
-export async function fetchEventBySlug(slug: string): Promise<EventType | null> {
-  const query = `
-    *[_type == "event" && slug.current == $slug][0] {
-      title,
-      date,
-      description,
-      "imageUrl": image.asset->url
-    }
-  `;
-  return await getSanityData<EventType | null>(query, { slug });
-}
-
 
 export async function fetchAllPublications(): Promise<Publication[]> {
   const query = `
@@ -175,11 +132,6 @@ export async function fetchLatestGallery(): Promise<GalleryData | null> {
   `;
   return await getSanityData<GalleryData | null>(query);
 }
-
-
-
-
-
 
 // Fetch all galleries (for navigation)
 export async function fetchGalleryList(): Promise<Gallery[]> {
@@ -238,47 +190,9 @@ export async function fetchPostsPage(): Promise<Post[]> {
   return await getSanityData(query);
 }
 
-export async function fetchAllEquipment(): Promise<EquipmentType[]> {
-  const query = `
-    *[_type == "equipment"] | order(_createdAt desc) {
-      title,
-      "slug": slug.current,
-      category,
-      description,
-      "images": coalesce(images[].asset->{url}, []),  // ✅ Always return an array
-
-      "documentUrl": document.asset->url
-    }
-  `;
-  return await getSanityData<EquipmentType[]>(query);
-        // "images": images[].asset->{url},
-
-}
 
 
-export async function fetchEquipmentBySlug(slug: string): Promise<EquipmentType | null> {
-  const query = `
-    *[_type == "equipment" && slug.current == $slug][0] {
-      title,
-      category,
-      description,
-      "images": images[].asset->{url},
-      "documentUrl": document.asset->url
-    }
-  `;
-  return await getSanityData<EquipmentType | null>(query, { slug });
-}
 
-export async function fetchBanner(): Promise<{ message: string; isActive: boolean; link?: string } | null> {
-  const query = `
-    *[_type == "banner"][0] {
-      message,
-      isActive,
-      link
-    }
-  `;
-  return await getSanityData(query);
-}
 
 
 // API Route

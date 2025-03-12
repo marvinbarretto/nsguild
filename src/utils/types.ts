@@ -14,14 +14,16 @@ export interface Globals {
   footerText: string;
 }
 
+export type Banner = {
+  message: string;
+  isActive: boolean;
+  link?: string;
+}
+
 export type Homepage = {
   homepageImage?: { asset: { url: string } };
   welcomeWidget?: (RichTextBlock | ImageBlock)[];
-  banner?: {
-    isActive: boolean;
-    message: string;
-    link?: string;
-  };
+  banner?: Banner;
 };
 
 export interface EventType {
