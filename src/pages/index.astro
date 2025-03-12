@@ -4,6 +4,8 @@ import { fetchHomepage } from "../sanity/queries/homepage";
 
 import PortableText from "../components/PortableText.astro";
 import Banner from '../components/Banner.astro';
+import LatestNews from "../components/LatestNews.astro";
+
 
 // Fetch homepage data at build time
 const vm = await fetchHomepage();
@@ -12,6 +14,8 @@ const vm = await fetchHomepage();
 
 <BaseLayout>
   <Banner />
+
+
   <div class="container">
     <section class="welcome">
       <div class="portable-text">
@@ -19,6 +23,9 @@ const vm = await fetchHomepage();
       </div>
     </div>
   </div>
+
+  <LatestNews />
+  
 </BaseLayout>
 
 <style lang="scss">
