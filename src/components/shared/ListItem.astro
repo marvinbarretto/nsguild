@@ -1,0 +1,42 @@
+---
+import DateDisplay from '../shared/DateDisplay.astro';
+
+export interface Props {
+  title: string;
+  date: string;
+  slug: string;
+  description?: string; // Optional
+  basePath: string; // e.g. "/news", "/events", "/publications"
+}
+
+const { title, date, slug, description, basePath }: Props = Astro.props;
+---
+
+<li class="list-item">
+  <a href={`${basePath}/${slug}`}>
+    <h3>{title}</h3>
+    <DateDisplay date={date} />
+    {description && <p class="snippet">{description}</p>}
+  </a>
+</li>
+
+<style>
+  .list-item {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+  }
+
+  .list-item a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .snippet {
+    font-size: 0.9rem;
+    color: #444;
+    margin-top: 5px;
+  }
+</style>

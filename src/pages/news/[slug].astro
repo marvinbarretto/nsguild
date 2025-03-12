@@ -1,74 +1,40 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import type { Post } from "../../utils/types";
-import { fetchAllPosts } from "../../utils/sanity";
-import PortableText from "../../components/PortableText.astro";
+import { fetchAllPosts, fetchPostBySlug } from "../../sanity/queries/news";
 
-// Prerender static HTML at build time, good to do when poss
-export const prerender = true;
+import PortableText from "../../components/shared/PortableText.astro";
 
-// Fetch all slugs and corresponding post data
+// ✅ Step 1: Define `getStaticPaths()`
 export async function getStaticPaths() {
-  const posts = await fetchAllPosts();
+  const posts = await fetchAllPosts();  // Fetch all news posts
+  console.log("Generating static paths for news:", posts.map(p => p.slug)); // Debugging
 
-  // Return an array of slugs and post props
-  return posts.map((post: any) => ({
-    params: {slug: post.slug.current},
-    props: {post},
-  }))
+  return posts.map((post) => ({
+    params: { slug: post.slug }, // ✅ Ensures `slug` is a string
+    props: { post },  // ✅ Pre-fetch the post data
+  }));
 }
 
-// Astro provides 'post' via props from getStaticPaths
-const { post }: { post: Post } = Astro.props;
+const { slug } = Astro.params;  // ✅ Get the slug from the route
 
-const formattedDate = new Date(post.publishedAt).toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric'
-});
+if (!slug) {
+  throw new Error("Missing parameter: slug");  // ✅ Debugging check
+}
 
-// Debug output
-console.log("Post Data:", JSON.stringify({
-  title: post.title,
-  publishedAt: post.publishedAt,
-  attachPublication: post.attachPublication,
-  attachedPublication: post.attachedPublication
-}, null, 2));
+const post = await fetchPostBySlug(slug);
 
+if (!post) {
+  throw new Error(`No post found for slug: ${slug}`);  // ✅ Debugging check
+}
 ---
 
 <BaseLayout>
   <article>
-    <header>
-      <h1>{post.title}</h1>
-      <p>
-        <span>Published on {formattedDate}</span>
-        <span>
-          {post.attachPublication && post.attachedPublication && (
-            <a 
-              href={post.attachedPublication.documentUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span class="text-xl">📄</span>
-              <span>{post.attachedPublication.title}</span>
-            </a>
-          )}
-        </span>
-      </p>
-    </header>
-    <section class="post-body">
-      <div class="portable-text">
-        <PortableText portableText={post.body} />
-        
-      </div>  
-    </section>
-  </article> 
+    <h1>{post.title}</h1>
+    <p><strong>Published:</strong> {post.publishedAt}</p>
+    <div class="post-content">
+      <PortableText portableText={post.body} />
+    </div>
+  </article>
 </BaseLayout>
 
-<style lang="scss">
-  header {
-    background-color: rgba(black, .2);
-    padding: .5rem;
-  }
-</style>

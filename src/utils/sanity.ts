@@ -66,7 +66,7 @@ export async function fetchAllPosts(): Promise<Post[]> {
   const query = `
     *[_type == "post"] | order(publishedAt desc) {
       title,
-      slug,
+      "slug": slug.current,
       publishedAt,
       body,
       attachPublication,
@@ -89,7 +89,7 @@ export async function fetchFeaturedPosts(): Promise<Post[]> {
   const query = `
     *[_type == "post" && featured == true] | order(publishedAt desc) {
       title,
-      slug,
+      "slug": slug.current,
       image {
         asset -> { url }
       },
@@ -183,7 +183,7 @@ export async function fetchPostsPage(): Promise<Post[]> {
     | order(publishedAt desc)[0...12]{
       _id, 
       title, 
-      slug, 
+      "slug": slug.current, 
       publishedAt
     }
   `;

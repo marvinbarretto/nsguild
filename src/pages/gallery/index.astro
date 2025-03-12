@@ -4,7 +4,7 @@ import Lightbox from '../../components/Lightbox.astro';
 
 import { fetchLatestGallery, fetchGalleryList } from '../../utils/sanity';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Image from 'astro/components/Image.astro';
+
 
 // Fetch latest gallery and all gallery links
 const latestGallery: GalleryData | null = await fetchLatestGallery();

@@ -29,8 +29,8 @@ export type Homepage = {
 export interface EventType {
   title: string;
   date: string;
-  slug: { current: string };
-  description: string;
+  slug: string;
+  description: string | any[];
   relatedGallery?: {
     title: string;
     slug: string;
@@ -41,7 +41,7 @@ export interface EventType {
 export interface Post {
   title: string;
   publishedAt: string;
-  slug: { current: string };
+  slug: string;
   attachPublication?: boolean;
   attachedPublication?: Publication;
   images?: {
@@ -52,6 +52,7 @@ export interface Post {
     caption?: string;
   }[];
   body: any;
+  snippet?: string;
 }
 export interface Publication {
   _id: string;
@@ -68,7 +69,7 @@ export interface MetaProps {
 
 export interface EquipmentType {
   title: string;
-  slug: { current: string };
+  slug: string;
   category: "For Sale" | "For Hire";  // ✅ Restrict to valid categories
   description: any;  // ✅ PortableText data type
   images: { url: string }[];  // ✅ Array of image URLs

@@ -1,5 +1,5 @@
 import {defineField, defineType} from 'sanity';
-import {linkType} from './link';
+
 
 export const homepageType = defineType({
   name: 'homepage',

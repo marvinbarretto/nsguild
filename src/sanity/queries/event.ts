@@ -7,7 +7,7 @@ export async function fetchEventsPage(): Promise<EventType[]> {
       *[_type == "event"] | order(date desc) {
         _id,
         title,
-        slug,
+        "slug": slug.current,
         date,
         description,
         "relatedGallery": relatedGallery->{
@@ -43,3 +43,22 @@ export async function fetchEventBySlug(slug: string): Promise<EventType | null> 
   `;
   return await getSanityData<EventType | null>(query, { slug });
 }
+
+export async function fetchNextEvent(): Promise<EventType | null> {
+  // Get today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split("T")[0];
+
+  const query = `
+    *[_type == "event" && date >= $today] | order(date asc)[0] {
+      title,
+      "slug": slug.current,
+      date
+    }
+  `;
+
+  return await getSanityData<EventType | null>(query, { today });
+}
+
+
+
+// TODO: Handle todays event

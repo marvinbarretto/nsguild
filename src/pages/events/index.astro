@@ -1,14 +1,21 @@
 ---
 import type { EventType } from "../../utils/types";
-import { fetchAllEvents } from "../../utils/sanity";
+import { fetchAllEvents } from "../../sanity/queries/event";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import DateDisplay from "../../components/DateDisplay.astro";
+import DateDisplay from "../../components/shared/DateDisplay.astro";
 import EventCard from "../../components/EventCard.astro";
-
+import { isToday } from "../../utils/dates";
 const events: EventType[] = await fetchAllEvents();
-console.log("Fetched Events:", JSON.stringify(events, null, 2));
+// console.log("Fetched Events:", JSON.stringify(events, null, 2));
+
+import { portableTextToPlainText } from "../../utils/portableText";
+
+
+import ListItem from "../../components/shared/ListItem.astro";
+
 
 const today = new Date().toISOString().split("T")[0]; // Get today's date
+console.log("Fetched Events:", events.map(e => ({ title: e.title, date: e.date })));
 
 // Separate upcoming & past events
 const upcomingEvents = events.filter(event => event.date >= today);
@@ -29,14 +36,16 @@ pastEvents.sort((a, b) => b.date.localeCompare(a.date));
     <ul>
       {upcomingEvents.length > 0 ? (
         upcomingEvents.map((event) => (
-          <li>
-            {/* TODO: Make EventCArd */}
-            <a href={`/events/${event.slug}`}>
-              <h2>{event.title}</h2>
-              <DateDisplay date={event.date} />
-            </a>
-            
-          </li>
+
+          <ListItem
+            title={event.title}
+            date={event.date}
+            slug={event.slug}
+            description={Array.isArray(event.description) ? portableTextToPlainText(event.description) : event.description} 
+
+            basePath="/events"
+          />
+
         ))
       ) : (
         <p>No upcoming events.</p>
@@ -50,12 +59,13 @@ pastEvents.sort((a, b) => b.date.localeCompare(a.date));
     <ul>
       {pastEvents.length > 0 ? (
         pastEvents.map((event) => (
-          <li>
-            <a href={`/events/${event.slug}`}>
-              <h2>{event.title}</h2>
-              <DateDisplay date={event.date} />
-            </a>
-          </li>
+          <ListItem
+            title={event.title}
+            date={event.date}
+            slug={event.slug}
+            description={event.description || ""}
+            basePath="/events"
+          />
         ))
       ) : (
         <p>No past events.</p>

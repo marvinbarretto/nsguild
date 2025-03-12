@@ -1,8 +1,8 @@
 ---
 import type { EventType } from "../../utils/types";
-import { fetchEventBySlug } from "../../utils/sanity";
+import { fetchEventBySlug } from "../../sanity/queries/event";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import PortableText from "../../components/PortableText.astro";
+import PortableText from "../../components/shared/PortableText.astro";
 
 const { slug } = Astro.params;
 

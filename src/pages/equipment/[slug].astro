@@ -1,9 +1,9 @@
 ---
 import type { EquipmentType } from "../../utils/types";
-import { fetchEquipmentBySlug } from "../../utils/sanity";
+import { fetchEquipmentBySlug } from "../../sanity/queries/equipment";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Image from "astro/components/Image.astro";
-import PortableText from "../../components/PortableText.astro";
+import PortableText from "../../components/shared/PortableText.astro";
 
 const { slug } = Astro.params;
 

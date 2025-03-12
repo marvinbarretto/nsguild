@@ -1,5 +1,4 @@
 import {defineField, defineType} from 'sanity';
-import { blockContentType } from './blockContent';
 
 
 export const homepageType = defineType({

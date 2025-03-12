@@ -1,8 +1,8 @@
 ---
-import type { SanityDocument } from "@sanity/client";
 import { fetchPostsPage } from '../../utils/sanity';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import FormattedDate from "../../components/FormattedDate.astro";
+import FormattedDate from "../../components/shared/FormattedDate.astro";
+import ListItem from "../../components/shared/ListItem.astro";
 
 
 const posts = await fetchPostsPage();
@@ -13,16 +13,34 @@ console.log("Fetched Posts:", posts);
 <BaseLayout>
   <h1>News</h1>
 
+  <ul>
+    {posts.map((post) => {
+      console.log("DEBUG: post.slug =", post.slug);  // ✅ Log slug output
+      return (
+        <ListItem 
+          title={post.title} 
+          date={post.publishedAt} 
+          slug={post.slug}
+          description={post.snippet || ""}
+          basePath="/news"
+        />
+      );
+    })}
+  </ul>
+<!-- 
   <ul >
       {posts.map((post) => (
-        <li>
-          <a href={`/news/${post.slug.current}`}>
-            <h2>{post.title}</h2>
-            <FormattedDate date={post.publishedAt} />
-          </a>
-        </li>
-        ))}
-    </ul>
+
+        <ListItem 
+          title={post.title} 
+          date={post.publishedAt} 
+          slug={post.slug}
+          description={post.snippet || ""}
+          basePath="/news"
+        />
+
+      ))}
+    </ul> -->
 </BaseLayout>
 
 <style>
@@ -30,17 +48,5 @@ console.log("Fetched Posts:", posts);
     display: flex;
     flex-direction: column;
     gap: 1rem;
-  }
-
-  ul {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  li {
-    border: 1px solid #ddd;
-    padding: 16px;
-    background-color: rgba(255,255,255,.5);
   }
 </style>
