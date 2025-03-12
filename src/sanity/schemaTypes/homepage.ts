@@ -7,7 +7,25 @@ export const homepageType = defineType({
   title: 'Homepage',
   type: 'document',
   fields: [
-
+    defineField({
+      name: "banner",
+      title: "Homepage Banner",
+      type: "object",
+      fields: [
+        defineField({
+          name: "isActive",
+          title: "Show Banner?",
+          type: "boolean",
+          initialValue: false,  // Default: Banner is OFF
+        }),
+        defineField({
+          name: "message",
+          title: "Banner Message",
+          type: "string",
+          validation: (Rule) => Rule.required(),
+        }),
+      ],
+    }),
     defineField({
       name: 'welcomeWidget',
       title: 'Welcome Widget',

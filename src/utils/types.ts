@@ -14,10 +14,15 @@ export interface Globals {
   footerText: string;
 }
 
-export interface Homepage {
+export type Homepage = {
   homepageImage?: { asset: { url: string } };
   welcomeWidget?: (RichTextBlock | ImageBlock)[];
-}
+  banner?: {
+    isActive: boolean;
+    message: string;
+    link?: string;
+  };
+};
 
 export interface EventType {
   title: string;

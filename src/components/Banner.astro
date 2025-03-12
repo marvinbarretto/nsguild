@@ -1,0 +1,27 @@
+---
+import { fetchHomepage } from "../utils/sanity";
+import type { Homepage } from "../utils/types";
+
+const homepage: Homepage | null = await fetchHomepage();
+const banner = homepage?.banner;
+---
+
+{banner?.isActive && (
+  <div class="banner">
+    {banner.link ? (
+      <a href={banner.link}>{banner.message}</a>
+    ) : (
+      <p>{banner.message}</p>
+    )}
+  </div>
+)}
+
+<style>
+  .banner {
+    background: #0073e6;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+  }
+</style>

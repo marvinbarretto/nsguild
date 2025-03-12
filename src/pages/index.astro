@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { fetchHomepage } from "../utils/sanity";
 
 import PortableText from "../components/PortableText.astro";
+import Banner from '../components/Banner.astro';
 
 // Fetch homepage data at build time
 const vm = await fetchHomepage();
@@ -10,6 +11,7 @@ const vm = await fetchHomepage();
 ---
 
 <BaseLayout>
+  <Banner />
   <div class="container">
     <section class="welcome">
       <div class="portable-text">

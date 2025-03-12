@@ -29,14 +29,19 @@ export async function fetchGlobals(): Promise<Globals | null> {
 
 export async function fetchHomepage(): Promise<Homepage | null> {
   const query = `
-  *[_type == "homepage"][0]{
-    homepageImage {
-      asset->{ url }
-    },
-    welcomeWidget
-  }
-`;
-  return await getSanityData(query);
+    *[_type == "homepage"][0] {
+      homepageImage {
+        asset->{ url }
+      },
+      welcomeWidget,
+      banner {
+        isActive,
+        message,
+        link
+      }
+    }
+  `;
+  return await getSanityData<Homepage | null>(query);
 }
 
 export async function fetchContactPage(): Promise<{
@@ -262,6 +267,17 @@ export async function fetchEquipmentBySlug(slug: string): Promise<EquipmentType 
     }
   `;
   return await getSanityData<EquipmentType | null>(query, { slug });
+}
+
+export async function fetchBanner(): Promise<{ message: string; isActive: boolean; link?: string } | null> {
+  const query = `
+    *[_type == "banner"][0] {
+      message,
+      isActive,
+      link
+    }
+  `;
+  return await getSanityData(query);
 }
 
 
