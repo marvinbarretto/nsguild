@@ -7,15 +7,20 @@ const event: EventType | null = await fetchNextEvent();
 
 ---
 
+<!-- TODO: Allow for no events as well -->
 {event && (
-  <section class="next-event">
-    <h2>Next Event</h2>
-    <a href={`/events/${event.slug}`}>
-      <h3>{event.title} {isToday(event.date) && <span class="badge">Today!</span>}</h3>
-      <p class="date">{new Date(event.date).toLocaleDateString()}</p>
-      
-    </a>
-  </section>
+    <section class="next-event">
+        <h2>Next Event</h2>
+        <a href={`/events/${event.slug}`}>
+            <h3>
+            {event.title}
+            {isToday(event.date) && <span class="badge">Today!</span>}
+            </h3>
+            <p class="date">
+            {new Date(event.date).toLocaleDateString()}
+            </p>
+        </a>
+    </section>
 )}
 
 <style>
@@ -29,6 +34,8 @@ const event: EventType | null = await fetchNextEvent();
     font-size: 0.9rem;
     color: #666;
   }
+
+  /* TODO: Consolidate styles */
 
   .badge {
     background: red;
