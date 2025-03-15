@@ -9,16 +9,6 @@ import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 import '../styles/global.scss';
 
-const navLinks = [
-  { name: "Home", url: "/" },
-  { name: "News", url: "/news" },
-  { name: "Events", url: "/events" },
-  { name: "Photo gallery", url: "/gallery" },
-  { name: "Publications", url: "/publications" },
-  { name: "Equipment", url: "/equipment" },
-  { name: "Contact", url: "/contact" }
-];
-
 const globals = await fetchGlobals();
 const isHomePage = Astro.url.pathname === '/';
 
@@ -46,7 +36,7 @@ const metadata = Astro.props.metadata || {
   </head>
   <body>
     <Header isHomePage={isHomePage} />
-    <Nav links={navLinks} />
+    <Nav />
     
     <main>
       <slot />

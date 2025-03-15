@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity';
 
+
 export const publicationType = defineType({
     name: 'publication',
     title: 'Publication',
@@ -11,11 +12,13 @@ export const publicationType = defineType({
             type: 'string',
             validation: (rule) => rule.required(),
         }),
+        
         defineField({
             name: 'description',
             title: 'Description',
             type: 'text',
         }),
+        
         defineField({
             name: 'document',
             title: 'document',
@@ -24,6 +27,7 @@ export const publicationType = defineType({
                 accept: '.pdf, .doc, .docx',
             },
             validation: (rule) => rule.required(),
-        })
+        }),
+
     ],
 });

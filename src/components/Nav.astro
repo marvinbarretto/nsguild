@@ -1,17 +1,17 @@
 ---
-export interface NavLink {
-  name: string;
-  url: string;
-}
+const currentPath = Astro.url.pathname;
 
-export interface Props {
-  links: NavLink[];
-}
 
-const { links } = Astro.props;
-if (!links || links.length === 0) {
-  throw new Error("Nav component is missing links!");
-}
+const navLinks = [
+  { name: "Home", url: "/" },
+  { name: "News", url: "/news" },
+  { name: "Events", url: "/events" },
+  { name: "Photo gallery", url: "/gallery" },
+  { name: "Publications", url: "/publications" },
+  { name: "Equipment", url: "/equipment" },
+  { name: "Contact", url: "/contact" }
+];
+
 ---
 
 <nav>
@@ -20,8 +20,10 @@ if (!links || links.length === 0) {
   </button>
 
   <ul id="nav-links" class="nav-links" data-open="false">
-    {links.map((link) => (
-      <li><a href={link.url}>{link.name}</a></li>
+    {navLinks.map(link => (
+      <li class={currentPath === link.url ? 'selected' : ''}>
+        <a href={link.url}>{link.name}</a>
+      </li>
     ))}
   </ul>
 </nav>
@@ -83,6 +85,12 @@ if (!links || links.length === 0) {
     display: block;
   }
 
+  .nav-links li.selected {
+    background: black;
+  }
+
+  
+
   @media (min-width: 768px) {
     .nav-toggle {
       display: none;
@@ -91,7 +99,7 @@ if (!links || links.length === 0) {
     .nav-links {
       display: flex;
       background: #444;
-      padding: 10px;
+      /* padding: 10px; */
       display: flex !important;
     }
 
