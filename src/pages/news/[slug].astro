@@ -1,40 +1,50 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { fetchAllPosts, fetchPostBySlug } from "../../sanity/queries/news";
-
 import PortableText from "../../components/shared/PortableText.astro";
+import DateDisplay from "../../components/shared/DateDisplay.astro";
 
-// ✅ Step 1: Define `getStaticPaths()`
+// Enable pre-rendering
+export const prerender = true;
+
+// Generate a list of static pages for Astro to serve when built
+// Ensure we only return valid slugs
 export async function getStaticPaths() {
-  const posts = await fetchAllPosts();  // Fetch all news posts
-  console.log("Generating static paths for news:", posts.map(p => p.slug)); // Debugging
-
-  return posts.map((post) => ({
-    params: { slug: post.slug }, // ✅ Ensures `slug` is a string
-    props: { post },  // ✅ Pre-fetch the post data
-  }));
+  const posts = await fetchAllPosts();
+  
+  return posts
+    .filter(post => post.slug && typeof post.slug === "string")  // Ensure slug is a string
+    .map(post => ({
+      params: { slug: post.slug },
+      props: { post },  
+    }));
 }
 
-const { slug } = Astro.params;  // ✅ Get the slug from the route
-
-if (!slug) {
-  throw new Error("Missing parameter: slug");  // ✅ Debugging check
-}
-
+const { slug } = Astro.params;
 const post = await fetchPostBySlug(slug);
 
 if (!post) {
-  throw new Error(`No post found for slug: ${slug}`);  // ✅ Debugging check
+  throw new Error(`No post found for slug: ${slug}`);
 }
 ---
 
 <BaseLayout>
-  <article>
-    <h1>{post.title}</h1>
-    <p><strong>Published:</strong> {post.publishedAt}</p>
-    <div class="post-content">
+  <article class="blog-post">
+    <header>
+      <h1>{post.title}</h1>
+      <p><strong>Published:</strong> <DateDisplay date={post.publishedAt} /></p>
+    </header>
+    
+    <div class="portable-text">
       <PortableText portableText={post.body} />
     </div>
   </article>
 </BaseLayout>
 
+<style lang="scss">
+  .blog-post {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+</style>

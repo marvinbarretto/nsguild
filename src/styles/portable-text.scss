@@ -1,0 +1,72 @@
+
+
+.portable-text {
+    max-width: 100%;
+  
+    // ✅ Larger & more prominent heading sizes
+    h3 {
+      font-size: clamp(2rem, 3vw, 2.6rem); // Increased size
+      margin-top: 1.5rem;
+      margin-bottom: 1rem;
+      font-weight: bold;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 5px;
+    }
+  
+    h4 {
+      font-size: clamp(1.6rem, 2.5vw, 2.1rem); // Increased size
+      margin-top: 1.2rem;
+      margin-bottom: 0.8rem;
+      font-weight: bold;
+
+    }
+  
+    // ✅ Paragraph spacing - adjusts for readability
+    p {
+      font-size: clamp(1rem, 1.5vw, 1.2rem);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+  
+    // ✅ Adjust list spacing & indentation for better readability
+    ul, ol {
+      padding-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+  
+    ul {
+      list-style: disc;
+    }
+  
+    ol {
+      list-style: decimal;
+    }
+  
+
+    // ✅ Responsive images - well-spaced & centered
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 1.5rem;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+  
+    // ✅ If images are inside a paragraph, ensure spacing
+    p img {
+      margin: 1rem 0;
+    }
+  
+    // ✅ Ensure only subsequent headings get extra spacing
+    p + h3, p + h4 {
+      margin-top: 2rem;
+    }
+  }
+  
+
+// ✅ Remove extra spacing for the first heading
+.portable-text > h3:first-child,
+.portable-text > h4:first-child {
+margin-top: 0;
+}

@@ -13,7 +13,6 @@ const galleries: Gallery[] = await fetchGalleryList();
 ---
 
 <BaseLayout>
-  <h1>Photo Galleries</h1>
   <!-- Section 1: Most Recent Gallery with Lightbox -->
   <section>
     {latestGallery ? (
@@ -39,7 +38,7 @@ const galleries: Gallery[] = await fetchGalleryList();
 
   <!-- Section 2: List of Other Galleries -->
   <section>
-    <h2>Other Galleries</h2>
+    <h2>All galleries</h2>
     {galleries.length > 0 ? (
       <nav>
         <ul>

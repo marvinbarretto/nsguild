@@ -1,5 +1,5 @@
 // ./src/sanity/schemaTypes/blockContent.ts
-import { defineType, defineArrayMember } from "sanity";
+import { defineType, defineField, defineArrayMember } from "sanity";
 
 /**
  * This is the schema type for block content used in the post document type
@@ -42,14 +42,28 @@ export const blockContentType = defineType({
         // Annotations can be any object structure – e.g. a link or a footnote.
         annotations: [
           {
-            title: "URL",
+            title: "Link",
             name: "link",
             type: "object",
             fields: [
+              defineField({
+                name: "internalLink",
+                title: "Internal Page",
+                type: "string",
+                options: {
+                  list: [
+                    { title: "Contact Page", value: "/contact" },
+                    { title: "Photo Gallery", value: "/photo-gallery" },
+                    { title: "Events", value: "/events" },
+                    { title: "Publications", value: "/publications" },
+                  ],
+                  layout: "dropdown",
+                },
+              }),
               {
-                title: "URL",
-                name: "href",
+                name: "externalUrl",
                 type: "url",
+                title: "External URL",
               },
             ],
           },
