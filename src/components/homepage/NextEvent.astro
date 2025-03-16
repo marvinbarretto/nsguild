@@ -2,6 +2,8 @@
 import { fetchNextEvent } from "../../sanity/queries/event";
 import type { EventType } from "../../utils/types";
 import { isToday } from "../../utils/dates";
+import DateDisplayComponent from "../shared/DateDisplay.astro"
+import PortableText from "../shared/PortableText.astro";
 
 const event: EventType | null = await fetchNextEvent();
 
@@ -9,25 +11,43 @@ const event: EventType | null = await fetchNextEvent();
 
 <!-- TODO: Allow for no events as well -->
 {event && (
-    <section class="next-event">
-        <h2>Next Event</h2>
-        <a href={`/events/${event.slug}`}>
-            <h3>
+  <section class="next-event">
+      <h2>Next Event</h2>
+      {/* <a class="next-event__link" href={`/events/${event.slug}`}> */}
+      <div class="next-event__content">
+          
+        <div class="next-event__event">
+          <h3>
             {event.title}
             {isToday(event.date) && <span class="badge">Today!</span>}
-            </h3>
-            <p class="date">
-            {new Date(event.date).toLocaleDateString()}
-            </p>
-        </a>
-    </section>
+          </h3>
+          <div class="portable-text">
+            <PortableText portableText={event.description} />
+          </div>
+        </div>
+        <DateDisplayComponent date={event.date} variant="calendar" />
+      </div>
+        
+      {/* </a> */}
+  </section>
 )}
 
 <style>
+
   .next-event {
     background: var(--bg-medium);
     padding: 1rem;
     border-radius: 8px;
+  }
+
+  .next-event__content {
+    display: flex;
+    gap: .75rem;
+  }
+
+  .next-event__event {
+    display: flex;
+    flex-direction: column;
   }
 
   .next-event .date {

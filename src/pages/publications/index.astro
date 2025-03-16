@@ -8,21 +8,39 @@ const publications = await fetchAllPublications();
 
 <BaseLayout>
     <h1>Publications</h1>
-    <ul>
+    <ul class="pub-grid">
       {publications.map((publication: Publication) => (
         
         <li class="list-item">
+          <a href={publication.documentUrl} target="_blank" rel="noopener noreferrer">
           <h2>{publication.title}</h2>
           <p>{publication.description}</p>
-          <a href={publication.documentUrl} target="_blank" rel="noopener noreferrer">
-            Download PDF
-          </a>
+          
+          <div class="btn">Download PDF</div>
+         </a>
         </li>
+      
       ))}
     </ul>
 </BaseLayout>
 
 <style>
+
+
+
+  
+
+  .pub-grid {
+    display: grid;
+;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    text-align: center;
+
+    @media (min-width: 768px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
 
   /* TOOD: avoid repitition */
   .list-item {
@@ -31,11 +49,19 @@ const publications = await fetchAllPublications();
     border-radius: 8px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px;
+
+
   }
 
   .list-item a {
     text-decoration: none;
+    display: flex;flex-direction: column; gap: 1rem;
     color: inherit;
+    height: 100%;
+  }
+
+  .list-item p {
+    flex: 1;
   }
 
   .snippet {

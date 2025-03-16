@@ -32,11 +32,14 @@ main {
   padding: 1rem;
 }
 
-footer {
-  background-color: var(--footer-bg);
-  color: var(--footer-text);
-  display: block;
-  margin-top: auto;
-  padding: 1rem;
-  text-align: center;
+.btn {
+  background: var(--btn-primary-bg);
+  color: var(--btn-text);
+
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+
+  &:hover {
+    background: var(--btn-primary-hover);
+  }
 }

@@ -52,7 +52,8 @@ export async function fetchNextEvent(): Promise<EventType | null> {
     *[_type == "event" && date >= $today] | order(date asc)[0] {
       title,
       "slug": slug.current,
-      date
+      date,
+      description
     }
   `;
 
