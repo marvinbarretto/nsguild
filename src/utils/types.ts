@@ -38,6 +38,8 @@ export interface EventType {
   imageUrl?: string;
 }
 
+
+
 export interface Post {
   title: string;
   publishedAt: string;

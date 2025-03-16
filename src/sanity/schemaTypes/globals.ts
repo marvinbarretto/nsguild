@@ -6,12 +6,6 @@ export const globalsType = defineType({
     type: 'document',
     fields: [
         defineField({
-            name: 'siteTitle',
-            title: 'Site Title',
-            type: 'string',
-            validation: (rule) => rule.required(),
-        }),
-        defineField({
             name: 'footerText',
             title: 'Footer Text',
             type: 'string',

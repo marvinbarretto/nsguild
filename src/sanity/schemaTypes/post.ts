@@ -19,9 +19,12 @@ export const postType = defineType({
       },
     }),
     defineField({
-      name: "author",
-      type: "reference",
-      to: { type: "author" },
+      name: "publishedAt",
+      type: "datetime",
+    }),
+    defineField({
+      name: "body",
+      type: "blockContent"
     }),
     defineField({
       name: "mainImage",
@@ -38,17 +41,14 @@ export const postType = defineType({
       ],
     }),
     defineField({
+      name: "author",
+      type: "reference",
+      to: { type: "author" },
+    }),
+    defineField({
       name: "categories",
       type: "array",
       of: [{ type: "reference", to: { type: "category" } }],
-    }),
-    defineField({
-      name: "publishedAt",
-      type: "datetime",
-    }),
-    defineField({
-      name: "body",
-      type: "blockContent"
     }),
   ],
 

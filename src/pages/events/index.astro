@@ -26,59 +26,76 @@ pastEvents.sort((a, b) => b.date.localeCompare(a.date));
 
 ---
 <BaseLayout>
-  <h1>Upcoming Events</h1>
+  <div class="container">
+    <h1>Events</h1>
 
-  <!-- Upcoming Events -->
-  <section>
-    <h2>Upcoming Events</h2>
-    
-    <ul>
-      {upcomingEvents.length > 0 ? (
-        upcomingEvents.map((event) => (
+    <section class="upcoming">
+      <ul class="upcoming__list">
+        {upcomingEvents.length > 0 ? (
+          upcomingEvents.map((event) => (
+  
+            <ListItem
+              title={event.title}
+              date={event.date}
+              dateVariant="calendar"
+              linkThroughToPage={false}
+              slug={event.slug}
+              description={Array.isArray(event.description) ? portableTextToPlainText(event.description) : event.description} 
+  
+              basePath="/events"
+            />
+  
+          ))
+        ) : (
+          <p>No upcoming events.</p>
+        )}
+      </ul>
+    </section>
+  
+    <section class="past">
+      <h2 class="past__heading">Past Events</h2>
+      <ul class="past__list">
+        {pastEvents.length > 0 ? (
+          pastEvents.map((event) => (
+            <ListItem
+              title={event.title}
+              date={event.date}
+              slug={event.slug}
+              description={Array.isArray(event.description) ? portableTextToPlainText(event.description) : event.description} 
+              dateVariant="calendar"
+              linkThroughToPage={true}
+              basePath="/events"
+            />
+          ))
+        ) : (
+          <p>No past events.</p>
+        )}
+      </ul>
+    </section>
+  </div>
 
-          <ListItem
-            title={event.title}
-            date={event.date}
-            slug={event.slug}
-            description={Array.isArray(event.description) ? portableTextToPlainText(event.description) : event.description} 
-
-            basePath="/events"
-          />
-
-        ))
-      ) : (
-        <p>No upcoming events.</p>
-      )}
-    </ul>
-  </section>
-
-  <!-- Past Events -->
-  <section>
-    <h2>Past Events</h2>
-    <ul>
-      {pastEvents.length > 0 ? (
-        pastEvents.map((event) => (
-          <ListItem
-            title={event.title}
-            date={event.date}
-            slug={event.slug}
-            description={Array.isArray(event.description) ? portableTextToPlainText(event.description) : event.description} 
-
-            basePath="/events"
-          />
-        ))
-      ) : (
-        <p>No past events.</p>
-      )}
-    </ul>
-  </section>
 </BaseLayout>
 
 
-<style>
-.events-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
+<style lang="scss">
+
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .upcoming, .past {
+    margin-bottom: 2rem;
+  }
+
+  .past__heading {
+    margin-bottom: 1rem;
+  }
+
+  .upcoming__list, .past__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
 </style>

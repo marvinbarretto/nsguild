@@ -1,42 +1,111 @@
 ---
 import DateDisplay from '../shared/DateDisplay.astro';
+import PortableText from "./PortableText.astro";
 
 export interface Props {
   title: string;
   date?: string;
   slug?: string;
   description?: string; // Optional
+  body?: any;
   basePath: string; // e.g. "/news", "/events", "/publications"
+  dateVariant?: "default" | "calendar";
+  linkThroughToPage?: boolean;
+  variant?: "default" | "news" | "news-full";
 }
 
-const { title, date, slug, description, basePath }: Props = Astro.props;
+const { 
+  title, 
+  date, 
+  slug, 
+  description, 
+  body,
+  basePath, 
+  dateVariant = "default", 
+  linkThroughToPage = true,
+  variant = "default" 
+}: Props = Astro.props;
+
+// Construct the link if needed
+const url = slug ? `${basePath}/${slug}` : "#";
+
+console.log("ListItem: slug =", slug);
+
+
+// Apply BEM modifier for 'news' variant
+const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-full" : ""}`;
+
+
 ---
 
-<li class="list-item">
-  <a href={`${basePath}/${slug}`}>
-    <h3>{title}</h3>
-    {date && <DateDisplay date={date} />}
-    {description && <p class="snippet">{description}</p>}
-  </a>
+
+<li class={listItemClass}>
+  {linkThroughToPage ? (
+    <a class="list-item__content" href={url}>
+      {date && <DateDisplay date={date} variant={dateVariant} />}
+      <div>
+        <h3 class="list-item__title">{title}</h3>
+        
+        {variant === "news-full" && body ? (
+          <div class="portable-text">
+            <PortableText portableText={body} />
+          </div>
+        ) : (
+          description && <p class="snippet">{description}</p>
+        )}
+
+      </div>
+    </a>
+  ) : (
+    <div class="list-item__content">
+      {date && <DateDisplay date={date} variant={dateVariant} />}
+      <div>
+        <h3 class="list-item__title">{title}</h3>
+
+        {variant === "news-full" && body ? (
+          <div class="portable-text">
+            <PortableText portableText={body} />
+          </div>
+        ) : (
+          description && <p class="snippet">{description}</p>
+        )}
+
+      </div>
+    </div>
+)}
 </li>
 
-<style>
+<style lang="scss">
+
   .list-item {
-    background: #fff;
+    background-color: var(--bg-light);
     padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
+    display: flex;
+    gap: 1rem;
+    border-radius: 1rem;
   }
 
-  .list-item a {
+  .list-item--news-full {
+    .list-item__content {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .list-item__title {
+      font-size: 36px;
+      line-height: 1.3;
+    }
+  }
+
+  .list-item__title {
+      font-size: 24px;
+      line-height: 1.5;
+      margin-bottom: 0.25rem;
+    }
+  .list-item__content {
+    display: flex;
+    gap: 1rem;
     text-decoration: none;
-    color: inherit;
   }
 
-  .snippet {
-    font-size: 0.9rem;
-    color: #444;
-    margin-top: 5px;
-  }
 </style>

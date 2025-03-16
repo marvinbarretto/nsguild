@@ -1,27 +1,30 @@
 
+
+@use './variables.scss';
+
 html, body {
     height: 100%;
-  }
-
-
-  // <a href="https://www.flaticon.com/free-icons/patchwork" title="patchwork icons">Patchwork icons created by Freepik - Flaticon</a>
+}
 
 body {
-  // background-image: url('../images/fabric-texture.jpg');
 
-  // background-image: url('../images/bg2.png');
+  background: radial-gradient(transparent 29%, var(--bg-medium) 30%, var(--bg-medium) 50%, transparent 51%, transparent 74%, var(--bg-medium) 75%, var(--bg-medium) 95%, transparent 96%);
+        background-size: 1em 1em;
+        background-color: var(--bg-light);
+        opacity: 1;
 
-  // background: url('../images/patchwork-small.png');
+  // background: radial-gradient(transparent 34%, var(--bg-dark) 35%, var(--bg-dark) 45%, transparent 46%), radial-gradient(circle at left, transparent 39%, var(--bg-medium) 40%, var(--bg-medium) 45%, transparent 46%), radial-gradient(circle at right, transparent 39%, var(--bg-medium) 40%, var(--bg-medium) 45%, transparent 46%);
+  //       background-size: 1em 1em;
+  //       background-color: var(--bg-light);
+  //       opacity: 1;
 
-  // background-color: rgb(178, 183, 204);
-  background-color: #DDD;
-  // background-image: url('../images/noisy-texture.png');
-  
-  background-repeat: repeat;
-  background-blend-mode: multiply;
+
+
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+
+  color: var(--text-color);
 }
 
 main {
@@ -30,7 +33,9 @@ main {
 }
 
 footer {
-  background-color: #CCC;
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
+  display: block;
   margin-top: auto;
   padding: 1rem;
   text-align: center;

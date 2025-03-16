@@ -16,9 +16,6 @@ const vm = await fetchContactPage();
     <input type="hidden" name="access_key" value={accessKey} />
     <input type="checkbox" class="hidden" style="display:none" name="botcheck" />
 
-    <!-- TODO: Preferred method of contact... buttons, then reveal the form ... -->
-
-    
 
     <!-- Name Field -->
     <div class="form-group">
@@ -32,13 +29,12 @@ const vm = await fetchContactPage();
       />
     </div>
 
-    <!-- Email Field -->
     <div class="form-group">
-      <label for="email">Contact</label>
+      <label for="email">Way of contacting you</label>
       <input
         id="email"
         type="text"
-        placeholder="Email Address or phone number for us to get in touch with us"
+        placeholder="Email Address or phone number for us to get in touch"
         name="email"
         required
         aria-describedby="email-feedback"

@@ -59,11 +59,14 @@ const galleries: Gallery[] = await fetchGalleryList();
 <style>
   .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
 
     img {
-      border: solid 5px white;
+      border: solid 10px white;
+      border-bottom-width: 30px;
+      display: block;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     }
   }
 </style>

@@ -62,31 +62,38 @@ const navLinks = [
   }
 
   .nav-toggle {
+    text-align: center;
     display: block;
     width: 100%;
-    text-align: left;
     padding: 10px;
-    background: #444;
-    color: white;
+    background-color: var(--nav-bg);
+    color: var(--nav-text);
     border: none;
     font-size: 1rem;
     cursor: pointer;
   }
 
   .nav-links li {
-    padding: 10px;
-    background: #666;
+    background-color: var(--nav-bg);
     border-bottom: 1px solid #555;
   }
 
   .nav-links a {
-    color: white;
+    padding: 0.5rem;
+    color: var(--nav-text) ;
     text-decoration: none;
     display: block;
+    &:hover {
+      background-color: black;
+      
+    }
   }
 
   .nav-links li.selected {
     background: black;
+    a {
+      color: white;
+    }
   }
 
   
@@ -98,9 +105,7 @@ const navLinks = [
 
     .nav-links {
       display: flex;
-      background: #444;
-      /* padding: 10px; */
-      display: flex !important;
+      background-color: var(--nav-bg);
     }
 
     .nav-links li {

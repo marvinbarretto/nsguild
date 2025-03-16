@@ -1,0 +1,51 @@
+:root {
+  --color-primary: #007bff;
+  --color-secondary: #6c757d;
+  --color-background: #f8f9fa;
+  --color-text: #212529;
+
+  --font-family: 'Arial', sans-serif;
+  --font-size-base: 16px;
+
+  --spacing-small: 0.5rem;
+  --spacing-medium: 1rem;
+  --spacing-large: 2rem;
+}
+
+:root {
+  /* 🎨 CENTRAL BASE COLOR */
+  --base-hue: 210; /* Change this to shift the entire color scheme */
+
+  /* 🎨 Backgrounds */
+  --bg-light: hsl(var(--base-hue), 80%, 95%);
+  --bg-medium: hsl(var(--base-hue), 70%, 85%);
+  --bg-dark: hsl(var(--base-hue), 60%, 30%);
+
+  /* 🎨 Text */
+  --text-light: hsl(var(--base-hue), 15%, 90%);
+  --text-default: hsl(var(--base-hue), 25%, 20%);
+  --text-dark: hsl(var(--base-hue), 40%, 10%);
+
+  /* 🎨 Headers & Nav */
+  --header-bg: hsl(var(--base-hue), 80%, 40%);
+  --header-text: var(--text-light);
+  
+  --nav-bg: hsl(var(--base-hue), 60%, 30%);
+  --nav-text: var(--text-light);
+  --nav-link-bg: hsl(calc(var(--base-hue) + 50), 80%, 50%); /* Complementary color */
+
+  /* 🎨 Footer */
+  --footer-bg: hsl(var(--base-hue), 80%, 20%);
+  --footer-text: var(--text-light);
+
+  /* 🎨 Buttons */
+  --btn-primary-bg: hsl(var(--base-hue), 80%, 50%);
+  --btn-primary-hover: hsl(var(--base-hue), 80%, 40%);
+  --btn-text: var(--text-light);
+
+  /* 🎨 Accents */
+  --accent: hsl(calc(var(--base-hue) + 180), 80%, 45%); /* Opposite color */
+  --accent-dark: hsl(calc(var(--base-hue) + 180), 60%, 35%);
+  --accent-text: var(--text-dark);
+  --accent-light: hsl(calc(var(--base-hue) + 180), 70%, 65%);
+}

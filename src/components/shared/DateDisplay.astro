@@ -1,24 +1,95 @@
 ---
 export interface Props {
   date: string; // Expecting an ISO string like "2025-03-20"
+  variant?: "default" | "calendar"; // Optional styling mode
 }
 
-const { date } = Astro.props;
+const { date, variant = "default" }: Props = Astro.props;
 
-// Format the date consistently
-const formattedDate = new Date(date).toLocaleDateString("en-GB", {
-  weekday: "short", // e.g., "Mon"
-  day: "2-digit", // e.g., "20"
-  month: "long", // e.g., "March"
-  year: "numeric", // e.g., "2025"
+const dateObj = new Date(date);
+const today = new Date();
+
+const isUpcoming = dateObj >= today;
+const formattedDate = dateObj.toLocaleDateString("en-GB", {
+  weekday: "long", // e.g., "Mon"
+  day: "2-digit",   // e.g., "20"
+  month: "long",    // e.g., "March"
 });
+
+// Extract components for handmade style
+const weekday = dateObj.toLocaleString("en-GB", { weekday: "long" });
+const day = dateObj.getDate();
+const month = dateObj.toLocaleString("en-GB", { month: "long" });
+
 ---
 
-<span class="date-display">{formattedDate}</span>
+{variant === "calendar" ? (
+  <div class={`date-display date-display--calendar ${isUpcoming ? 'upcoming' : 'past'}`}>
+    <span class="date-display__weekday">{weekday}</span>
+    <span class="date-display__day">{day}</span>
+    <span class="date-display__month">{month}</span>
+  </div>
+) : (
+  <div class="date-display">
+    <span class="date-display__text">{formattedDate}</span>
+    
+  </div>
+)}
 
-<style>
+<style lang="scss">
   .date-display {
     font-weight: bold;
     color: #999;
+    max-height: fit-content;
   }
+
+  .date-display--calendar {
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    background-color: white;
+    padding: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transform: rotate(-2deg);
+    border: solid 1px #999;
+
+  }
+
+  .date-display__weekday {
+    color: #333;
+    line-height: 1;
+    font-weight: bold;
+    font-family: "Courier", monospace;
+  }
+
+  .date-display__day {
+    font-weight: bold;
+    color: #c93600;
+    font-family: "Courier", monospace;
+    font-size: 48px;
+    line-height: 1;
+  }
+
+
+      /* Apply color rules */
+  .date-display--calendar.upcoming .date-display__day {
+    color: #c93600; /* Red for future/today */
+  }
+
+  .date-display--calendar.past .date-display__day {
+    color: #999; /* Grey for past */
+  }
+
+  .date-display__month {
+    color: #999;
+    line-height: 1;
+    font-family: "Courier", monospace;
+  }
+
+  .date-display__text {
+    color: var(--header-bg);
+  }
+
 </style>

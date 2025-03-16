@@ -184,7 +184,9 @@ export async function fetchPostsPage(): Promise<Post[]> {
       _id, 
       title, 
       "slug": slug.current, 
-      publishedAt
+      publishedAt,
+      snippet,
+      body
     }
   `;
   return await getSanityData(query);
