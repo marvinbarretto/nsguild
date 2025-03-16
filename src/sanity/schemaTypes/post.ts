@@ -21,6 +21,8 @@ export const postType = defineType({
     defineField({
       name: "publishedAt",
       type: "datetime",
+      initialValue: () => new Date().toISOString(), // Auto-populate with current timestamp
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "body",
