@@ -26,24 +26,28 @@ const equipment: EquipmentType | null = await fetchEquipmentBySlug(slug);
         {equipment.category}
       </span>
 
-      <!-- Images -->
-      <div class="image-gallery">
-        {equipment.images && equipment.images.map((img) => (
-          <Image 
-            src={img.url} 
-            alt={equipment.title} 
-            width={600} 
-            height={400} 
-            format="webp"
-            quality={80}
-            loading="lazy"
-          />
-        ))}
-      </div>
+      <div class="equipment-card">
 
-      <!-- Description -->
-      <div class="description">
-        <PortableText portableText={equipment.description} />
+
+        <!-- Images -->
+        <div class="image-gallery">
+          {equipment.images && equipment.images.map((img) => (
+            <Image 
+              src={img.url} 
+              alt={equipment.title} 
+              width={600} 
+              height={400} 
+              format="webp"
+              quality={80}
+              loading="lazy"
+            />
+          ))}
+        </div>
+
+        <!-- Description -->
+        <div class="description">
+          <PortableText portableText={equipment.description} />
+        </div>
       </div>
 
       <!-- Download Link -->
@@ -62,6 +66,19 @@ const equipment: EquipmentType | null = await fetchEquipmentBySlug(slug);
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 10px;
   }
+
+
+  /* TODO: Nprmalise and apply outside of this scope */
+  .equipment-card {
+    position: relative;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: var(--bg-light);
+    /* text-align: center; */
+    align-items: center;
+  }
+
 
   .tag {
     display: inline-block;

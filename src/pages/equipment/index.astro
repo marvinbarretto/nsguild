@@ -56,13 +56,14 @@ console.log("Fetched Equipment:", JSON.stringify(equipmentList, null, 2));  // â
     gap: 1rem;
   }
 
+  /* TODO: Nprmalise and apply outside of this scope */
   .equipment-card {
     position: relative;
     border: 1px solid #ddd;
     padding: 1rem;
     border-radius: 8px;
     background-color: var(--bg-light);
-    text-align: center;
+    /* text-align: center; */
     align-items: center;
   }
 
@@ -70,7 +71,7 @@ console.log("Fetched Equipment:", JSON.stringify(equipmentList, null, 2));  // â
     /* TODO: Review */
     position: absolute;
     top: 10px;
-    left: 10px;
+    right: 10px;
     padding: 5px 10px;
     font-size: 0.9rem;
     color: #fff;
