@@ -53,7 +53,7 @@ export const blockContentType = defineType({
                 options: {
                   list: [
                     { title: "Contact Page", value: "/contact" },
-                    { title: "Photos", value: "/photo-gallery" },
+                    { title: "Photo Gallery", value: "/photo-gallery" },
                     { title: "Events", value: "/events" },
                     { title: "Publications", value: "/publications" },
                   ],

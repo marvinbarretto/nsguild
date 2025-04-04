@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { fetchContactPage } from '../utils/sanity';
+import PageTitle from '../components/shared/PageTitle.astro';
+import PageDescription from '../components/shared/PageDescription.astro';
 
 const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY;
 
@@ -9,10 +11,14 @@ const vm = await fetchContactPage();
 
 <BaseLayout>
 
-  <h1>{vm.title}</h1>
+  <PageTitle title={vm.title} />
+  
+  <PageDescription>
+    <p>{vm.description}</p>
+    <p>mail@norfolksuffolkwsd.org.uk</p>
+    <p>Add physical location...</p>
+  </PageDescription>
 
-  <p>mail@norfolksuffolkwsd.org.uk</p>
-  <p>Add physical location...</p>
   <div class="panel">
 
     <!-- Contact Form -->

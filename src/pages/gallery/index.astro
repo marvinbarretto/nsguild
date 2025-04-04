@@ -4,6 +4,7 @@ import Lightbox from '../../components/Lightbox.astro';
 
 import { fetchLatestGallery, fetchGalleryList } from '../../utils/sanity';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageTitle from '../../components/shared/PageTitle.astro';
 
 
 // Fetch latest gallery and all gallery links
@@ -13,6 +14,8 @@ const galleries: Gallery[] = await fetchGalleryList();
 ---
 
 <BaseLayout>
+
+  <PageTitle title="Photo Gallery" />
   <!-- Section 1: Most Recent Gallery with Lightbox -->
   <section>
     {latestGallery ? (

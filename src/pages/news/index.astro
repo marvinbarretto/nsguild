@@ -3,6 +3,8 @@ import { fetchPostsPage } from '../../utils/sanity';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FormattedDate from "../../components/shared/FormattedDate.astro";
 import ListItem from "../../components/shared/ListItem.astro";
+import PageTitle from "../../components/shared/PageTitle.astro";
+import PageDescription from "../../components/shared/PageDescription.astro";
 
 const posts = await fetchPostsPage();
 console.log("Fetched Posts:", posts);
@@ -13,7 +15,12 @@ console.log("DEBUG: posts =", JSON.stringify(posts, null, 2));
 
 <BaseLayout>
   <div class="container">
-    <!-- <h1 class="visually-hidden">News</h1> -->
+
+    <PageTitle title="News" />
+    <PageDescription>
+      <p>what it is, etc we do this....</p>
+    </PageDescription>
+    
     <ul class="news">
       {posts.map((post) => {
         return (

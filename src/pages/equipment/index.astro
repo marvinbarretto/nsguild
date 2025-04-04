@@ -3,6 +3,7 @@ import type { EquipmentType } from "../../utils/types";
 import { fetchAllEquipment } from "../../sanity/queries/equipment";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Image from "astro/components/Image.astro";
+import PageTitle from "../../components/shared/PageTitle.astro";
 
 const equipmentList: EquipmentType[] = await fetchAllEquipment();
 console.log("Fetched Equipment:", JSON.stringify(equipmentList, null, 2));  // âœ… Debug Output
@@ -10,7 +11,8 @@ console.log("Fetched Equipment:", JSON.stringify(equipmentList, null, 2));  // â
 ---
 
 <BaseLayout>
-  <h1>Equipment</h1>
+  <PageTitle title="Equipment" />
+<!-- TODO: Add description -->
 
   <div class="equipment-grid">
     {equipmentList.map((item) => (
