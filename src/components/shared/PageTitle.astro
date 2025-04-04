@@ -1,0 +1,38 @@
+---
+// props: { title: string }
+const { title } = Astro.props;
+---
+
+<div class="page-title-container">
+  <div class="page-title">
+    <h1>{title}</h1>
+  </div>
+</div>
+
+<style lang="scss">
+    .page-title-container {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        transform: rotate(1.5deg);
+        z-index: 1;
+        margin-top: 10px;
+    } 
+
+    .page-title {
+        display: flex;
+        background-color: white;
+        padding: 5px;
+        flex-direction: column;
+        border-radius: 6px 12px 8px 10px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+        background-color: white;
+        border: dotted 3px #c8eaff;
+        border-radius: 6px 12px 8px 10px;
+        padding: 10px 30px;
+        line-height: 0.8;
+    }
+</style>
