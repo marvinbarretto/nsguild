@@ -1,12 +1,11 @@
 ---
 import type { EventType } from "../../utils/types";
 import { fetchAllEvents } from "../../sanity/queries/event";
+import { fetchGlobals } from "../../utils/sanity";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import DateDisplay from "../../components/shared/DateDisplay.astro";
-import { isToday } from "../../utils/dates";
 const events: EventType[] = await fetchAllEvents();
-// console.log("Fetched Events:", JSON.stringify(events, null, 2));
-
+import PageTitle from "../../components/shared/PageTitle.astro";
+import PageDescription from "../../components/shared/PageDescription.astro";
 import { portableTextToPlainText } from "../../utils/portableText";
 
 
@@ -24,10 +23,23 @@ const pastEvents = events.filter(event => event.date < today);
 upcomingEvents.sort((a, b) => a.date.localeCompare(b.date));
 pastEvents.sort((a, b) => b.date.localeCompare(a.date)); 
 
+const globals = await fetchGlobals();
+const programmeUrl = globals?.programmeUrl || "";
+
+
+
 ---
 <BaseLayout>
   <div class="container">
-    <h1>Events</h1>
+
+    <PageTitle title="Events" />
+
+    <PageDescription>
+      <p><a href={programmeUrl} target="_blank" rel="noopener noreferrer">
+        Our full programme of events is available as a PDF to download or print
+      </a></p>
+    </PageDescription>
+
 
     <section class="upcoming">
       <ul class="upcoming__list">
@@ -63,7 +75,7 @@ pastEvents.sort((a, b) => b.date.localeCompare(a.date));
               slug={event.slug}
               description={Array.isArray(event.description) ? portableTextToPlainText(event.description) : event.description} 
               dateVariant="calendar"
-              linkThroughToPage={true}
+              linkThroughToPage={false}
               basePath="/events"
             />
           ))
@@ -72,14 +84,13 @@ pastEvents.sort((a, b) => b.date.localeCompare(a.date));
         )}
       </ul>
     </section>
-  </div>
-
 </BaseLayout>
 
 
 <style lang="scss">
 
-  .container {
+
+.container {
     display: flex;
     flex-direction: column;
   }
@@ -98,4 +109,6 @@ pastEvents.sort((a, b) => b.date.localeCompare(a.date));
     gap: 1rem;
   }
 
+
 </style>
+

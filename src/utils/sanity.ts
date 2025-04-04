@@ -21,6 +21,7 @@ export async function fetchGlobals(): Promise<Globals | null> {
   const query = `
     *[_type == "globals" && _id == "globals"][0]{
       siteTitle,
+      "programmeUrl": programmeFile.asset->url,
       footerText
     }
   `;

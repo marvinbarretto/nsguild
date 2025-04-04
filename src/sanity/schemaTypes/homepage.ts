@@ -1,10 +1,27 @@
-import {defineField, defineType} from 'sanity';
+import { defineField, defineType } from 'sanity';
 
+// Reusable rich text block
+const richTextBlock = {
+  type: 'block',
+  styles: [
+    { title: 'Normal', value: 'normal' },
+    { title: 'Heading', value: 'h3' },
+    { title: 'Subheading', value: 'h4' },
+    { title: 'Quote', value: 'blockquote' },
+  ],
+};
 
 export const homepageType = defineType({
   name: 'homepage',
   title: 'Homepage',
   type: 'document',
+  preview: {
+    prepare() {
+      return {
+        title: 'Homepage',
+      };
+    },
+  },
   fields: [
     defineField({
       name: "banner",
@@ -15,7 +32,7 @@ export const homepageType = defineType({
           name: "isActive",
           title: "Show Banner?",
           type: "boolean",
-          initialValue: false,  // Default: Banner is OFF
+          initialValue: false,
         }),
         defineField({
           name: "message",
@@ -26,28 +43,32 @@ export const homepageType = defineType({
       ],
     }),
     defineField({
-      name: 'welcomeWidget',
-      title: 'Welcome Widget',
+      name: 'whoWeAre',
+      title: 'Who We Are',
       type: 'array',
-      of: [
-        {
-          type: 'block',
-          styles: [
-            { title: 'Normal', value: 'normal' },
-            { title: 'Heading', value: 'h3' },
-            { title: 'Subheading', value: 'h4' },
-            { title: 'Quote', value: 'blockquote' },
-          ],
-        },
-        { type: 'image', options: { hotspot: true } },
-      ],
-      description: 'Rich text area for a welcome message to display on the homepage.',
+      of: [richTextBlock],
+      description: 'Rich text for the "Who We Are" section.',
     }),
     defineField({
-      name: 'homepageImage',
-      title: 'Homepage Image',
-      type: 'image',
+      name: 'whatWeDo',
+      title: 'What We Do',
+      type: 'array',
+      of: [richTextBlock],
+      description: 'Rich text for the "What We Do" section.',
     }),
-
+    defineField({
+      name: 'whenWeMeet',
+      title: 'When We Meet',
+      type: 'array',
+      of: [richTextBlock],
+      description: 'Rich text for the "When We Meet" section.',
+    }),
+    defineField({
+      name: 'whereWeMeet',
+      title: 'Where We Meet',
+      type: 'array',
+      of: [richTextBlock],
+      description: 'Rich text for the "Where We Meet" section.',
+    }),
   ],
 });

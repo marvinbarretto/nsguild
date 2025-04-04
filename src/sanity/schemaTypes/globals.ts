@@ -11,6 +11,15 @@ export const globalsType = defineType({
             type: 'string',
             validation: (rule) => rule.required(),
         }),
-        // Add other global fields here as needed
+        defineField({
+            name: 'programmeFile',
+            title: 'Programme File (PDF or Word)',
+            type: 'file',
+            options: {
+              accept: 'application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            },
+            description: 'Upload a programme of events (PDF or Word).',
+            validation: (rule) => rule.required().error('A programme file is required.'),
+          })
     ]
 });

@@ -9,11 +9,12 @@ const news: Post | null = await fetchLatestNews();
 {news && (
     <section class="latest-news">
       <h2>Latest News</h2>
-      <a href={`/news/${news.slug}`}>
+      {/* <a href={`/news/${news.slug}`}> */}
         <h3>{news.title}</h3>
-        <p class="date">
+        <p>{news.body}</p>
+        {/* <p class="date">
           <DateDisplay date={news.publishedAt} />
-        </p>
+        </p> */}
       </a>
     </section>
   )}

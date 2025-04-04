@@ -4,15 +4,15 @@ import type { Banner } from "../../utils/types";
 export async function fetchHomepage(): Promise<Homepage | null> {
     const query = `
       *[_type == "homepage"][0] {
-        homepageImage {
-          asset->{ url }
-        },
-        welcomeWidget,
         banner {
           isActive,
           message,
           link
-        }
+        },
+        whoWeAre,
+        whatWeDo,
+        whenWeMeet,
+        whereWeMeet
       }
     `;
     return await getSanityData<Homepage | null>(query);

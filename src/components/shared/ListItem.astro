@@ -47,7 +47,7 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
         <h3 class="list-item__title">{title}</h3>
         
         {variant === "news-full" && body ? (
-          <div class="portable-text">
+          <div class="list-item__body portable-text">
             <PortableText portableText={body} />
           </div>
         ) : (
@@ -63,7 +63,7 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
         <h3 class="list-item__title">{title}</h3>
 
         {variant === "news-full" && body ? (
-          <div class="portable-text">
+          <div class="list-item__body portable-text">
             <PortableText portableText={body} />
           </div>
         ) : (
@@ -78,11 +78,12 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
 <style lang="scss">
 
   .list-item {
-    background-color: var(--bg-light);
-    padding: 1rem;
+    background-color: #c8eaff;
     display: flex;
-    gap: 1rem;
-    border-radius: 1rem;
+  padding: 5px;
+  flex-direction: column;
+  border-radius: 6px 12px 8px 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
   }
 
   .list-item--news-full {
@@ -101,21 +102,35 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
       font-size: 24px;
       line-height: 1.5;
       margin-bottom: 0.25rem;
+      text-shadow: 1px 1px white;
     }
   .list-item__content {
     display: flex;
     gap: 1rem;
     text-decoration: none;
+    padding: 10px;
+    border: dashed 3px white;
+  border-radius: 6px 12px 8px 10px;
+
+    
+  }
+
+  .list-item__body {
+    background-color: white;
+  border: dotted 3px #c8eaff;
+  border-radius: 6px 12px 8px 10px;
+  padding: 10px 30px;
+    line-height: 0.8;
   }
 
 
 
 
   .list-item {
-    border: 2px dashed #d6cdcd;
+  //   border: 2px dashed #d6cdcd;
 
-  border-radius: 1rem;
-  box-shadow: 0 2px 0 #999, 0 4px 5px rgba(0, 0, 0, 0.2);
+  // border-radius: 1rem;
+  // box-shadow: 0 2px 0 #999, 0 4px 5px rgba(0, 0, 0, 0.2);
 
 
 

@@ -12,6 +12,7 @@ export type ImageBlock = {
 export interface Globals {
   siteTitle: string;
   footerText: string;
+  programmeUrl: string;
 }
 
 export type Banner = {
@@ -21,8 +22,10 @@ export type Banner = {
 }
 
 export type Homepage = {
-  homepageImage?: { asset: { url: string } };
-  welcomeWidget?: (RichTextBlock | ImageBlock)[];
+  whoWeAre: RichTextBlock;
+  whatWeDo: RichTextBlock;
+  whenWeMeet: RichTextBlock;
+  whereWeMeet: RichTextBlock;
   banner?: Banner;
 };
 
