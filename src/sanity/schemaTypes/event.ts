@@ -30,5 +30,12 @@ export const eventType = defineType({
       type: 'array',
       of: [{ type: "block" }],
     }),
+    defineField({
+      name: 'relatedGallery',
+      title: 'Related Photo Gallery',
+      type: 'reference',
+      to: [{ type: 'photoGallery' }],
+      description: 'Optionally link this event to a related photo gallery.',
+    }),
   ],
 });

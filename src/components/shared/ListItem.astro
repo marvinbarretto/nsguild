@@ -6,12 +6,16 @@ export interface Props {
   title: string;
   date?: string;
   slug?: string;
-  description?: string; // Optional
+  description?: string; 
   body?: any;
   basePath: string; // e.g. "/news", "/events", "/publications"
   dateVariant?: "default" | "calendar";
   linkThroughToPage?: boolean;
   variant?: "default" | "news" | "news-full";
+  relatedGallery?: {
+    title: string;
+    slug: string;
+  };
 }
 
 const { 
@@ -30,6 +34,9 @@ const {
 const url = slug ? `${basePath}/${slug}` : "#";
 
 console.log("ListItem: slug =", slug);
+
+const { relatedGallery } = Astro.props;
+console.log("ListItem: relatedGallery =", relatedGallery);
 
 
 // Apply BEM modifier for 'news' variant
@@ -54,6 +61,7 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
           description && <p class="snippet">{description}</p>
         )}
 
+        <slot name="extra" />
       </div>
     </a>
   ) : (
@@ -70,20 +78,29 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
           description && <p class="snippet">{description}</p>
         )}
 
+        <slot name="extra" />
+
       </div>
     </div>
 )}
+<!-- 
+<pre class="debug-dump">
+  {JSON.stringify(Astro.props, null, 2)}
+</pre> -->
+
+
 </li>
 
 <style lang="scss">
 
   .list-item {
-    background-color: #c8eaff;
+    background-color: #e4f5ff;
     display: flex;
   padding: 5px;
   flex-direction: column;
   border-radius: 6px 12px 8px 10px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  background-image: url('../../images/noisy-texture-2.png');
   }
 
   .list-item--news-full {
@@ -112,6 +129,8 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
     border: dashed 3px white;
   border-radius: 6px 12px 8px 10px;
 
+
+
     
   }
 
@@ -124,16 +143,16 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
   }
 
 
-
-
-  .list-item {
-  //   border: 2px dashed #d6cdcd;
-
-  // border-radius: 1rem;
-  // box-shadow: 0 2px 0 #999, 0 4px 5px rgba(0, 0, 0, 0.2);
-
-
-
-  }
+  .gallery-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 4px 8px;
+  background: #d8f2ff;
+  border: 2px dotted #c8eaff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #003344;
+}
 
 </style>

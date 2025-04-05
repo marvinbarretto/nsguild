@@ -46,16 +46,26 @@ const programmeUrl = globals?.programmeUrl || "";
         {upcomingEvents.length > 0 ? (
           upcomingEvents.map((event) => (
   
-            <ListItem
-              title={event.title}
-              date={event.date}
-              dateVariant="calendar"
-              linkThroughToPage={false}
-              slug={event.slug}
-              description={Array.isArray(event.description) ? portableTextToPlainText(event.description) : event.description} 
-  
-              basePath="/events"
-            />
+          <ListItem
+            title={event.title}
+            date={event.date}
+            dateVariant="calendar"
+            linkThroughToPage={false}
+            slug={event.slug}
+            description={Array.isArray(event.description) ? portableTextToPlainText(event.description) : event.description}
+            relatedGallery={event.relatedGallery}
+            basePath="/events"
+          >
+            {event.relatedGallery && (
+              <span slot="extra">
+                <a href={`/gallery/${event.relatedGallery.slug}`} class="gallery-link">
+                  📷 View Gallery
+                </a>
+              </span>
+            )}
+          </ListItem>
+
+
   
           ))
         ) : (
@@ -69,15 +79,24 @@ const programmeUrl = globals?.programmeUrl || "";
       <ul class="past__list">
         {pastEvents.length > 0 ? (
           pastEvents.map((event) => (
-            <ListItem
-              title={event.title}
-              date={event.date}
-              slug={event.slug}
-              description={Array.isArray(event.description) ? portableTextToPlainText(event.description) : event.description} 
-              dateVariant="calendar"
-              linkThroughToPage={false}
-              basePath="/events"
-            />
+          <ListItem
+            title={event.title}
+            date={event.date}
+            dateVariant="calendar"
+            linkThroughToPage={false}
+            slug={event.slug}
+            description={Array.isArray(event.description) ? portableTextToPlainText(event.description) : event.description}
+            relatedGallery={event.relatedGallery}
+            basePath="/events"
+          >
+            {event.relatedGallery && (
+              <span slot="extra">
+                <a href={`/gallery/${event.relatedGallery.slug}`} class="gallery-link">
+                  📷 View Gallery
+                </a>
+              </span>
+            )}
+          </ListItem>
           ))
         ) : (
           <p>No past events.</p>

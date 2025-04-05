@@ -12,7 +12,7 @@ export async function fetchEventsPage(): Promise<EventType[]> {
         description,
         "relatedGallery": relatedGallery->{
           title,
-          slug
+          "slug": slug.current
         }
       }
     `;
@@ -26,7 +26,11 @@ export async function fetchAllEvents(): Promise<EventType[]> {
       "slug": slug.current,
       date,
       description,
-      "imageUrl": image.asset->url
+      "imageUrl": image.asset->url,
+      "relatedGallery": relatedGallery->{
+        title,
+        "slug": slug.current
+      }
     }
   `;
   return await getSanityData<EventType[]>(query);

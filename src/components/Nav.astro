@@ -12,6 +12,10 @@ const navLinks = [
   { name: "Contact", url: "/contact" }
 ];
 
+function isSelected(linkUrl: string) {
+  if (linkUrl === '/') return currentPath === '/';
+  return currentPath.startsWith(linkUrl);
+}
 ---
 
 <nav>
@@ -21,7 +25,7 @@ const navLinks = [
 
   <ul id="nav-links" class="nav-links" data-open="false">
     {navLinks.map(link => (
-      <li class={currentPath === link.url ? 'selected' : ''}>
+      <li class={isSelected(link.url) ? 'selected' : ''}>
         <a href={link.url}>{link.name}</a>
       </li>
     ))}

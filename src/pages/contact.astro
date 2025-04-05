@@ -13,21 +13,12 @@ const vm = await fetchContactPage();
 
   <PageTitle title={vm.title} />
   
+<div class="container">
   <PageDescription>
-    <p>{vm.description}</p>
-    <p>mail@norfolksuffolkwsd.org.uk</p>
-    <p>Add physical location...</p>
-  </PageDescription>
-
-  <div class="panel">
-
-    <!-- Contact Form -->
+    <p>Email us directly at <a href="mailto:mail@norfolksuffolkwsd.org.uk">mail@norfolksuffolkwsd.org.uk</a><br>or use the form below</p>
     <form id="form" novalidate>
-      <p>{vm.description}</p>
-      <br>
       <input type="hidden" name="access_key" value={accessKey} />
       <input type="checkbox" class="hidden" style="display:none" name="botcheck" />
-
 
       <!-- Name Field -->
       <div class="form-group">
@@ -42,11 +33,10 @@ const vm = await fetchContactPage();
       </div>
 
       <div class="form-group">
-        <label for="email">Way of contacting you</label>
+        <label for="email">Email address</label>
         <input
           id="email"
-          type="text"
-          placeholder="Email Address or phone number for us to get in touch"
+          type="email"
           name="email"
           required
           aria-describedby="email-feedback"
@@ -68,19 +58,41 @@ const vm = await fetchContactPage();
       <button class="btn btn--primary" type="submit">Send Message</button>
       <div id="result" class="result" aria-live="polite"></div>
     </form>
-  </div>
+  </PageDescription>
+
+  <PageDescription>
+    <img class="village-hall" src="/src/images/village-hall.webp" />
+    <p class="address">
+      The Village Hall<br>
+      Sun Road<br>
+      Broome<br>
+      Nr Bungay<br>
+      NR35 2RW
+    </p>
+  </PageDescription>
+
+
+</div>
+
+
+
 </BaseLayout>
 
 <style>
 
-  /* TODO: Move this out to global */
-  .panel {
-    background-color: var(--bg-light);
-    padding: 1rem;
-    border-radius: 8px;
+  .village-hall {
+    width: 300px;
   }
 
-  .btn {}
+  .container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    @media (min-width: 900px) {
+      flex-direction: row;
+    }
+  }
 
   .btn--primary {
     background-color: var(--accent);
@@ -90,7 +102,7 @@ const vm = await fetchContactPage();
   #form {
     max-width: 700px;
     margin: 0 auto;
-    padding: 1rem;
+    text-align: left;
   }
   .form-group {
     margin-bottom: 1rem;
