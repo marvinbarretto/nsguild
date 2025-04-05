@@ -6,6 +6,7 @@ import PortableText from "../components/shared/PortableText.astro";
 import Banner from '../components/Banner.astro';
 import LatestNews from "../components/LatestNews.astro";
 import NextEvent from "../components/homepage/NextEvent.astro";
+import ListItem from "../components/shared/ListItem.astro";
 
 // Fetch homepage data at build time
 const vm = await fetchHomepage();
@@ -31,13 +32,14 @@ const vm = await fetchHomepage();
   </div>
 
   <div class="others">
-    {vm?.whatWeDo && (
-      <section id="what-we-do" class="portable-text">
-        <h2>What We Do</h2>
-        <PortableText portableText={vm.whatWeDo} />
-      </section>
-    )}
-
+      
+        <section id="what-we-do" class="portable-text">
+          <h2>What We Do</h2>
+          {vm?.whatWeDo && (
+            <PortableText portableText={vm.whatWeDo} />
+          )}
+        </section>
+      
     {vm?.whenWeMeet && (
       <section id="when-we-meet" class="portable-text">
         <h2>When We Meet</h2>
@@ -56,6 +58,14 @@ const vm = await fetchHomepage();
 </BaseLayout>
 
 <style lang="scss">
+
+  @use "../styles/_panel.scss" as *;
+
+  section {
+    @include panel;
+  }
+
+
   .others {
     display: flex;
     gap: 1rem;
@@ -66,13 +76,13 @@ const vm = await fetchHomepage();
     margin-bottom: 1rem;
   }
 
-  section {
-    flex: 1;
-    background-color: var(--bg-light);
-    padding: 1rem;
-    border-radius: 1rem;
+  // section {
+  //   flex: 1;
+  //   background-color: var(--bg-light);
+  //   padding: 1rem;
+  //   border-radius: 1rem;
 
-  }
+  // }
 
   aside {
     display: flex;

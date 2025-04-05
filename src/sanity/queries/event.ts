@@ -27,7 +27,7 @@ export async function fetchAllEvents(): Promise<EventType[]> {
       date,
       description,
       "imageUrl": image.asset->url,
-      "relatedGallery": relatedGallery->{
+      "relatedGallery": *[_type == "photoGallery" && relatedEvent._ref == ^._id][0]{
         title,
         "slug": slug.current
       }

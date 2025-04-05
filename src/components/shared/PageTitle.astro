@@ -1,12 +1,13 @@
 ---
 // props: { title: string }
-const { title } = Astro.props;
+const { title, variant = "primary" } = Astro.props;
+
 
 // Generate a random rotation angle between -1.5 and 1.5 degrees
 const rotation = (Math.random() * 3 - 1.5).toFixed(2);
 ---
 
-<div class="page-title-container" style={`transform: rotate(${rotation}deg);`}>
+<div class={`page-title-container page-title-container--${variant}`} style={`transform: rotate(${rotation}deg);`}>
     <div class="page-title">
     <h1>{title}</h1>
   </div>
@@ -37,5 +38,19 @@ const rotation = (Math.random() * 3 - 1.5).toFixed(2);
         border-radius: 6px 12px 8px 10px;
         padding: 10px 30px;
         line-height: 0.8;
+    }
+
+    .page-title-container--secondary {
+        .page-title {
+            background-color: #333;
+            color: white;
+            color: var(--color-light);
+        }
+
+        h1 {
+            background-color: #333;
+            color: white;
+            font-size: 1.5rem;
+        }
     }
 </style>

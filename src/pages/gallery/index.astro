@@ -16,31 +16,12 @@ const galleries: Gallery[] = await fetchGalleryList();
 <BaseLayout>
 
   <PageTitle title="Photo Gallery" />
-  <!-- Section 1: Most Recent Gallery with Lightbox -->
-  <section>
-    {latestGallery ? (
-      <>
-        <h2>Latest Gallery: {latestGallery.title}</h2>
-        <div class="gallery-grid">
-          {latestGallery.images.map((img) => (
-            <Lightbox 
-              lightboxImage={img.lightboxUrl}
-              thumbnail={img.thumbnailUrl} 
-              altText={img.altText} 
-              caption={img.caption} 
-            />
-          ))}
-        </div>
-      </>
-    ) : (
-      <p>No galleries found.</p>
-    )}
-  </section>
-  
- 
+
+  <div class="container">
+
 
   <!-- Section 2: List of Other Galleries -->
-  <section>
+  <nav>
     <h2>All galleries</h2>
     {galleries.length > 0 ? (
       <nav>
@@ -55,21 +36,104 @@ const galleries: Gallery[] = await fetchGalleryList();
     ) : (
       <p>No other galleries available.</p>
     )}
+  </nav>
+
+  <!-- Section 1: Most Recent Gallery with Lightbox -->
+  <section class="gallery">
+    {latestGallery ? (
+      
+        <PageTitle title={latestGallery.title} variant="secondary" />
+
+
+        <div class="gallery-grid"
+>
+          {latestGallery.images.map((img) => (
+            <Lightbox 
+              lightboxImage={img.lightboxUrl}
+              thumbnail={img.thumbnailUrl} 
+              altText={img.altText} 
+              caption={img.caption} 
+            />
+          ))}
+        </div>
+      
+    ) : (
+      <p>No galleries found.</p>
+    )}
   </section>
+  
+ 
+
+
+
+  </div>
 
 </BaseLayout>
 
 <style>
+
+
+.container {
+  display: flex;
+  gap: 2rem;
+}
+
+nav {
+  background-color: rgba(255,255,255,.1);
+  max-width: 300px;
+}
+
+nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+nav li {
+
+}
+
+nav li a {
+  background-color: white;
+  display: block;
+  padding: 4px;
+}
+
+
+
+.gallery {
+  flex: 1;
+}
+
+
   .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1rem;
 
-    img {
+    /* img {
       border: solid 10px white;
       border-bottom-width: 30px;
       display: block;
       box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    }
+    } */
+
+    .polaroid {
+  position: relative;
+  padding: 1rem;
+  background: white;
+  border: 1px solid #ccc;
+  border-bottom: 2rem solid white;
+  box-shadow: 2px 4px 12px rgba(0,0,0,0.25);
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+  border-radius: 3px;
+  transform: rotate(calc(-2deg + 4deg * var(--angle, 0))) perspective(800px) rotateX(calc(-2deg + 4deg * var(--bend, 0)));
+}
+
+/* Optional: Add a slight hover effect */
+.polaroid:hover {
+  transform: scale(1.03) rotate(0deg) perspective(800px) rotateX(0deg);
+  z-index: 2;
+}
   }
 </style>

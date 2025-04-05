@@ -1,5 +1,8 @@
 ---
+import Image from 'astro/components/Image.astro';
+
 const currentPath = Astro.url.pathname;
+
 
 
 const navLinks = [
@@ -20,7 +23,17 @@ function isSelected(linkUrl: string) {
 
 <nav>
   <button class="nav-toggle" aria-controls="nav-links" aria-expanded="false">
-    Open Navigation
+
+    <div class="label">
+
+      <img src="/src/images/icons/menu.svg" alt="Menu">
+      <span class="toggle-content">
+        Open Navigation
+      </span>
+    </div>
+
+
+    
   </button>
 
   <ul id="nav-links" class="nav-links" data-open="false">
@@ -34,7 +47,7 @@ function isSelected(linkUrl: string) {
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const toggleButton = document.querySelector(".nav-toggle");
+    const toggleButton = document.querySelector(".toggle-content");
     const navLinks = document.getElementById("nav-links");
 
     if (!toggleButton || !navLinks) {
@@ -54,6 +67,20 @@ function isSelected(linkUrl: string) {
 
 
 <style>
+  .label {  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+
+    img {
+      fill: white;
+      font-size: 1em;
+      height: 1em;
+    }
+
+  }
+
   .nav-links {
     display: none;
     list-style: none;

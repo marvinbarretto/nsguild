@@ -1,7 +1,7 @@
 ---
 import { fetchNextEvent } from "../../sanity/queries/event";
 import type { EventType } from "../../utils/types";
-import { isToday } from "../../utils/dates";
+import { daysUntil, isToday } from "../../utils/dates";
 import DateDisplayComponent from "../shared/DateDisplay.astro"
 import PortableText from "../shared/PortableText.astro";
 
@@ -12,11 +12,17 @@ const event: EventType | null = await fetchNextEvent();
 <!-- TODO: Allow for no events as well -->
 {event && (
   <section class="next-event">
-      <h2>Next Event</h2>
-      {/* <a class="next-event__link" href={`/events/${event.slug}`}> */}
+      <h2 class="next-event__title">Next Event</h2>
       <div class="next-event__content">
           
         <div class="next-event__event">
+          {/* Count how many days until the event */}
+          <span class="next-event__days">
+            
+            {isToday(event.date) && <span class="badge">Today!</span>}
+            {!isToday(event.date) && <span class="badge">in {daysUntil(event.date)} days</span>}
+          </span>
+
           <h3>
             {event.title}
             {isToday(event.date) && <span class="badge">Today!</span>}
@@ -27,8 +33,6 @@ const event: EventType | null = await fetchNextEvent();
         </div>
         <DateDisplayComponent date={event.date} variant="calendar" />
       </div>
-        
-      {/* </a> */}
   </section>
 )}
 
@@ -38,6 +42,17 @@ const event: EventType | null = await fetchNextEvent();
     background: var(--bg-medium);
     padding: 1rem;
     border-radius: 8px;
+  }
+
+  .next-event__title {
+    /* background-color: #333;
+    color:#FFF;
+    line-height: 1;
+    padding: 3px; */
+    /* display: inline-block; */
+    /* transform: rotate(-4deg); */
+    /* margin-top: -2.5rem; */
+    /* font-family: "Helvetica", sans-serif; */
   }
 
   .next-event__content {
@@ -58,12 +73,10 @@ const event: EventType | null = await fetchNextEvent();
   /* TODO: Consolidate styles */
 
   .badge {
-    background: red;
+    background: #333;
     color: white;
     font-size: 0.8rem;
     padding: 3px 6px;
-    margin-left: 10px;
-    border-radius: 5px;
-    font-weight: bold;
+
   }
 </style>

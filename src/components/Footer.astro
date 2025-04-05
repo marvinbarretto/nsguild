@@ -1,31 +1,63 @@
 ---
-
+import Image from 'astro/components/Image.astro';
 const { footerText } = Astro.props;
 
 ---
 <footer>
-  <p>{footerText}</p>
+  
+  <a target="_blank" rel="noopener noreferrer" class="wsd-logo" href="https://www.wsd.org.uk/">
+    <Image
+      src={'/src/images/wsd-logo.gif'} 
+      alt=""
+      width={50} 
+      height={50} 
+      format="webp"
+      quality={80}
+      loading="lazy"
+    />
+  </a>
+  <div>
+    <p>{new Date().getFullYear()} {footerText}</p>
+    <p class="attribution">Design & Development by <a href="https://www.linkedin.com/in/marvinbarretto/">Fourfold Media</a></p>
+  </div>
+
 </footer>
 
 <style>
+  .wsd-logo {
+    opacity: 0.5;
+  }
+  .wsd-logo:hover {
+    opacity: 1;
+  }
+  .attribution {
+    font-size: 0.8rem;
+    opacity: 0.5;
+    a {
+      color: inherit;
 
+    }
+  }
+div {
+  text-align: center;
+
+  @media( min-width: 800px) {
+    text-align: right;
+  }
+}
 footer {
   background-color: var(--footer-bg);
   color: var(--footer-text);
-
   margin-top: auto;
   padding: 1rem;
-  text-align: center;
-}
 
-
-  footer {
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
+    align-items: center;
 
     @media( min-width: 800px) {
       flex-direction: row;
-      justify-content: center;
       
     }
   }

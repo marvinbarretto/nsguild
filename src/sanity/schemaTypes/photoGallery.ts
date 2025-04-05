@@ -30,5 +30,12 @@ export const photoGalleryType = defineType({
         layout: "grid",
       },
     }),
+    defineField({
+      name: "relatedEvent",
+      title: "Related Event",
+      type: "reference",
+      to: [{ type: 'event' }],
+      description: "Optionally link this gallery to a specific event.",
+    }),
   ],
 });

@@ -16,7 +16,11 @@ h1 {
 }
 
 main {
-  background-image: url('../images/noisy-texture-2.png');
+  background-image: url('/images/noise.png');
+}
+
+a {
+  text-underline-position: under;
 }
 
 .stitched {

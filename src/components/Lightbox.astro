@@ -15,7 +15,8 @@ const { lightboxImage, thumbnail, altText = "Image", caption } = Astro.props;
 
 <a 
   href={lightboxImage} 
-  class="glightbox"
+  class="glightbox polaroid"
+
   data-glightbox={caption ? `title: ${caption}` : undefined}
 >
   <Image 

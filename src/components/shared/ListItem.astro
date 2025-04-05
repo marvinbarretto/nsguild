@@ -92,15 +92,14 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
 </li>
 
 <style lang="scss">
+  @use "../../styles/_panel.scss" as *;
+  // TODO: Wtf
 
   .list-item {
-    background-color: #e4f5ff;
     display: flex;
-  padding: 5px;
   flex-direction: column;
-  border-radius: 6px 12px 8px 10px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
-  background-image: url('../../images/noisy-texture-2.png');
+
+    @include panel;
   }
 
   .list-item--news-full {
@@ -123,11 +122,9 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
     }
   .list-item__content {
     display: flex;
-    gap: 1rem;
+    gap: 2rem;
     text-decoration: none;
-    padding: 10px;
-    border: dashed 3px white;
-  border-radius: 6px 12px 8px 10px;
+    @include panel-border;
 
 
 

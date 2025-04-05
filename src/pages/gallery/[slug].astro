@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { fetchGalleryBySlug } from '../../utils/sanity';
 import Lightbox from '../../components/Lightbox.astro';
+import PageTitle from '../../components/shared/PageTitle.astro';
 
 const { slug } = Astro.params;
 
@@ -14,20 +15,20 @@ const gallery = await fetchGalleryBySlug(slug);
 
 <BaseLayout>
   {gallery ? (
-    <>
-      <h1>{gallery.title}</h1>
+    
+    <PageTitle title={gallery.title} variant="secondary" />
 
-      <p><a href="/gallery">← Back to All Galleries</a></p>
+    <p><a href="/gallery">← Back to All Galleries</a></p>
 
-      <div class="gallery-grid">
-        {gallery.images.map((img) => (
-          <Lightbox 
-            lightboxImage={img.lightboxUrl}  
-            thumbnail={img.thumbnailUrl} 
-          />
-        ))}
-      </div>
-    </>
+    <div class="gallery-grid">
+      {gallery.images.map((img) => (
+        <Lightbox 
+          lightboxImage={img.lightboxUrl}  
+          thumbnail={img.thumbnailUrl} 
+        />
+      ))}
+    </div>
+    
   ) : (
     <p>Gallery not found.</p>  
   )}

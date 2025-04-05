@@ -9,6 +9,11 @@ const { date, variant = "default" }: Props = Astro.props;
 const dateObj = new Date(date);
 const today = new Date();
 
+const currentYear = today.getFullYear();
+const targetYear = dateObj.getFullYear();
+const showYear = currentYear !== targetYear;
+
+
 const isUpcoming = dateObj >= today;
 const formattedDate = dateObj.toLocaleDateString("en-GB", {
   weekday: "long", // e.g., "Mon"
@@ -21,13 +26,22 @@ const weekday = dateObj.toLocaleString("en-GB", { weekday: "long" });
 const day = dateObj.getDate();
 const month = dateObj.toLocaleString("en-GB", { month: "long" });
 
+
+
 ---
 
 {variant === "calendar" ? (
   <div class={`date-display date-display--calendar ${isUpcoming ? 'upcoming' : 'past'}`}>
-    <span class="date-display__weekday">{weekday}</span>
+    {!showYear && (
+  <span class="date-display__weekday">{weekday}</span>
+)}
     <span class="date-display__day">{day}</span>
     <span class="date-display__month">{month}</span>
+  
+{showYear && (
+  <span class="date-display__year">{targetYear}</span>
+)}
+
   </div>
 ) : (
   <div class="date-display">
@@ -38,23 +52,24 @@ const month = dateObj.toLocaleString("en-GB", { month: "long" });
 
 <style lang="scss">
   .date-display {
-    font-weight: bold;
     color: #666;
     max-height: fit-content;
     max-width: fit-content;
   }
 
   .date-display--calendar {
-    border-radius: 8px;
+    border-radius: 4px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.25rem;
     background-color: white;
     padding: 0.5rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 3px 3px rgba(0,0,0,0.3);
+    
+
     transform: rotate(-2deg);
-    border: solid 1px #999;
+    border: solid 1px #CCC;
 
 
   }
@@ -62,7 +77,6 @@ const month = dateObj.toLocaleString("en-GB", { month: "long" });
   .date-display__weekday {
     color: #333;
     line-height: 1;
-    font-weight: bold;
     font-family: "Courier", monospace;
   }
 
