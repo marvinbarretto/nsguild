@@ -1,56 +1,102 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { fetchGalleryBySlug } from '../../utils/sanity';
-import Lightbox from '../../components/Lightbox.astro';
 import PageTitle from '../../components/shared/PageTitle.astro';
+import Lightbox from '../../components/Lightbox.astro';
+
+import { fetchGalleryBySlug, fetchGalleryList } from '../../utils/sanity';
 
 const { slug } = Astro.params;
 
 if (!slug) {
-  throw new Error("Slug is missing"); // ✅ Properly handle missing slugs
+  throw new Error("No slug found in route params.");
 }
 
-const gallery = await fetchGalleryBySlug(slug);
+
+const currentGallery = await fetchGalleryBySlug(slug);
+const galleries = await fetchGalleryList(); // includes title + slug
 ---
 
 <BaseLayout>
-  {gallery ? (
-    
-    <PageTitle title={gallery.title} variant="secondary" />
 
-    <p><a href="/gallery">← Back to All Galleries</a></p>
+  <div class="container">
+    <!-- Side nav -->
+    <nav>
+      {galleries.length > 0 ? (
+        <ul>
+          {galleries.map((gallery) => (
+            <li class={gallery.slug === slug ? 'active' : ''}>
+              <a href={`/gallery/${gallery.slug}`}>{gallery.title}</a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No other galleries.</p>
+      )}
+    </nav>
 
-    <div class="gallery-grid">
-      {gallery.images.map((img) => (
-        <Lightbox 
-          lightboxImage={img.lightboxUrl}  
-          thumbnail={img.thumbnailUrl} 
-        />
-      ))}
-    </div>
-    
-  ) : (
-    <p>Gallery not found.</p>  
-  )}
+    <!-- Gallery view -->
+    <section class="gallery">
+      {currentGallery ? (
+        <>
+        {/* TOOD: move */}
+          <PageTitle title={currentGallery.title} variant="secondary" />
+
+          <div class="gallery-grid">
+            {currentGallery.images.map((img) => (
+              <Lightbox 
+                lightboxImage={img.lightboxUrl}
+                thumbnail={img.thumbnailUrl}
+                altText={img.altText}
+                caption={img.caption}
+              />
+            ))}
+          </div>
+        </>
+      ) : (
+        <p>Gallery not found.</p>
+      )}
+    </section>
+  </div>
 </BaseLayout>
 
 <style>
+  .container {
+    display: flex;
+    gap: 2rem;
+  }
+
+  nav {
+    background-color: rgba(255,255,255,0.1);
+    max-width: 300px;
+  }
+
+  nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  nav li a {
+    display: block;
+    padding: 4px;
+    background-color: white;
+    text-decoration: none;
+  }
+
+  nav li.active a {
+    background-color: #333;
+    color: white;
+    font-weight: bold;
+  }
+
+  .gallery {
+    flex: 1;
+  }
+
   .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
   }
 
-  a {
-    display: inline-block;
-    margin-bottom: 10px;
-    text-decoration: none;
-    color: blue;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-
-  
 </style>

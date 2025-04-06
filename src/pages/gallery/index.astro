@@ -1,139 +1,25 @@
 ---
-import type { Gallery, GalleryData } from '../../utils/types';
-import Lightbox from '../../components/Lightbox.astro';
+import { fetchLatestGallery } from '../../utils/sanity';
 
-import { fetchLatestGallery, fetchGalleryList } from '../../utils/sanity';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PageTitle from '../../components/shared/PageTitle.astro';
+const latest = await fetchLatestGallery();
 
+if (!latest?.slug) {
+  throw new Error('No gallery found');
+}
 
-// Fetch latest gallery and all gallery links
-const latestGallery: GalleryData | null = await fetchLatestGallery();
-const galleries: Gallery[] = await fetchGalleryList();
-
+const target = `/gallery/${latest.slug}`;
 ---
-
-<BaseLayout>
-
-  <PageTitle title="Photo Gallery" />
-
-  <div class="container">
-
-
-  <!-- Section 2: List of Other Galleries -->
-  <nav>
-    <h2>All galleries</h2>
-    {galleries.length > 0 ? (
-      <nav>
-        <ul>
-          {galleries.map((gallery) => (
-            <li>
-              <a href={`/gallery/${gallery.slug}`}>{gallery.title}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    ) : (
-      <p>No other galleries available.</p>
-    )}
-  </nav>
-
-  <!-- Section 1: Most Recent Gallery with Lightbox -->
-  <section class="gallery">
-    {latestGallery ? (
-      
-        <PageTitle title={latestGallery.title} variant="secondary" />
-
-
-        <div class="gallery-grid"
->
-          {latestGallery.images.map((img) => (
-            <Lightbox 
-              lightboxImage={img.lightboxUrl}
-              thumbnail={img.thumbnailUrl} 
-              altText={img.altText} 
-              caption={img.caption} 
-            />
-          ))}
-        </div>
-      
-    ) : (
-      <p>No galleries found.</p>
-    )}
-  </section>
-  
- 
-
-
-
-  </div>
-
-</BaseLayout>
-
 <style>
+    /* This avoids the nasty redirect flash */
+    body { display: none; }
+  </style>
 
-
-.container {
-  display: flex;
-  gap: 2rem;
-}
-
-nav {
-  background-color: rgba(255,255,255,.1);
-  max-width: 300px;
-}
-
-nav ul {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-nav li {
-
-}
-
-nav li a {
-  background-color: white;
-  display: block;
-  padding: 4px;
-}
-
-
-
-.gallery {
-  flex: 1;
-}
-
-
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
-
-    /* img {
-      border: solid 10px white;
-      border-bottom-width: 30px;
-      display: block;
-      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    } */
-
-    .polaroid {
-  position: relative;
-  padding: 1rem;
-  background: white;
-  border: 1px solid #ccc;
-  border-bottom: 2rem solid white;
-  box-shadow: 2px 4px 12px rgba(0,0,0,0.25);
-  transform-style: preserve-3d;
-  transition: transform 0.3s ease;
-  border-radius: 3px;
-  transform: rotate(calc(-2deg + 4deg * var(--angle, 0))) perspective(800px) rotateX(calc(-2deg + 4deg * var(--bend, 0)));
-}
-
-/* Optional: Add a slight hover effect */
-.polaroid:hover {
-  transform: scale(1.03) rotate(0deg) perspective(800px) rotateX(0deg);
-  z-index: 2;
-}
-  }
-</style>
+<html lang="en">
+  <head>
+    <meta http-equiv="refresh" content={`0; URL=${target}`} />
+    <title>Redirecting...</title>
+  </head>
+  <body>
+    <p>Redirecting to <a href={target}>{target}</a>…</p>
+  </body>
+</html>

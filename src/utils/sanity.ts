@@ -122,6 +122,7 @@ export async function fetchLatestGallery(): Promise<GalleryData | null> {
   const query = `
     *[_type == "photoGallery"] | order(_createdAt desc)[0] {
       title,
+      "slug": slug.current,
       "images": images[]{
         "url": asset->url,
         "thumbnailUrl": asset->url + "?w=300&h=200&fit=crop&q=80&auto=format",
@@ -131,6 +132,7 @@ export async function fetchLatestGallery(): Promise<GalleryData | null> {
       }
     }
   `;
+
   return await getSanityData<GalleryData | null>(query);
 }
 

@@ -30,6 +30,26 @@ const { lightboxImage, thumbnail, altText = "Image", caption } = Astro.props;
   />
 </a>
 
+<style>
+    .polaroid {
+    position: relative;
+    padding: 1rem;
+    background: white;
+    border: 1px solid #ccc;
+    border-bottom: 2rem solid white;
+    box-shadow: 2px 4px 12px rgba(0,0,0,0.25);
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease;
+    border-radius: 3px;
+    transform: rotate(calc(-2deg + 4deg * var(--angle, 0))) perspective(800px) rotateX(calc(-2deg + 4deg * var(--bend, 0)));
+  }
+
+  .polaroid:hover {
+    transform: scale(1.03) rotate(0deg) perspective(800px) rotateX(0deg);
+    z-index: 2;
+  }
+</style>
+
 <script>
   import GLightbox from 'glightbox';
 

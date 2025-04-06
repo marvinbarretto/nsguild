@@ -98,7 +98,8 @@ caption?: string;
 
 
 export type GalleryData = {
-title: string;
-date?: string;
-images: GalleryImage[];
+  title: string;
+  slug: string; 
+  date?: string;
+  images: GalleryImage[];
 };
