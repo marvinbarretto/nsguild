@@ -1,7 +1,7 @@
 import { createClient } from "@sanity/client";
 import type { EventType, Post, Publication, Globals } from "./types";
 import type { APIRoute } from "astro";
-import type { Gallery, GalleryData, EquipmentType } from "../utils/types";
+import type { Gallery, GalleryData, EquipmentType, PagesContent } from "../utils/types";
 import { fetchHomepage } from "../sanity/queries/homepage";
 
 
@@ -181,7 +181,7 @@ export async function fetchGalleryPage(): Promise<{
 
 
 export async function fetchPostsPage(): Promise<Post[]> {
-  const query = `
+  const posts = `
     *[_type == "post" && defined(slug.current)]
     | order(publishedAt desc)[0...12]{
       _id, 
@@ -192,10 +192,14 @@ export async function fetchPostsPage(): Promise<Post[]> {
       body
     }
   `;
-  return await getSanityData(query);
+
+  return await getSanityData<Post[]>(posts);
 }
 
-
+export async function fetchPagesContent(): Promise<PagesContent | null> {
+  const query = `*[_type == "pagesContent"][0]`;
+  return await getSanityData<PagesContent | null>(query);
+}
 
 
 

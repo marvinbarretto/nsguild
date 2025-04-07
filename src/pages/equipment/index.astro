@@ -4,15 +4,20 @@ import { fetchAllEquipment } from "../../sanity/queries/equipment";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Image from "astro/components/Image.astro";
 import PageTitle from "../../components/shared/PageTitle.astro";
+import PageDescription from "../../components/shared/PageDescription.astro";
+import { fetchPagesContent } from "../../utils/sanity";
 
 const equipmentList: EquipmentType[] = await fetchAllEquipment();
 console.log("Fetched Equipment:", JSON.stringify(equipmentList, null, 2));  // ✅ Debug Output
+
+const pagesContent = await fetchPagesContent();
+const equipmentDescription = pagesContent?.equipmentPageDescription;
 
 ---
 
 <BaseLayout>
   <PageTitle title="Equipment" />
-<!-- TODO: Add description -->
+  {equipmentDescription && <PageDescription>{equipmentDescription}</PageDescription>}
 
   <div class="equipment-grid">
     {equipmentList.map((item) => (

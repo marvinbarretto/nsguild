@@ -1,10 +1,14 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import type { Publication } from '../../utils/types';
-import { fetchAllPublications } from '../../utils/sanity';
+import { fetchAllPublications, fetchPagesContent } from '../../utils/sanity';
 import PageTitle from '../../components/shared/PageTitle.astro'; 
 import PageDescription from '../../components/shared/PageDescription.astro'; 
 const publications = await fetchAllPublications();
+
+const pagesContent = await fetchPagesContent();
+const distaffDescription = pagesContent?.distaffPageDescription;
+
 ---
 
 <BaseLayout>
@@ -12,9 +16,7 @@ const publications = await fetchAllPublications();
   <!-- TODO: make dynamic -->
 
   <PageTitle title="Distaff and Shuttle" />
-  <PageDescription>
-    <p>what it is, etc we do this....</p>
-  </PageDescription>
+  {distaffDescription && <PageDescription>{distaffDescription}</PageDescription>}
 
   
 

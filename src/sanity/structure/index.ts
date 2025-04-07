@@ -50,10 +50,22 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .id('globals')
         .child(S.document().schemaType('globals').documentId('globals')),
 
+      // Page Content (Singleton)
+      S.listItem()
+        .title('Pages')
+        .id('pagesContent')
+        .child(
+          S.document()
+            .id('pagesContentEditor')
+            .schemaType('pagesContent')
+            .documentId('pagesContent')
+            .title('Pages')
+        ),
+
       // Other document types not explicitly listed above
       ...S.documentTypeListItems().filter(
         (listItem) =>
-          !['homepage', 'contact', 'globals', 'post', 'event', 'photoGallery', 'equipment', 'publication'].includes(
+          !['homepage', 'contact', 'globals', 'post', 'event', 'photoGallery', 'equipment', 'publication', 'pagesContent'].includes(
             listItem.getId() as string
           )
       ),

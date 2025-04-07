@@ -1,11 +1,15 @@
 ---
-import { fetchPostsPage } from '../../utils/sanity';
+import { fetchPostsPage, fetchPagesContent } from '../../utils/sanity';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ListItem from "../../components/shared/ListItem.astro";
 import PageTitle from "../../components/shared/PageTitle.astro";
 import PageDescription from "../../components/shared/PageDescription.astro";
 
 const posts = await fetchPostsPage();
+
+const pagesContent = await fetchPagesContent();
+const newsDescription = pagesContent?.newsPageDescription;
+
 console.log("Fetched Posts:", posts);
 console.log("DEBUG: posts =", JSON.stringify(posts, null, 2));
 
@@ -16,9 +20,7 @@ console.log("DEBUG: posts =", JSON.stringify(posts, null, 2));
   <div class="container">
 
     <PageTitle title="News" />
-    <PageDescription>
-      <p>what it is, etc we do this....</p>
-    </PageDescription>
+    {newsDescription && <PageDescription>{newsDescription}</PageDescription>}
     
     <ul class="news">
       {posts.map((post) => {
@@ -26,7 +28,6 @@ console.log("DEBUG: posts =", JSON.stringify(posts, null, 2));
           <ListItem 
             title={post.title} 
             date={post.publishedAt} 
-            slug={post.slug}
             description={post.snippet || ""}
             body={post.body} 
             basePath="/news"

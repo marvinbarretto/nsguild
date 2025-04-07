@@ -41,11 +41,18 @@ export interface EventType {
   imageUrl?: string;
 }
 
+export interface PagesContent {
+  newsPageDescription?: string;
+  eventsPageDescription?: string;
+  distaffPageDescription?: string;
+  equipmentPageDescription?: string;
+}
 
 
 export interface Post {
   title: string;
   publishedAt: string;
+  newsPageDescription?: string;
   slug: string;
   attachPublication?: boolean;
   attachedPublication?: Publication;

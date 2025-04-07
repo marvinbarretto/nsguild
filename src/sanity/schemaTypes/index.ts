@@ -12,6 +12,7 @@ import { authorType } from "./author";
 import { categoryType } from "./category";
 import { photoGalleryType } from "./photoGallery";
 import { equipmentType } from "./equipment";
+import { pagesContentType } from "./pagesContent";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -22,10 +23,11 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     equipmentType,
     publicationType,
     contactType,
-    globalsType,    
-    authorType,     
-    categoryType,   
-    linkType,      
+    globalsType,
+    authorType,
+    categoryType,
+    linkType,
     blockContentType,
+    pagesContentType
   ],
 };
