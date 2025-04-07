@@ -42,6 +42,15 @@ const event: EventType | null = await fetchNextEvent();
     background: var(--bg-medium);
     padding: 1rem;
     border-radius: 8px;
+    flex: 1;
+
+    /* @media (min-width: 1024px) {
+      background-color: rgba(0,0,0, .5);
+      color: white;
+      .next-event__event {
+        text-shadow: 1px 1px black;
+      }
+    } */
   }
 
   .next-event__title {
@@ -63,6 +72,7 @@ const event: EventType | null = await fetchNextEvent();
   .next-event__event {
     display: flex;
     flex-direction: column;
+    flex: 1;
   }
 
   .next-event .date {

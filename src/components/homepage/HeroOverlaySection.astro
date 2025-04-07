@@ -1,0 +1,18 @@
+---
+// HeroOverlaySection.astro
+import ImageCarousel from "./ImageCarousel.astro";
+---
+
+<section class="hero-wrapper">
+  <ImageCarousel />
+</section>
+
+<style>
+  .hero-wrapper {
+    position: relative;
+    width: 100%;
+    height: clamp(250px, 40vw, 500px);
+    overflow: hidden;
+    z-index: 0;
+  }
+  </style>
