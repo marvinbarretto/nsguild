@@ -5,17 +5,24 @@ import ListItem from "../../components/shared/ListItem.astro";
 import PageTitle from "../../components/shared/PageTitle.astro";
 import PageDescription from "../../components/shared/PageDescription.astro";
 import PortableText from '../../components/shared/PortableText.astro';
+import Seo from '../../components/shared/Seo.astro';
+import { buildTitle } from "../../utils/meta";
+
 
 const posts = await fetchPostsPage();
 
 const pagesContent = await fetchPagesContent();
 const newsDescription = pagesContent?.newsPageDescription;
 
+const pageTitle = buildTitle("News");
+
 console.log("Fetched Posts:", posts);
 console.log("DEBUG: posts =", JSON.stringify(posts, null, 2));
 
 
 ---
+
+<Seo title={pageTitle} />
 
 <BaseLayout>
   <div class="container">

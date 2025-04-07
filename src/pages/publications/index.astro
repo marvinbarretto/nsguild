@@ -4,13 +4,21 @@ import type { Publication } from '../../utils/types';
 import { fetchAllPublications, fetchPagesContent } from '../../utils/sanity';
 import PageTitle from '../../components/shared/PageTitle.astro'; 
 import PageDescription from '../../components/shared/PageDescription.astro'; 
-const publications = await fetchAllPublications();
+
 import PortableText from '../../components/shared/PortableText.astro';
+import { buildTitle } from "../../utils/meta";
+
+import Seo from "../../components/shared/Seo.astro";
+
 const pagesContent = await fetchPagesContent();
 const distaffDescription = pagesContent?.distaffPageDescription;
+const publications = await fetchAllPublications();
 
+const pageTitle = buildTitle("Distaff and Shuttle");
 
 ---
+
+<Seo title={pageTitle} />
 
 <BaseLayout>
 

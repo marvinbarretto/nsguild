@@ -1,7 +1,14 @@
 ---
 import { fetchLatestGallery } from '../../utils/sanity';
+import Seo from '../../components/shared/Seo.astro';
+import { buildTitle } from '../../utils/meta';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageTitle from '../../components/shared/PageTitle.astro';
+
 
 const latest = await fetchLatestGallery();
+
+const pageTitle = buildTitle("Photo Gallery");
 
 if (!latest?.slug) {
   throw new Error('No gallery found');
@@ -9,17 +16,12 @@ if (!latest?.slug) {
 
 const target = `/gallery/${latest.slug}`;
 ---
-<style>
-    /* This avoids the nasty redirect flash */
-    body { display: none; }
-  </style>
 
-<html lang="en">
-  <head>
-    <meta http-equiv="refresh" content={`0; URL=${target}`} />
-    <title>Redirecting...</title>
-  </head>
-  <body>
-    <p>Redirecting to <a href={target}>{target}</a>…</p>
-  </body>
-</html>
+<Seo title={pageTitle} />
+
+<BaseLayout>
+  <div class="container">
+    <PageTitle title="Photo Gallery" />
+    <p>in progress...</p>
+  </div>
+</BaseLayout>

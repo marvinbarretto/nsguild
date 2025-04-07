@@ -7,6 +7,8 @@ import PageTitle from "../../components/shared/PageTitle.astro";
 import PageDescription from "../../components/shared/PageDescription.astro";
 import { fetchPagesContent } from "../../utils/sanity";
 import PortableText from '../../components/shared/PortableText.astro';
+import Seo from "../../components/shared/Seo.astro";
+import { buildTitle } from "../../utils/meta";
 
 const equipmentList: EquipmentType[] = await fetchAllEquipment();
 console.log("Fetched Equipment:", JSON.stringify(equipmentList, null, 2));  // âœ… Debug Output
@@ -14,7 +16,11 @@ console.log("Fetched Equipment:", JSON.stringify(equipmentList, null, 2));  // â
 const pagesContent = await fetchPagesContent();
 const equipmentDescription = pagesContent?.equipmentPageDescription;
 
+const pageTitle = buildTitle("Equipment");
+
 ---
+
+<Seo title={pageTitle} />
 
 <BaseLayout>
   <PageTitle title="Equipment" />

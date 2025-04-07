@@ -13,10 +13,12 @@ const globals = await fetchGlobals();
 const isHomePage = Astro.url.pathname === '/';
 
 const metadata = Astro.props.metadata || {
-  title: globals?.siteTitle || "NS Guild",
-  description: "Default description",
-  keywords: "default, keywords",
+  title: globals?.siteTitle || "Norfolk & Suffolk Guild of Weavers, Spinners and Dyers",
+  description: "",
+  keywords: "",
 };
+
+// TODO: Descriotion, keywords from sanity
 
 console.log("🔧 Layout loaded");
 

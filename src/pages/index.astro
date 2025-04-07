@@ -6,12 +6,18 @@ import PortableText from "../components/shared/PortableText.astro";
 import Banner from '../components/Banner.astro';
 import LatestNews from "../components/LatestNews.astro";
 import NextEvent from "../components/homepage/NextEvent.astro";
-import ListItem from "../components/shared/ListItem.astro";
+
+import { buildTitle } from "../utils/meta";
+import Seo from "../components/shared/Seo.astro";
+const title = buildTitle("Home");
+
 
 // Fetch homepage data at build time
 const vm = await fetchHomepage();
 
 ---
+
+<Seo title={title} />
 
 <BaseLayout>
   <Banner />

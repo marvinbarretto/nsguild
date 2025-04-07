@@ -3,15 +3,16 @@ import type { EventType } from "../../utils/types";
 import { fetchAllEvents } from "../../sanity/queries/event";
 import { fetchGlobals } from "../../utils/sanity";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-const events: EventType[] = await fetchAllEvents();
+
 import PageTitle from "../../components/shared/PageTitle.astro";
 import PageDescription from "../../components/shared/PageDescription.astro";
 import { portableTextToPlainText } from "../../utils/portableText";
-
+import Seo from "../../components/shared/Seo.astro";
+import { buildTitle } from "../../utils/meta";
 
 import ListItem from "../../components/shared/ListItem.astro";
 
-
+const events: EventType[] = await fetchAllEvents();
 const today = new Date().toISOString().split("T")[0]; // Get today's date
 console.log("Fetched Events:", events.map(e => ({ title: e.title, date: e.date })));
 
@@ -26,9 +27,12 @@ pastEvents.sort((a, b) => b.date.localeCompare(a.date));
 const globals = await fetchGlobals();
 const programmeUrl = globals?.programmeUrl || "";
 
-
+const pageTitle = buildTitle("Events");
 
 ---
+
+<Seo title={pageTitle} />
+
 <BaseLayout>
   <div class="container">
 
