@@ -6,6 +6,7 @@ import Image from "astro/components/Image.astro";
 import PageTitle from "../../components/shared/PageTitle.astro";
 import PageDescription from "../../components/shared/PageDescription.astro";
 import { fetchPagesContent } from "../../utils/sanity";
+import PortableText from '../../components/shared/PortableText.astro';
 
 const equipmentList: EquipmentType[] = await fetchAllEquipment();
 console.log("Fetched Equipment:", JSON.stringify(equipmentList, null, 2));  // ✅ Debug Output
@@ -17,7 +18,9 @@ const equipmentDescription = pagesContent?.equipmentPageDescription;
 
 <BaseLayout>
   <PageTitle title="Equipment" />
-  {equipmentDescription && <PageDescription>{equipmentDescription}</PageDescription>}
+  {equipmentDescription && <PageDescription>
+    <PortableText portableText={equipmentDescription}></PortableText>
+  </PageDescription>}
 
   <div class="equipment-grid">
     {equipmentList.map((item) => (

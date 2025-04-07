@@ -7,22 +7,17 @@ export const pagesContentType = defineType({
     fields: [
         defineField({
             name: 'newsPageDescription',
-            type: 'text',
+            type: 'blockContent',
             title: 'News Page Description',
         }),
         defineField({
-            name: 'eventsPageDescription',
-            type: 'text',
-            title: 'Events Page Description',
-        }),
-        defineField({
             name: 'distaffPageDescription',
-            type: 'text',
+            type: 'blockContent',
             title: 'Distaff & Shuttle Page Description',
         }),
         defineField({
             name: 'equipmentPageDescription',
-            type: 'text',
+            type: 'blockContent',
             title: 'Equipment Page Description',
         }),
     ]

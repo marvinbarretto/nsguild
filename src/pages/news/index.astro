@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ListItem from "../../components/shared/ListItem.astro";
 import PageTitle from "../../components/shared/PageTitle.astro";
 import PageDescription from "../../components/shared/PageDescription.astro";
+import PortableText from '../../components/shared/PortableText.astro';
 
 const posts = await fetchPostsPage();
 
@@ -20,7 +21,9 @@ console.log("DEBUG: posts =", JSON.stringify(posts, null, 2));
   <div class="container">
 
     <PageTitle title="News" />
-    {newsDescription && <PageDescription>{newsDescription}</PageDescription>}
+    {newsDescription && <PageDescription>
+      <PortableText portableText={newsDescription}></PortableText>
+    </PageDescription>}
     
     <ul class="news">
       {posts.map((post) => {

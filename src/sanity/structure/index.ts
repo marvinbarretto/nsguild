@@ -52,14 +52,14 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
 
       // Page Content (Singleton)
       S.listItem()
-        .title('Pages')
+        .title('Page descriptions')
         .id('pagesContent')
         .child(
           S.document()
             .id('pagesContentEditor')
             .schemaType('pagesContent')
             .documentId('pagesContent')
-            .title('Pages')
+            .title('Page descriptions')
         ),
 
       // Other document types not explicitly listed above

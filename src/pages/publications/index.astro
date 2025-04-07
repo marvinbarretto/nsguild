@@ -5,9 +5,10 @@ import { fetchAllPublications, fetchPagesContent } from '../../utils/sanity';
 import PageTitle from '../../components/shared/PageTitle.astro'; 
 import PageDescription from '../../components/shared/PageDescription.astro'; 
 const publications = await fetchAllPublications();
-
+import PortableText from '../../components/shared/PortableText.astro';
 const pagesContent = await fetchPagesContent();
 const distaffDescription = pagesContent?.distaffPageDescription;
+
 
 ---
 
@@ -16,7 +17,9 @@ const distaffDescription = pagesContent?.distaffPageDescription;
   <!-- TODO: make dynamic -->
 
   <PageTitle title="Distaff and Shuttle" />
-  {distaffDescription && <PageDescription>{distaffDescription}</PageDescription>}
+  {distaffDescription && <PageDescription>
+    <PortableText portableText={distaffDescription}></PortableText>
+  </PageDescription>}
 
   
 
