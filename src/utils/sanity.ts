@@ -33,14 +33,14 @@ export async function fetchGlobals(): Promise<Globals | null> {
 
 export function formatGalleryImages(images: any[]) {
   return images.map((img) => ({
-    url: img.asset?.url,
-    thumbnailUrl: img.asset?.url + "?w=300&h=200&fit=crop&q=80&auto=format",
-    lightboxUrl: img.asset?.url + "?w=1200&q=80&auto=format",
-    altText: img.altText,
+    asset: {
+      _id: img.asset?._id || img.asset?.url, // fallback
+      url: img.asset?.url,
+    },
+    alt: img.altText,
     caption: img.caption,
   }));
 }
-
 
 
 export async function fetchContactPage(): Promise<{
@@ -136,16 +136,6 @@ export async function fetchLatestGallery(): Promise<GalleryData | null> {
   return await getSanityData<GalleryData | null>(query);
 }
 
-// Fetch all galleries (for navigation)
-export async function fetchGalleryList(): Promise<Gallery[]> {
-  const query = `
-    *[_type == "photoGallery" && defined(slug.current)] | order(_createdAt desc) {
-      title,
-      "slug": slug.current
-    }
-  `;
-  return await getSanityData<Gallery[]>(query);
-}
 
 
 // Fetch images for a single gallery
@@ -154,9 +144,10 @@ export async function fetchGalleryBySlug(slug: string): Promise<GalleryData | nu
     *[_type == "photoGallery" && slug.current == $slug][0] {
       title,
       "images": images[]{
-        "url": asset->url,
-        "thumbnailUrl": asset->url + "?w=300&h=200&fit=crop&q=80&auto=format",
-        "lightboxUrl": asset->url + "?w=1200&q=70&auto=format"
+        "asset": asset->{
+          _id,
+          url
+        }
       }
     }
   `;

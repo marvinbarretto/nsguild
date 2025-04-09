@@ -1,13 +1,13 @@
 ---
 import Image from 'astro/components/Image.astro';
 const { footerText } = Astro.props;
+import wsdLogo from '../images/wsd-logo.gif';
 
 ---
 <footer>
-  
   <a target="_blank" rel="noopener noreferrer" class="wsd-logo" href="https://www.wsd.org.uk/">
     <Image
-      src={'/src/images/wsd-logo.gif'} 
+      src={wsdLogo} 
       alt=""
       width={50} 
       height={50} 

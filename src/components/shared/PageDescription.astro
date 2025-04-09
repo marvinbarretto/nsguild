@@ -1,8 +1,8 @@
 ---
-
+const { title, variant = "primary" } = Astro.props;
 ---
 
-<div class="page-description-container">
+<div class={`page-description-container page-description-container--${variant}`}>
   <div class="page-description">
     <div class="page-description-content portable-text">
         <slot />
@@ -35,4 +35,17 @@
   line-height: 0.8;
   flex: 1;
 }
+
+.page-description-container--secondary {
+        .page-description {
+            background-color: #333;
+            color: white;
+            color: var(--color-light);
+        }
+
+        .page-description-content {
+            background-color: #333;
+            color: white;
+        }
+    }
 </style>

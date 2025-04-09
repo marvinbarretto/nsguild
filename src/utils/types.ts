@@ -9,6 +9,21 @@ export type ImageBlock = {
   alt?: string;
 };
 
+export type ImageData = {
+  asset: {
+    _id: string;
+    url: string;
+  };
+};
+
+export type PhotoAlbum {
+  title: string;
+  slug: string;
+  date?: string;
+  images: GalleryImage[];
+}
+
+
 export interface Globals {
   siteTitle: string;
   footerText: string;

@@ -1,27 +1,17 @@
 ---
-import { fetchLatestGallery } from '../../utils/sanity';
-import Seo from '../../components/shared/Seo.astro';
-import { buildTitle } from '../../utils/meta';
+import GalleryGrid from '../../components/GalleryGrid.vue';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAllGalleryImages } from '../../sanity/queries/gallery';
 import PageTitle from '../../components/shared/PageTitle.astro';
+import GalleryNav from '../../components/gallery/GalleryNav.astro';
 
+const initialImages = await getAllGalleryImages({ limit: 5, offset: 0 });
 
-const latest = await fetchLatestGallery();
-
-const pageTitle = buildTitle("Photo Gallery");
-
-if (!latest?.slug) {
-  throw new Error('No gallery found');
-}
-
-const target = `/gallery/${latest.slug}`;
 ---
 
-<Seo title={pageTitle} />
-
 <BaseLayout>
-  <div class="container">
-    <PageTitle title="Photo Gallery" />
-    <p>in progress...</p>
-  </div>
+  <PageTitle title="Photo Gallery" />
+  <GalleryNav currentPath={Astro.url.pathname} />
+
+  <GalleryGrid client:load initialImages={initialImages} />
 </BaseLayout>

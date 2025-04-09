@@ -1,0 +1,28 @@
+---
+import GalleryGrid from "../../../components/GalleryGrid.vue";
+import PageDescription from "../../../components/shared/PageDescription.astro";
+import PageTitle from "../../../components/shared/PageTitle.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { fetchGalleryBySlug } from "../../../sanity/queries/gallery";
+
+const { slug } = Astro.params;
+if (!slug) throw new Error("Slug is required");
+
+const gallery = await fetchGalleryBySlug(slug);
+if (!gallery) throw new Error("Gallery not found");
+
+console.log(gallery);
+---
+
+<BaseLayout>
+  <PageTitle title={gallery.title} />
+  <PageDescription>
+    <a href="/gallery/albums">Back to Album list</a>
+  </PageDescription>
+
+  <GalleryGrid client:load initialImages={gallery.images} infinite={false} />
+
+  <PageDescription>
+    <a href="/gallery/albums">Back to Album list</a>
+  </PageDescription>
+</BaseLayout>

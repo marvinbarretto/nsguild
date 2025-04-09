@@ -14,6 +14,32 @@ export async function fetchLatestGallery(): Promise<GalleryData | null> {
   return { ...data, images: formatGalleryImages(data.images) };
 }
 
+export async function getAllGalleryImages({ limit = 5, offset = 0 } = {}) {
+  const query = `
+    *[_type == "photoGallery"] | order(_createdAt desc) {
+      images[]{
+        asset->{
+          _id,
+          url
+        }
+      }
+    }
+  `;
+
+  const galleries = await getSanityData(query);
+
+  // Flatten all images from all galleries
+
+  // TODO: Fix these any's
+  const allImages = (galleries as any)
+    .flatMap((gallery: any) => gallery.images ?? [])
+    .filter((img: any) => img?.asset?.url); // optional: filter out broken refs
+
+  // Apply pagination here
+  return allImages.slice(offset, offset + limit);
+}
+
+
 // Fetch all galleries (for navigation)
 export async function fetchGalleryList(): Promise<Gallery[]> {
   const query = `
@@ -30,7 +56,12 @@ export async function fetchGalleryBySlug(slug: string): Promise<GalleryData | nu
   const query = `
     *[_type == "photoGallery" && slug.current == $slug][0] {
       title,
-      images
+      "images": images[]{
+        "asset": asset->{
+          _id,
+          url
+        }
+      }
     }
   `;
   const data = await getSanityData<GalleryData | null>(query, { slug });

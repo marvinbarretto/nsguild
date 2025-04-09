@@ -62,7 +62,7 @@ const pageTitle = buildTitle("Events");
           >
             {event.relatedGallery && (
               <span slot="extra">
-                <a href={`/gallery/${event.relatedGallery.slug}`} class="gallery-link">
+                <a href={`/gallery/albums/${event.relatedGallery.slug}`} class="gallery-link">
                   📷 View Gallery
                 </a>
               </span>
@@ -95,7 +95,7 @@ const pageTitle = buildTitle("Events");
           >
             {event.relatedGallery && (
               <span slot="extra">
-                <a href={`/gallery/${event.relatedGallery.slug}`} class="gallery-link">
+                <a href={`/gallery/albums/${event.relatedGallery.slug}`} class="gallery-link">
                   📷 View Gallery
                 </a>
               </span>
@@ -119,6 +119,8 @@ const pageTitle = buildTitle("Events");
   }
 
   .upcoming, .past {
+    margin-left: 1rem;
+    margin-right: 1rem;
     margin-bottom: 2rem;
   }
 

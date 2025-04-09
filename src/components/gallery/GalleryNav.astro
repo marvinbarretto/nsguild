@@ -1,0 +1,50 @@
+---
+const { currentPath: rawPath } = Astro.props;
+const currentPath = rawPath ?? '';
+
+
+---
+<nav>
+  <a 
+    href="/gallery" 
+    class={currentPath === '/gallery' ? 'selected' : ''}
+  >
+    All photos
+  </a>
+
+  <a 
+    href="/gallery/albums" 
+    class={currentPath.startsWith('/gallery/albums') ? 'selected' : ''}
+  >
+    Album list
+  </a>
+</nav>
+
+<style scoped lang="scss">
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: .5rem;
+    //   border-bottom: solid 5px #333;
+      margin: 0 1rem;
+    }
+    a {
+      background-color: #f0f0f0;
+      border: dotted 3px #c8eaff;
+      color: #333;
+      padding: .5rem 1rem;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    a.selected {
+      background-color: #333;
+    //   border: none;
+    //   border-bottom-left-radius: 0;
+    //   border-bottom-right-radius: 0;
+      color: white;
+      font-weight: bold;
+    }
+    </style>
+    

@@ -12,6 +12,7 @@
     "@astrojs/react": "4.1.2",
     "@astrojs/svelte": "7.0.2",
     "@astrojs/vercel": "8.0.1",
+    "@astrojs/vue": "5.0.9",
     "@portabletext/types": "2.0.13",
     "@sanity/astro": "3.1.9",
     "@sanity/client": "6.24.1",
@@ -30,10 +31,12 @@
     "sanity": "3.68.3",
     "sass": "1.83.0",
     "styled-components": "6.1.13",
-    "typescript": "5.7.2"
+    "typescript": "5.7.2",
+    "vue": "3.5.13"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.4",
+    "@types/vue": "1.0.31",
     "sass-embedded": "1.82.0"
   },
   "engines": {
