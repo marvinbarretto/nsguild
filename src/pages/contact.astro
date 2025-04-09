@@ -5,6 +5,7 @@ import PageTitle from '../components/shared/PageTitle.astro';
 import PageDescription from '../components/shared/PageDescription.astro';
 import { buildTitle } from "../utils/meta";
 import Seo from "../components/shared/Seo.astro";
+import Image from "astro/components/Image.astro";
 
 const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY;
 
@@ -65,16 +66,28 @@ const pageTitle = buildTitle(vm.title);
     </form>
   </PageDescription>
 
-  <PageDescription>
-    <img class="village-hall" src="/src/images/village-hall.webp" />
-    <p class="address">
-      The Village Hall<br>
-      Sun Road<br>
-      Broome<br>
-      Nr Bungay<br>
-      NR35 2RW
-    </p>
-  </PageDescription>
+  <div class="location">
+    <PageDescription>
+      <Image 
+        src="/src/images/village-hall.webp" 
+        alt="Village Hall" 
+        width={300} 
+        height={300} 
+        format="webp"
+        quality={80}
+        loading="lazy"
+      />
+  
+      <p class="address">
+        The Village Hall<br>
+        Sun Road<br>
+        Broome<br>
+        Nr Bungay<br>
+        NR35 2RW
+      </p>
+    </PageDescription>
+  
+  </div>
 
 
 </div>
@@ -85,8 +98,8 @@ const pageTitle = buildTitle(vm.title);
 
 <style>
 
-  .village-hall {
-    width: 300px;
+  .location img {
+    max-width: 300px;
   }
 
   .container {
@@ -94,6 +107,7 @@ const pageTitle = buildTitle(vm.title);
     justify-content: center;
     flex-direction: column;
     gap: 1rem;
+    margin: 1rem;
     @media (min-width: 900px) {
       flex-direction: row;
     }
