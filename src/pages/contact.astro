@@ -6,7 +6,7 @@ import PageDescription from '../components/shared/PageDescription.astro';
 import { buildTitle } from "../utils/meta";
 import Seo from "../components/shared/Seo.astro";
 import Image from "astro/components/Image.astro";
-
+import villageHall from '../images/village-hall.webp';
 const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY;
 
 const vm = await fetchContactPage();
@@ -71,7 +71,7 @@ const pageTitle = buildTitle(vm.title);
 
     <PageDescription>
       <Image 
-        src="/src/images/village-hall.webp" 
+        src={villageHall} 
         alt="Village Hall" 
         width={300} 
         height={300} 
