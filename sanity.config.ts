@@ -12,10 +12,6 @@ export default defineConfig({
   dataset: import.meta.env.PUBLIC_SANITY_DATASET,
   plugins: [
     structureTool({ structure }),
-    presentationTool({
-      resolve,
-      previewUrl: location.origin
-    }),
     visionTool()
   ],
   schema
