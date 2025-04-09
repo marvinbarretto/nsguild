@@ -40,7 +40,10 @@ const event: EventType | null = await fetchNextEvent();
 
   .next-event {
     background: var(--bg-medium);
-    padding: 1rem;
+    padding: 0.5rem;
+    @media (min-width: 700px) {
+      padding: 1rem;
+    }
     border-radius: 8px;
     flex: 1;
 
