@@ -19,9 +19,9 @@ const pageTitle = buildTitle(vm.title);
 
   <PageTitle title={vm.title} />
   
-<div class="container">
+<div class="container" itemscope itemtype="https://schema.org/Organization">
   <PageDescription>
-    <p>Email us directly at <a href="mailto:mail@norfolksuffolkwsd.org.uk">mail@norfolksuffolkwsd.org.uk</a><br>or use the form below</p>
+    <p>Email us directly at <a itemprop="email" href="mailto:mail@norfolksuffolkwsd.org.uk">mail@norfolksuffolkwsd.org.uk</a><br>or use the form below</p>
     <form id="form" novalidate>
       <input type="hidden" name="access_key" value={accessKey} />
       <input type="checkbox" class="hidden" style="display:none" name="botcheck" />
@@ -66,7 +66,9 @@ const pageTitle = buildTitle(vm.title);
     </form>
   </PageDescription>
 
-  <div class="location">
+  <section class="location">
+    <span class="hidden" itemprop="name">Norfolk and Suffolk Guild of Weavers, Spinners and Dyers</span>
+
     <PageDescription>
       <Image 
         src="/src/images/village-hall.webp" 
@@ -75,15 +77,14 @@ const pageTitle = buildTitle(vm.title);
         height={300} 
         format="webp"
         quality={80}
-        loading="lazy"
       />
-  
-      <p class="address">
-        The Village Hall<br>
-        Sun Road<br>
-        Broome<br>
-        Nr Bungay<br>
-        NR35 2RW
+
+      <p class="address" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+        <span itemprop="streetAddress">The Village Hall</span><br>
+        <span itemprop="addressLocality">Sun Road</span><br>
+        <span itemprop="addressRegion">Broome</span><br>
+        <span itemprop="addressRegion">Nr Bungay</span><br>
+        <span itemprop="postalCode">NR35 2RW</span>
       </p>
     </PageDescription>
   
