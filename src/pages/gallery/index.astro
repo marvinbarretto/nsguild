@@ -12,7 +12,8 @@ const initialImages = formatGalleryImages(rawImages); // ✅ shape them correctl
 
 <BaseLayout>
   <PageTitle title="Photo Gallery" />
-  <GalleryNav currentPath={Astro.url.pathname} />
+  <GalleryNav currentPath={Astro.url.pathname}  />
 
-  <GalleryGrid client:load initialImages={initialImages} />
+  <GalleryGrid client:load initialImages={initialImages} infinite={true} />
 </BaseLayout>
+``

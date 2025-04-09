@@ -18,6 +18,7 @@ import { ref, onMounted, nextTick, watch } from 'vue';
 import LightboxImage from '../components/LightboxImage.vue';
 import 'glightbox/dist/css/glightbox.min.css';
 import type { GalleryImage } from '../utils/types';
+import { formatGalleryImages } from '../utils/sanity';
 
 const props = defineProps<{
   initialImages: GalleryImage[];
@@ -54,7 +55,9 @@ async function loadMoreImages() {
   try {
     const limit = 5;
     const res = await fetch(`/api/gallery?page=${page.value + 1}&limit=${limit}`);
-    const newImages: GalleryImage[] = await res.json();
+    const rawImages = await res.json();
+
+    const newImages: GalleryImage[] = formatGalleryImages(rawImages);
 
     console.log('📥 Loaded new images:', newImages);
 
