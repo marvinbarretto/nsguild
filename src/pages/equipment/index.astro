@@ -23,37 +23,41 @@ const pageTitle = buildTitle("Equipment");
 <Seo title={pageTitle} />
 
 <BaseLayout>
-  <PageTitle title="Equipment" />
-  {equipmentDescription && <PageDescription>
-    <PortableText portableText={equipmentDescription}></PortableText>
-  </PageDescription>}
 
-  <div class="equipment-grid">
-    {equipmentList.map((item) => (
+  <div class="container">
 
-    <a href={`/equipment/${item.slug}`} class="equipment-card">
+    <PageTitle title="Equipment" />
+    {equipmentDescription && <PageDescription>
+      <PortableText portableText={equipmentDescription}></PortableText>
+    </PageDescription>}
 
-<div>
-    <!-- Graphic Label for Sale / Rent -->
-        <span class={`tag ${item.category === "For Sale" ? "for-sale" : "for-hire"}`}>
-          {item.category}
-        </span>
+    <div class="equipment-grid">
+      {equipmentList.map((item) => (
 
-        <!-- Equipment Image (Select first available one) -->
-        {item.images && item.images.length > 0 ? (
-        <Image 
-            src={item.images[0].url} 
-            alt={item.title} 
-            width={200} 
-            height={150} 
-            format="webp"
-            quality={80}
-            loading="lazy"
-        />
-        ) : (
-        <p class="no-image"></p>
-        // TODO: Fix this - clean up
-        )}
+      <a href={`/equipment/${item.slug}`} class="equipment-card">
+
+  <div>
+      <!-- Graphic Label for Sale / Rent -->
+          <span class={`tag ${item.category === "For Sale" ? "for-sale" : "for-hire"}`}>
+            {item.category}
+          </span>
+
+          <!-- Equipment Image (Select first available one) -->
+          {item.images && item.images.length > 0 ? (
+          <Image 
+              src={item.images[0].url} 
+              alt={item.title} 
+              width={200} 
+              height={150} 
+              format="webp"
+              quality={80}
+              loading="lazy"
+          />
+          ) : (
+          <p class="no-image"></p>
+          // TODO: Fix this - clean up
+          )}
+        </div>
 </div>
         
 
@@ -65,6 +69,10 @@ const pageTitle = buildTitle("Equipment");
 </BaseLayout>
 
 <style>
+
+  .container {
+    margin: 1rem;
+  }
   .equipment-grid {
     display: flex;
     flex-direction: column;

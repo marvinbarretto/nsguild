@@ -8,24 +8,13 @@ html, body {
 
 body {
 
-  // background: radial-gradient(transparent 29%, var(--bg-medium) 30%, var(--bg-medium) 50%, transparent 51%, transparent 74%, var(--bg-medium) 75%, var(--bg-medium) 95%, transparent 96%);
-  //       background-size: 1em 1em;
-  //       background-color: var(--bg-light);
-  //       opacity: 1;
 
-  
+  // background-image: url('../images/weave.png');
+  // background-size: contain;
 
   background: linear-gradient(45deg,transparent 34%, #ffffff 35%, #ffffff 40%, transparent 41%, transparent 59%, #ffffff  60%, #ffffff 65%, transparent 66%),linear-gradient(135deg,transparent 34%, #ffffff 35%, #ffffff 40%, transparent 41%, transparent 59%, #ffffff  60%, #ffffff 65%, transparent 66%);
   background-size: 3em 3em;
   background-color: #c8eaff;
-
-  // background-blend-mode: color-dodge;
-
-  // background: radial-gradient(transparent 34%, var(--bg-dark) 35%, var(--bg-dark) 45%, transparent 46%), radial-gradient(circle at left, transparent 39%, var(--bg-medium) 40%, var(--bg-medium) 45%, transparent 46%), radial-gradient(circle at right, transparent 39%, var(--bg-medium) 40%, var(--bg-medium) 45%, transparent 46%);
-  //       background-size: 1em 1em;
-  //       background-color: var(--bg-light);
-  //       opacity: 1;
-
 
 
   min-height: 100vh;
@@ -37,7 +26,6 @@ body {
 
 main {
   flex: 1;
-  // padding: 1rem;
 }
 
 .btn {
