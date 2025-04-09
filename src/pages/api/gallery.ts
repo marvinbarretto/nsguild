@@ -1,4 +1,4 @@
-import { getAllGalleryImages } from '../../utils/sanity';
+import { getAllGalleryImages } from '../../sanity/queries/gallery';
 
 export async function GET({ url }: { url: URL }) {
   const page = Number(url.searchParams.get('page') || '1');

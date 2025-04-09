@@ -43,23 +43,27 @@ function isSelected(linkUrl: string) {
 </nav>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const toggleButton = document.querySelector(".toggle-content");
-    const navLinks = document.getElementById("nav-links");
+document.addEventListener("DOMContentLoaded", () => {
+  const toggleButton = document.querySelector(".nav-toggle");
+  const navLinks = document.getElementById("nav-links");
 
-    if (!toggleButton || !navLinks) {
-      console.error("Navigation elements not found!");
-      return;
+  if (!toggleButton || !navLinks) {
+    console.error("Navigation elements not found!");
+    return;
+  }
+
+  toggleButton.addEventListener("click", () => {
+    const isOpen = navLinks.getAttribute("data-open") === "true";
+
+    navLinks.setAttribute("data-open", isOpen ? "false" : "true");
+    const label = toggleButton.querySelector(".toggle-content");
+    if (label) {
+      label.textContent = isOpen ? "Open Navigation" : "Close Navigation";
     }
-
-    toggleButton.addEventListener("click", () => {
-      const isOpen = navLinks.getAttribute("data-open") === "true";
-
-      navLinks.setAttribute("data-open", isOpen ? "false" : "true");
-      toggleButton.textContent = isOpen ? "Open Navigation" : "Close Navigation";
-      toggleButton.setAttribute("aria-expanded", isOpen ? "false" : "true");
-    });
+    toggleButton.setAttribute("aria-expanded", isOpen ? "false" : "true");
   });
+});
+
 </script>
 
 

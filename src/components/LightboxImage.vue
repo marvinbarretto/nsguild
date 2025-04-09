@@ -1,26 +1,16 @@
 <template>
-    <!--
-      This component renders a single image with a polaroid-style container.
-      When clicked, it opens the image in a GLightbox popup viewer.
-    -->
-    <a
-      :href="image.asset.url"
-      class="glightbox polaroid"
-      :data-glightbox="image.alt ? `title: ${image.alt}` : undefined"
-    >
-      <img
-        :src="`${image.asset.url}?w=300&auto=format`"
-        :alt="image.alt || 'Image'"
-        width="300"
-        loading="lazy"
-        decoding="async"
-      />
-    </a>
-  </template>
   
-  <script setup lang="ts">
+  <a :href="image.lightboxUrl" class="image-wrapper glightbox polaroid" data-gallery="gallery1">
+    <img 
+      :src="image.thumbnailUrl"
+      :alt="image.altText || 'Gallery image'"
+      loading="lazy"
+    />
+  </a>
+</template>
 
   
+  <script setup lang="ts">
   // Receive props passed into the component.
   const props = defineProps<{
     image: ImageData;
@@ -54,7 +44,7 @@
   .polaroid img {
     width: 100%;
     height: auto;
-    object-fit: cover;
+    /* object-fit: cover; */
     border-radius: 2px;
   }
   </style>

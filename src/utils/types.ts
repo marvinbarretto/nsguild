@@ -16,7 +16,7 @@ export type ImageData = {
   };
 };
 
-export type PhotoAlbum {
+export type PhotoAlbum = {
   title: string;
   slug: string;
   date?: string;
@@ -111,11 +111,11 @@ export type Gallery = {
 };
 
 export type GalleryImage = {
-url: string;
-thumbnailUrl: string;
-lightboxUrl: string;
-altText?: string;
-caption?: string;
+  url: string;
+  thumbnailUrl: string;
+  lightboxUrl: string;
+  altText?: string;
+  caption?: string;
 };
 
 

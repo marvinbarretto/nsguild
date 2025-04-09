@@ -2,11 +2,12 @@
 import GalleryGrid from '../../components/GalleryGrid.vue';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getAllGalleryImages } from '../../sanity/queries/gallery';
+import { formatGalleryImages } from '../../utils/sanity';
 import PageTitle from '../../components/shared/PageTitle.astro';
 import GalleryNav from '../../components/gallery/GalleryNav.astro';
 
-const initialImages = await getAllGalleryImages({ limit: 5, offset: 0 });
-
+const rawImages = await getAllGalleryImages({ limit: 5, offset: 0 });
+const initialImages = formatGalleryImages(rawImages); // ✅ shape them correctly
 ---
 
 <BaseLayout>

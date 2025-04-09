@@ -1,5 +1,5 @@
 import { createClient } from "@sanity/client";
-import type { EventType, Post, Publication, Globals } from "./types";
+import type { EventType, Post, Publication, Globals, GalleryImage } from "./types";
 import type { APIRoute } from "astro";
 import type { Gallery, GalleryData, EquipmentType, PagesContent } from "../utils/types";
 import { fetchHomepage } from "../sanity/queries/homepage";
@@ -31,15 +31,18 @@ export async function fetchGlobals(): Promise<Globals | null> {
 }
 
 
-export function formatGalleryImages(images: any[]) {
-  return images.map((img) => ({
-    asset: {
-      _id: img.asset?._id || img.asset?.url, // fallback
-      url: img.asset?.url,
-    },
-    alt: img.altText,
-    caption: img.caption,
-  }));
+export function formatGalleryImages(images: any[]): GalleryImage[] {
+  return images.map((img) => {
+    const baseUrl = img.asset?.url;
+
+    return {
+      url: baseUrl,
+      thumbnailUrl: baseUrl + '?w=400&fit=crop',
+      lightboxUrl: baseUrl + '?w=1600',
+      altText: img.altText || '',
+      caption: img.caption || '',
+    };
+  });
 }
 
 
