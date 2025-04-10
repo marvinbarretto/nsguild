@@ -1,7 +1,6 @@
 ---
-import { fetchLatestNews } from "../sanity/queries/news";
-import type { Post } from "../utils/types";
-import DateDisplay from "./shared/DateDisplay.astro";
+import { fetchLatestNews } from "../../sanity/queries/news";
+import type { Post } from "../../utils/types";
 
 const news: Post | null = await fetchLatestNews();
 ---
@@ -9,13 +8,8 @@ const news: Post | null = await fetchLatestNews();
 {news && (
     <section class="latest-news">
       <h2>Latest News</h2>
-      {/* <a href={`/news/${news.slug}`}> */}
-        <h3>{news.title}</h3>
-        <p>{news.body}</p>
-        {/* <p class="date">
-          <DateDisplay date={news.publishedAt} />
-        </p> */}
-      </a>
+      <h3>{news.title}</h3>
+      <p>{news.body}</p>
     </section>
   )}
   

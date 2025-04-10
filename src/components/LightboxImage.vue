@@ -1,9 +1,8 @@
 <template>
-  
   <a :href="image.url" class="image-wrapper glightbox polaroid" data-gallery="gallery1">
     <img 
       :src="image.url"
-      :alt="image.altText || 'Gallery image'"
+      :alt="''"
       loading="lazy"
     />
   </a>
@@ -20,7 +19,7 @@ const altText = 'Gallery image';
 </script>
 
   
-  <style scoped>
+<style scoped>
   .polaroid {
     position: relative;
     padding: 10px;
@@ -44,5 +43,5 @@ const altText = 'Gallery image';
     height: auto;
     border-radius: 2px;
   }
-  </style>
+</style>
   
