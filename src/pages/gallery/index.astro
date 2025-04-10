@@ -1,19 +1,26 @@
 ---
-import GalleryGrid from '../../components/GalleryGrid.vue';
+import GalleryGrid from '../../components/gallery/GalleryGrid.vue';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getAllGalleryImages } from '../../sanity/queries/gallery';
-import { formatGalleryImages } from '../../utils/sanity';
 import PageTitle from '../../components/shared/PageTitle.astro';
 import GalleryNav from '../../components/gallery/GalleryNav.astro';
+ 
+const initialImages = await getAllGalleryImages({ limit: 5, offset: 0 });
 
-const rawImages = await getAllGalleryImages({ limit: 5, offset: 0 });
-const initialImages = formatGalleryImages(rawImages); // ✅ shape them correctly
 ---
 
 <BaseLayout>
-  <PageTitle title="Photo Gallery" />
-  <GalleryNav currentPath={Astro.url.pathname}  />
+  <div class="container">
+    <PageTitle title="Photo Gallery" />
+    <GalleryNav currentPath={Astro.url.pathname}  />
 
-  <GalleryGrid client:load initialImages={initialImages} infinite={true} />
+    <GalleryGrid client:load initialImages={initialImages} infinite={true} />
+  </div>
 </BaseLayout>
+
+<style lang="scss">
+  .container {
+    margin: 1rem;
+  }
+</style>
 ``

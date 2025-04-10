@@ -36,7 +36,6 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.4",
-    "@types/vue": "1.0.31",
     "sass-embedded": "1.82.0"
   },
   "engines": {

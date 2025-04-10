@@ -23,8 +23,7 @@ export async function fetchAllEquipment(): Promise<EquipmentType[]> {
         title,
         category,
         description,
-        "images": images[].asset->{url},
-        "documentUrl": document.asset->url
+        "image": image.asset->{url},
       }
     `;
     return await getSanityData<EquipmentType | null>(query, { slug });

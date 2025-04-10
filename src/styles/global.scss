@@ -12,7 +12,10 @@ body {
 }
 
 h1 {
-    font-size: 3rem;
+    font-size: 2rem;
+    @media (min-width: 700px) {
+      font-size: 3rem;
+    }
 }
 
 main {

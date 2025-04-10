@@ -1,43 +1,25 @@
-import { getSanityData, formatGalleryImages } from "../../utils/sanity";
-import type { GalleryData, Gallery } from "../../utils/types";
+import { getSanityData } from "../../utils/sanity";
+import type { GalleryData, Gallery, GalleryImage } from "../../utils/types";
 
-// Fetch the most recent gallery (for the main display)
-export async function fetchLatestGallery(): Promise<GalleryData | null> {
-  const query = `
-    *[_type == "photoGallery"] | order(_createdAt desc)[0] {
-      title,
-      images
-    }
-  `;
-  const data = await getSanityData<GalleryData | null>(query);
-  if (!data) return null;
-  return { ...data, images: formatGalleryImages(data.images) };
-}
 
-export async function getAllGalleryImages({ limit = 5, offset = 0 } = {}) {
+
+export async function getAllGalleryImages({ limit = 5, offset = 0 } = {}): Promise<GalleryImage[]> {
   const query = `
     *[_type == "photoGallery"] | order(_createdAt desc) {
-      images[]{
-        asset->{
-          _id,
-          url
-        }
-      }
+      "images": images[]{ "url": asset->url }
     }
   `;
 
-  const galleries = await getSanityData(query);
+  const galleries = await getSanityData<{ images: GalleryImage[] }[]>(query);
 
-  // Flatten all images from all galleries
+  const allImages = galleries
+    .flatMap((gallery) => gallery.images ?? [])
+    .filter((img): img is GalleryImage => Boolean(img?.url)); // strong typing + cleanup
 
-  // TODO: Fix these any's
-  const allImages = (galleries as any)
-    .flatMap((gallery: any) => gallery.images ?? [])
-    .filter((img: any) => img?.asset?.url); // optional: filter out broken refs
-
-  // Apply pagination here
   return allImages.slice(offset, offset + limit);
 }
+
+
 
 
 // Fetch all galleries (for navigation)
@@ -51,35 +33,14 @@ export async function fetchGalleryList(): Promise<Gallery[]> {
   return await getSanityData<Gallery[]>(query);
 }
 
-// Fetch a specific gallery by slug
+
 export async function fetchGalleryBySlug(slug: string): Promise<GalleryData | null> {
   const query = `
     *[_type == "photoGallery" && slug.current == $slug][0] {
       title,
-      "images": images[]{
-        "asset": asset->{
-          _id,
-          url
-        }
-      }
+      "images": images[]{ "url": asset->url }
     }
   `;
-  const data = await getSanityData<GalleryData | null>(query, { slug });
-  if (!data) return null;
-  return { ...data, images: formatGalleryImages(data.images) };
+  return await getSanityData<Gallery | null>(query, { slug });
 }
 
-// Fetch all galleries with images (for gallery page)
-export async function fetchGalleryPage(): Promise<GalleryData[]> {
-  const query = `
-    *[_type == "photoGallery"] {
-      title,
-      images
-    }
-  `;
-  const data = await getSanityData<GalleryData[]>(query);
-  return data.map((gallery) => ({
-    ...gallery,
-    images: formatGalleryImages(gallery.images),
-  }));
-}

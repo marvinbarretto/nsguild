@@ -1,11 +1,15 @@
 <template>
   <div class="gallery">
-    <template v-for="(img, index) in images" :key="img.url || index">
-  <LightboxImage
-    v-if="isValidImage(img)"
-    :image="img"
-  />
-</template>
+    <div
+      v-for="(img, index) in images"
+      :key="img.url || index"
+    >
+      <LightboxImage
+        v-if="isValidImage(img)"
+        :image="img"
+      />
+    </div>
+
     <!-- Sentinel triggers infinite scroll -->
     <div ref="sentinel">
       <span v-if="isLoading">Loading more...</span>
@@ -13,12 +17,13 @@
   </div>
 </template>
 
+
+
 <script setup lang="ts">
 import { ref, onMounted, nextTick, watch } from 'vue';
-import LightboxImage from '../components/LightboxImage.vue';
+import LightboxImage from '../../components/LightboxImage.vue';
 import 'glightbox/dist/css/glightbox.min.css';
-import type { GalleryImage } from '../utils/types';
-import { formatGalleryImages } from '../utils/sanity';
+import type { GalleryImage } from '../../utils/types';
 
 const props = defineProps<{
   initialImages: GalleryImage[];
@@ -55,9 +60,8 @@ async function loadMoreImages() {
   try {
     const limit = 5;
     const res = await fetch(`/api/gallery?page=${page.value + 1}&limit=${limit}`);
-    const rawImages = await res.json();
 
-    const newImages: GalleryImage[] = formatGalleryImages(rawImages);
+    const newImages: GalleryImage[] = await res.json(); // Already correct shape
 
     console.log('📥 Loaded new images:', newImages);
 
@@ -119,10 +123,17 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.gallery {
-  margin: 1rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
-}
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+  }
 </style>

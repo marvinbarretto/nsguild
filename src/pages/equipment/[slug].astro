@@ -4,6 +4,9 @@ import { fetchEquipmentBySlug } from "../../sanity/queries/equipment";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Image from "astro/components/Image.astro";
 import PortableText from "../../components/shared/PortableText.astro";
+import PageDescription from "../../components/shared/PageDescription.astro";
+import PageTitle from "../../components/shared/PageTitle.astro";
+import GalleryGrid from "../../components/gallery/GalleryGrid.vue";
 
 const { slug } = Astro.params;
 
@@ -14,90 +17,71 @@ if (!slug) {
 
 const equipment: EquipmentType | null = await fetchEquipmentBySlug(slug);
 
+console.log(equipment?.image.url);
+
 ---
 
 <BaseLayout>
-  {equipment ? (
-    <article>
-      <h1>{equipment.title}</h1>
+  
+  <div class="equipment">
+    <PageTitle title={equipment?.title} />
 
-      <!-- Category Label -->
-      <span class={`tag ${equipment.category === "For Sale" ? "for-sale" : "for-hire"}`}>
-        {equipment.category}
-      </span>
-
-      <div class="equipment-card">
-
-
-        <!-- Images -->
-        <div class="image-gallery">
-          {equipment.images && equipment.images.map((img) => (
-            <Image 
-              src={img.url} 
-              alt={equipment.title} 
-              width={600} 
-              height={400} 
-              format="webp"
-              quality={80}
-              loading="lazy"
-            />
-          ))}
-        </div>
-
-        <!-- Description -->
-        <div class="description">
-          <PortableText portableText={equipment.description} />
-        </div>
-      </div>
-
-      <!-- Download Link -->
-      {equipment.documentUrl && (
-        <p><a href={equipment.documentUrl} download>📄 Download File</a></p>
+    <div class="equipment__listing">
+      {equipment?.image && (
+        <Image
+          src={equipment.image.url || ""}
+          inferSize={true}
+          class="equipment__image"
+          alt={`Photo of ${equipment.title}`} />  
       )}
-    </article>
-  ) : (
-    <p>Equipment not found.</p>
-  )}
+      <PageDescription>
+        {equipment?.description && <PortableText portableText={equipment?.description} />}
+      </PageDescription>
+    </div>
+
+  </div>
+  
+  <!-- <GalleryGrid client:load initialImages={equipment?.images || []} infinite={false} /> -->
+
+  <PageDescription>
+    Back to <a href="/equipment">Equipment list</a>
+  </PageDescription>
 </BaseLayout>
 
 <style>
-  .image-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 10px;
+
+  .equipment {
+    margin: 1rem;
   }
 
-
-  /* TODO: Nprmalise and apply outside of this scope */
-  .equipment-card {
-    position: relative;
-    border: 1px solid #ddd;
-    padding: 1rem;
-    border-radius: 8px;
-    background-color: var(--bg-light);
-    /* text-align: center; */
+  .equipment__listing {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     align-items: center;
+
+
   }
 
-
-  .tag {
-    display: inline-block;
-    padding: 5px 10px;
-    font-size: 1rem;
-    color: #fff;
-    border-radius: 4px;
-    margin-bottom: 10px;
+  .equipment__image {
+    border: solid 5px #FFF;
+    display: block;
+  
+    margin-top: -1rem;
+    width: 100%;
+    max-width: 500px;
   }
 
-  .for-sale {
-    background: red;
-  }
+  @media (min-width: 1024px) {
+    .equipment__listing {
+      flex-direction: row;
+      align-items: flex-start;
+      max-width: 1000px;
+      margin: auto;
+    }
 
-  .for-hire {
-    background: green;
-  }
+    .equipment__image {
 
-  .description {
-    margin-top: 20px;
+    }
   }
 </style>

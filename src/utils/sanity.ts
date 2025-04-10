@@ -119,61 +119,6 @@ export async function fetchAllPublications(): Promise<Publication[]> {
   return await getSanityData<Publication[]>(query);
 }
 
-// Fetch the most recent gallery (for the main display)
-// Make sure we get smaller images
-export async function fetchLatestGallery(): Promise<GalleryData | null> {
-  const query = `
-    *[_type == "photoGallery"] | order(_createdAt desc)[0] {
-      title,
-      "slug": slug.current,
-      "images": images[]{
-        "url": asset->url,
-        "thumbnailUrl": asset->url + "?w=300&h=200&fit=crop&q=80&auto=format",
-        "lightboxUrl": asset->url + "?w=1200&q=80&auto=format",
-        altText,
-        caption
-      }
-    }
-  `;
-
-  return await getSanityData<GalleryData | null>(query);
-}
-
-
-
-// Fetch images for a single gallery
-export async function fetchGalleryBySlug(slug: string): Promise<GalleryData | null> {
-  const query = `
-    *[_type == "photoGallery" && slug.current == $slug][0] {
-      title,
-      "images": images[]{
-        "asset": asset->{
-          _id,
-          url
-        }
-      }
-    }
-  `;
-  return await getSanityData<GalleryData | null>(query, { slug });
-}
-
-
-export async function fetchGalleryPage(): Promise<{
-  title: string;
-  images: { url: string }[];
-}[]> {
-  const query = `
-    *[_type == "photoGallery"] {
-      title,
-      "images": images[].asset->{
-        url
-      }
-    }
-  `;
-  return await getSanityData(query);
-}
-
-
 export async function fetchPostsPage(): Promise<Post[]> {
   const posts = `
     *[_type == "post" && defined(slug.current)]

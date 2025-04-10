@@ -37,9 +37,10 @@ const vm = await fetchHomepage();
         <div class="primary">
           {vm?.whoWeAre && (
             <section id="who-we-are" class="portable-text">
-              <h2>Who We Are</h2>
-              <PortableText portableText={vm.whoWeAre} />
-              
+              <div class="panel-content">
+                <h2>Who We Are</h2>
+                <PortableText portableText={vm.whoWeAre} />
+              </div>
             </section>
           )}
       
@@ -51,22 +52,28 @@ const vm = await fetchHomepage();
         <div class="secondary">
           {vm?.whatWeDo && (
             <section id="what-we-do" class="portable-text">
-              <h2>What We Do</h2>
-              <PortableText portableText={vm.whatWeDo} />
+              <div class="panel-content">
+                <h2>What We Do</h2>
+                <PortableText portableText={vm.whatWeDo} />
+              </div>
             </section>
           )}
             
           {vm?.whenWeMeet && (
             <section id="when-we-meet" class="portable-text">
-              <h2>When We Meet</h2>
-              <PortableText portableText={vm.whenWeMeet} />
+              <div class="panel-content">
+                <h2>When We Meet</h2>
+                <PortableText portableText={vm.whenWeMeet} />
+              </div>
             </section>
           )}
       
           {vm?.whereWeMeet && (
             <section id="where-we-meet" class="portable-text">
-              <h2>Where We Meet</h2>
-              <PortableText portableText={vm.whereWeMeet} />
+              <div class="panel-content">
+                <h2>Where We Meet</h2>
+                <PortableText portableText={vm.whereWeMeet} />
+              </div>
             </section>
           )}
         </div>
@@ -170,6 +177,10 @@ aside {
 
   }
 
+  .panel-content {
+    @include panel-border;
+    height: 100%;
+  }
 
   .others {
     display: flex;

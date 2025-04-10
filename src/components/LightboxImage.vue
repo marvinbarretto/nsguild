@@ -1,27 +1,26 @@
 <template>
   
-  <a :href="image.lightboxUrl" class="image-wrapper glightbox polaroid" data-gallery="gallery1">
+  <a :href="image.url" class="image-wrapper glightbox polaroid" data-gallery="gallery1">
     <img 
-      :src="image.thumbnailUrl"
+      :src="image.url"
       :alt="image.altText || 'Gallery image'"
       loading="lazy"
     />
   </a>
 </template>
+  
+<script setup lang="ts">
+import type { GalleryImage } from '../utils/types';
+
+const props = defineProps<{
+  image: GalleryImage;
+}>();
+
+const altText = 'Gallery image';
+</script>
 
   
-  <script setup lang="ts">
-  // Receive props passed into the component.
-  const props = defineProps<{
-    image: ImageData;
-  }>();
-  
-  // Destructure for easier access
-  const { image } = props;
-  </script>
-  
   <style scoped>
-  /* Polaroid card look */
   .polaroid {
     position: relative;
     padding: 10px;
@@ -36,7 +35,6 @@
     display: inline-block;
   }
   
-  /* Optional 3D hover effect */
   .polaroid:hover {
     transform: scale(1.03);
   }
@@ -44,7 +42,6 @@
   .polaroid img {
     width: 100%;
     height: auto;
-    /* object-fit: cover; */
     border-radius: 2px;
   }
   </style>

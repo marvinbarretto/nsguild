@@ -3,25 +3,6 @@ export type RichTextBlock = {
   children: { text: string }[];
 };
 
-export type ImageBlock = {
-  _type: 'image';
-  asset: { url: string };
-  alt?: string;
-};
-
-export type ImageData = {
-  asset: {
-    _id: string;
-    url: string;
-  };
-};
-
-export type PhotoAlbum = {
-  title: string;
-  slug: string;
-  date?: string;
-  images: GalleryImage[];
-}
 
 
 export interface Globals {
@@ -97,25 +78,22 @@ export interface MetaProps {
 export interface EquipmentType {
   title: string;
   slug: string;
-  category: "For Sale" | "For Hire";  // ✅ Restrict to valid categories
-  description: any;  // ✅ PortableText data type
-  images: { url: string }[];  // ✅ Array of image URLs
-  documentUrl?: string;  // ✅ Optional file attachment (PDF/Word)
+  category: "For Sale" | "For Hire";
+  description: any;
+  image: GalleryImage;
 }
 
 export type Gallery = {
   title: string;
   slug: string;
-  date?: string;
   images: GalleryImage[];
+  date?: string;
 };
+
+
 
 export type GalleryImage = {
   url: string;
-  thumbnailUrl: string;
-  lightboxUrl: string;
-  altText?: string;
-  caption?: string;
 };
 
 
@@ -125,3 +103,24 @@ export type GalleryData = {
   date?: string;
   images: GalleryImage[];
 };
+
+
+export type ImageBlock = {
+  _type: 'image';
+  asset: { url: string };
+  alt?: string;
+};
+
+export type ImageData = {
+  asset: {
+    _id: string;
+    url: string;
+  };
+};
+
+export type PhotoAlbum = {
+  title: string;
+  slug: string;
+  date?: string;
+  images: GalleryImage[];
+}

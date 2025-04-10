@@ -37,18 +37,11 @@ export const equipmentType = defineType({
       of: [{ type: "block" }],  // ✅ Portable Text for rich descriptions
     }),
     defineField({
-      name: "images",
-      title: "Photos",
-      type: "array",
-      of: [{ type: "image", options: { hotspot: true } }],
+      name: "image",
+      title: "Photo",
+      type: "image",
+      options: { hotspot: true },
     }),
-    defineField({
-      name: "document",
-      title: "Attach a Document",
-      type: "file",
-      options: {
-        accept: ".pdf,.doc,.docx",
-      },
-    }),
+    
   ],
 });
