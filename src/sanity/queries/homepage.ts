@@ -9,6 +9,12 @@ export async function fetchHomepage(): Promise<Homepage | null> {
           message,
           link
         },
+carouselImages[]{
+      "asset": asset->{
+        _id,
+        url
+      }
+    },
         whoWeAre,
         whatWeDo,
         whenWeMeet,

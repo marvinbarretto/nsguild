@@ -1,24 +1,31 @@
 ---
-import { Image } from "astro:assets";
-
-// TODO: Fetch from Sanity or CMS later
-import img1 from "../../../public/images/carousel/1.png";
-import img2 from "../../../public/images/carousel/2.png";
-import img3 from "../../../public/images/carousel/3.png";
-
-const images = [img1, img2, img3];
+import { urlForImage } from "../../sanity/lib/url-for-image";
+const { images = [] } = Astro.props; // ✅ Default to empty array
 ---
 <div class="carousel-bg">
-  {images.map((img, index) => (
-    <Image
-      class={`carousel-image ${index === 0 ? "active" : ""}`}
-      src={img}
-      alt={`Guild work ${index + 1}`}
-      width={1600}
-      height={500}
-      format="webp"
-    />
-  ))}
+  {images.length && (
+    images.map(({ asset }: { asset: { url: string } }, index: number) => {
+      const image = urlForImage(asset);
+      const srcSet = `
+        ${image.width(400).height(125).url()} 400w,
+        ${image.width(800).height(250).url()} 800w,
+        ${image.width(1200).height(375).url()} 1200w,
+        ${image.width(1600).height(500).url()} 1600w
+      `;
+
+      return (
+        <img
+          class={`carousel-image ${index === 0 ? "active" : ""}`}
+          src={image.width(800).height(250).format("webp").quality(80).url()}
+          srcset={srcSet}
+          sizes="100vw"
+          alt={`Guild work ${index + 1}`}
+          loading="lazy"
+        />
+      );
+    })
+  )}
+
 </div>
 
 <style>

@@ -1,6 +1,5 @@
 import { defineField, defineType } from 'sanity';
 
-// Reusable rich text block
 const richTextBlock = {
   type: 'block',
   styles: [
@@ -41,6 +40,18 @@ export const homepageType = defineType({
           validation: (Rule) => Rule.required(),
         }),
       ],
+    }),
+    defineField({
+      name: "carouselImages",
+      title: "Carousel Images",
+      type: "array",
+      of: [
+        {
+          type: "image",
+          options: { hotspot: true },
+        },
+      ],
+      description: "Images for the homepage carousel.",
     }),
     defineField({
       name: 'whoWeAre',

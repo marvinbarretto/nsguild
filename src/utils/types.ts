@@ -23,6 +23,7 @@ export type Homepage = {
   whenWeMeet: RichTextBlock;
   whereWeMeet: RichTextBlock;
   banner?: Banner;
+  carouselImages: { asset: { url: string } }[];
 };
 
 export interface EventType {

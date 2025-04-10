@@ -1,10 +1,13 @@
 ---
-// HeroOverlaySection.astro
 import ImageCarousel from "./ImageCarousel.astro";
+
+const { images } = Astro.props;
+
 ---
 
+
 <section class="hero-wrapper">
-  <ImageCarousel />
+  <ImageCarousel images={images} />
 </section>
 
 <style>
