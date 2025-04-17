@@ -14,7 +14,7 @@ export const contactType = defineType({
         defineField({
             name: 'description',
             title: 'Description',
-            type: 'text',
+            type: 'blockContent',
         })
     ]
 });

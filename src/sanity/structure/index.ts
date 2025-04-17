@@ -37,10 +37,10 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .child(S.documentTypeList('equipment').title('Equipment')),
 
       // Contact Page (Singleton)
-      S.listItem()
-        .title('Contact')
-        .id('contact')
-        .child(S.document().schemaType('contact').documentId('contact')),
+      // S.listItem()
+      //   .title('Contact')
+      //   .id('contact')
+      //   .child(S.document().schemaType('contact').documentId('contact')),
 
       S.divider(), // Separate content from settings
 

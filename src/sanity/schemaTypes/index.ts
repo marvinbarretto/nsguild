@@ -22,7 +22,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     photoGalleryType,
     equipmentType,
     publicationType,
-    contactType,
+    // contactType,
     globalsType,
     authorType,
     categoryType,
