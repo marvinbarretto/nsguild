@@ -1,15 +1,19 @@
 ---
 import { fetchLatestNews } from "../../sanity/queries/news";
 import type { Post } from "../../utils/types";
+import PortableText from "../shared/PortableText.astro";
 
 const news: Post | null = await fetchLatestNews();
 ---
 
 {news && (
     <section class="latest-news">
-      <h2>Latest News</h2>
+      <h2>For your diary</h2>
       <h3>{news.title}</h3>
-      <p>{news.body}</p>
+      <div class="portable-text">
+        <PortableText portableText={news.body} />
+      </div>
+      {/* <p>For more information, please email the secretary at <a href="mailto:mail@norfolksuffolkwsd.org.uk">mail@norfolksuffolkwsd.org.uk</a></p> */}
     </section>
   )}
   

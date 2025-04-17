@@ -6,6 +6,7 @@ export async function fetchLatestNews(): Promise<Post | null> {
     const query = `
       *[_type == "post"] | order(publishedAt desc)[0] {
         title,
+        body,
         "slug": slug.current,
         publishedAt
       }
