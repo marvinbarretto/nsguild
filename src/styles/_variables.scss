@@ -12,6 +12,7 @@
   --spacing-large: 2rem;
 }
 
+// TODO: Change these values
 :root {
   /* 🎨 CENTRAL BASE COLOR */
   --base-hue: 210; /* Change this to shift the entire color scheme */
@@ -30,7 +31,7 @@
   --header-bg: hsl(var(--base-hue), 80%, 40%);
   --header-text: var(--text-light);
   
-  --nav-bg: hsl(var(--base-hue), 60%, 30%);
+  --nav-bg: #003f42; // hsl(var(--base-hue), 60%, 30%);
   --nav-text: var(--text-light);
   --nav-link-bg: hsl(calc(var(--base-hue) + 50), 80%, 50%); /* Complementary color */
 
