@@ -9,102 +9,88 @@ const { date, variant = "default" }: Props = Astro.props;
 const dateObj = new Date(date);
 const today = new Date();
 
-const currentYear = today.getFullYear();
-const targetYear = dateObj.getFullYear();
-const showYear = currentYear !== targetYear;
+// Compare date-only (strip time)
+const stripTime = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+const isUpcoming = stripTime(dateObj) >= stripTime(today);
 
+const showYear = today.getFullYear() !== dateObj.getFullYear();
 
-const isUpcoming = dateObj >= today;
-const formattedDate = dateObj.toLocaleDateString("en-GB", {
-  weekday: "long", // e.g., "Mon"
-  day: "2-digit",   // e.g., "20"
-  month: "long",    // e.g., "March"
-});
-
-// Extract components for handmade style
 const weekday = dateObj.toLocaleString("en-GB", { weekday: "long" });
 const day = dateObj.getDate();
 const month = dateObj.toLocaleString("en-GB", { month: "long" });
+const year = dateObj.getFullYear();
 
-
-
+const formattedDate = dateObj.toLocaleDateString("en-GB", {
+  weekday: "long",
+  day: "2-digit",
+  month: "long",
+});
 ---
-
 {variant === "calendar" ? (
-  <div class={`date-display date-display--calendar ${isUpcoming ? 'upcoming' : 'past'}`}>
-    {!showYear && (
-  <span class="date-display__weekday">{weekday}</span>
-)}
+  <div class={`date-display date-display--calendar ${isUpcoming ? "upcoming" : "past"}`}>
+    {!showYear && <span class="date-display__weekday">{weekday}</span>}
     <span class="date-display__day">{day}</span>
     <span class="date-display__month">{month}</span>
-  
-{showYear && (
-  <span class="date-display__year">{targetYear}</span>
-)}
-
+    {showYear && <span class="date-display__year">{year}</span>}
   </div>
 ) : (
   <div class="date-display">
     <span class="date-display__text">{formattedDate}</span>
-    
   </div>
 )}
 
 <style lang="scss">
-  .date-display {
-    color: #666;
-    max-height: fit-content;
-    max-width: fit-content;
-  }
+.date-display {
+  color: #666;
+  max-height: fit-content;
+  max-width: fit-content;
 
-  .date-display--calendar {
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-    background-color: white;
-    padding: 0.5rem;
-    box-shadow: 0px 3px 3px rgba(0,0,0,0.3);
-    font-weight: bold;
-    transform: rotate(-2deg);
-    border: solid 1px #CCC;
-
-
-  }
-
-  .date-display__weekday {
-    color: #333;
-    line-height: 1;
-    font-family: "Courier", monospace;
-  }
-
-  .date-display__day {
-    font-weight: bold;
-    color: #c93600;
-    font-family: "Courier", monospace;
-    font-size: 48px;
-    line-height: 1;
-  }
-
-
-      /* Apply color rules */
-  .date-display--calendar.upcoming .date-display__day {
-    color: #c93600; /* Red for future/today */
-  }
-
-  .date-display--calendar.past .date-display__day {
-    color: #999; /* Grey for past */
-  }
-
-  .date-display__month {
-    color: #999;
-    line-height: 1;
-    font-family: "Courier", monospace;
-  }
-
-  .date-display__text {
+  &__text {
     color: var(--header-bg);
   }
+}
 
+.date-display--calendar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: white;
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  transform: rotate(-2deg);
+
+  &.upcoming .date-display__day {
+    color: #c93600;
+  }
+
+  &.past .date-display__day {
+    color: #999;
+  }
+}
+
+.date-display__weekday,
+.date-display__day,
+.date-display__month,
+.date-display__year {
+  font-family: "Courier", monospace;
+  line-height: 1;
+}
+
+.date-display__weekday {
+  color: #333;
+}
+
+.date-display__day {
+  font-size: 48px;
+  font-weight: bold;
+}
+
+.date-display__month,
+.date-display__year {
+  color: #999;
+}
 </style>

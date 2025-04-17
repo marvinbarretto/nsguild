@@ -25,7 +25,6 @@ const event: EventType | null = await fetchNextEvent();
 
           <h3>
             {event.title}
-            {isToday(event.date) && <span class="badge">Today!</span>}
           </h3>
           <div class="portable-text">
             <PortableText portableText={event.description} />
