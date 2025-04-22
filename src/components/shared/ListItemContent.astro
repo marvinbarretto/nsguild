@@ -1,0 +1,32 @@
+---
+import PortableText from "./PortableText.astro";
+import DateDisplay from "./DateDisplay.astro";
+
+const { date, dateVariant, title, variant, body, description } = Astro.props;
+---
+
+{date && <DateDisplay date={date} variant={dateVariant} />}
+<div>
+  <h3 class="list-item__title">{title}</h3>
+
+  {variant === "news-full" && body ? (
+    <div class="list-item__body portable-text">
+      <PortableText portableText={body} />
+    </div>
+  ) : (
+    description && <p class="snippet">{description}</p>
+  )}
+
+  <slot name="extra" />
+</div>
+
+<style lang="scss">
+  .list-item__content {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .snippet {
+      max-width: 72ch;
+    }
+  </style>

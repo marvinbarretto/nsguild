@@ -1,5 +1,6 @@
 ---
 import DateDisplay from '../shared/DateDisplay.astro';
+import ListItemContent from './ListItemContent.astro';
 import PortableText from "./PortableText.astro";
 
 export interface Props {
@@ -42,48 +43,37 @@ console.log("ListItem: relatedGallery =", relatedGallery);
 // Apply BEM modifier for 'news' variant
 const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-full" : ""}`;
 
-
 ---
 
 
 <li class={listItemClass}>
   {linkThroughToPage ? (
     <a class="list-item__content" href={url}>
-      {date && <DateDisplay date={date} variant={dateVariant} />}
-      <div>
-        <h3 class="list-item__title">{title}</h3>
-        
-        {variant === "news-full" && body ? (
-          <div class="list-item__body portable-text">
-            <PortableText portableText={body} />
-          </div>
-        ) : (
-          description && <p class="snippet">{description}</p>
-        )}
-
+      <ListItemContent 
+        date={date} 
+        dateVariant={dateVariant} 
+        title={title} 
+        variant={variant} 
+        body={body} 
+        description={description}
+      >
         <slot name="extra" />
-      </div>
+      </ListItemContent>
     </a>
   ) : (
     <div class="list-item__content">
-      {date && <DateDisplay date={date} variant={dateVariant} />}
-      <div>
-        <h3 class="list-item__title">{title}</h3>
-
-        {variant === "news-full" && body ? (
-          <div class="list-item__body portable-text">
-            <PortableText portableText={body} />
-          </div>
-        ) : (
-          description && <p class="snippet">{description}</p>
-        )}
-
+      <ListItemContent 
+        date={date} 
+        dateVariant={dateVariant} 
+        title={title} 
+        variant={variant} 
+        body={body} 
+        description={description}
+      >
         <slot name="extra" />
-
-      </div>
+      </ListItemContent>
     </div>
-)}
-
+  )}
 </li>
 
 <style lang="scss">
@@ -100,6 +90,7 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
     .list-item__content {
       flex-direction: column;
       gap: 0;
+      max-width: 72ch;
     }
 
     .list-item__title {
