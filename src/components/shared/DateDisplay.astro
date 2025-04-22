@@ -35,7 +35,7 @@ const formattedDate = dateObj.toLocaleDateString("en-GB", {
   </div>
 ) : (
   <div class="date-display">
-    <span class="date-display__text">{formattedDate}</span>
+    <span class="date-display__text">Posted on {formattedDate}</span>
   </div>
 )}
 
@@ -46,7 +46,7 @@ const formattedDate = dateObj.toLocaleDateString("en-GB", {
   max-width: fit-content;
 
   &__text {
-    color: var(--header-bg);
+    color: #003f42;
   }
 }
 
