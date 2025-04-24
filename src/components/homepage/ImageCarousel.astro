@@ -1,6 +1,7 @@
 ---
 import { urlForImage } from "../../sanity/lib/url-for-image";
 const { images = [] } = Astro.props; // ✅ Default to empty array
+
 ---
 <div class="carousel-bg">
   {images.length && (
@@ -16,11 +17,11 @@ const { images = [] } = Astro.props; // ✅ Default to empty array
       return (
         <img
           class={`carousel-image ${index === 0 ? "active" : ""}`}
-          src={image.width(800).height(250).format("webp").quality(80).url()}
+          src={image.width(800).height(250).url()}
           srcset={srcSet}
           sizes="100vw"
           alt={`Guild work ${index + 1}`}
-          loading="lazy"
+          loading="eager"
         />
       );
     })

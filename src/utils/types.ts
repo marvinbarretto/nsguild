@@ -3,10 +3,10 @@ export type RichTextBlock = {
   children: { text: string }[];
 };
 
-
-
-export interface Globals {
+export type Globals = {
   siteTitle: string;
+  description: string;
+  keywords: string;
   footerText: string;
   programmeUrl: string;
 }
@@ -18,6 +18,7 @@ export type Banner = {
 }
 
 export type Homepage = {
+  description: string;
   whoWeAre: RichTextBlock;
   whatWeDo: RichTextBlock;
   whenWeMeet: RichTextBlock;

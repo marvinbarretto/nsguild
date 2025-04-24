@@ -18,7 +18,8 @@ carouselImages[]{
         whoWeAre,
         whatWeDo,
         whenWeMeet,
-        whereWeMeet
+        whereWeMeet,
+        description
       }
     `;
     return await getSanityData<Homepage | null>(query);

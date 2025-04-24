@@ -1,10 +1,18 @@
 ---
-// components/Seo.astro
+export interface PreloadImage {
+  url: string;
+  srcSet?: string;
+  sizes?: string;
+  type?: string;
+}
+
 export interface Props {
   title: string;
   description?: string;
+  preloadImage?: PreloadImage;
 }
-const { title, description } = Astro.props;
+
+const { title, description, preloadImage } = Astro.props;
 ---
 
 <head>
@@ -13,4 +21,15 @@ const { title, description } = Astro.props;
 
   <title>{title}</title>
   {description && <meta name="description" content={description} />}
+
+  {preloadImage && (
+    <link
+      rel="preload"
+      as="image"
+      href={preloadImage.url}
+      imagesrcset={preloadImage.srcSet}
+      imagesizes={preloadImage.sizes || "100vw"}
+      type={preloadImage.type || "image/webp"}
+    />
+  )}
 </head>

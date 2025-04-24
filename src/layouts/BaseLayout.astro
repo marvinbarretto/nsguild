@@ -13,7 +13,7 @@ const globals = await fetchGlobals();
 const isHomePage = Astro.url.pathname === '/';
 
 const metadata = Astro.props.metadata || {
-  title: globals?.siteTitle || "Norfolk & Suffolk Guild of Weavers, Spinners and Dyers",
+  title: globals?.siteTitle,
   description: "",
   keywords: "",
 };

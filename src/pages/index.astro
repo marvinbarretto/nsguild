@@ -10,16 +10,36 @@ import NextEvent from "../components/homepage/NextEvent.astro";
 import { buildTitle } from "../utils/meta";
 import Seo from "../components/shared/Seo.astro";
 import HeroOverlaySection from "../components/homepage/HeroOverlaySection.astro";
+import { imageBuilder } from "../sanity/lib/url-for-image";
+import { fetchGlobals } from "../utils/sanity";
 
 const title = buildTitle("Home");
-
 
 // Fetch homepage data at build time
 const vm = await fetchHomepage();
 
+const globals = await fetchGlobals();
+
+const firstImage = vm?.carouselImages?.[0]; // pass full image object, not just .asset
+
+const preloadImage = firstImage && {
+  url: imageBuilder.image(firstImage).width(1200).format("webp").url(),
+  srcSet: `
+    ${imageBuilder.image(firstImage).width(400).url()} 400w,
+    ${imageBuilder.image(firstImage).width(800).url()} 800w,
+    ${imageBuilder.image(firstImage).width(1200).url()} 1200w
+  `,
+  sizes: "100vw",
+  type: "image/webp"
+};
+
 ---
 
-<Seo title={title} />
+<Seo
+  title={title}
+  description={globals?.description}
+  preloadImage={preloadImage}
+/>
 
 <BaseLayout>
   <Banner />

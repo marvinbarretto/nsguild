@@ -25,7 +25,7 @@ upcomingEvents.sort((a, b) => a.date.localeCompare(b.date));
 pastEvents.sort((a, b) => b.date.localeCompare(a.date)); 
 
 const globals = await fetchGlobals();
-const programmeUrl = globals?.programmeUrl || "";
+const programmeUrl = globals?.programmeUrl;
 
 const pageTitle = buildTitle("Events");
 
@@ -38,11 +38,13 @@ const pageTitle = buildTitle("Events");
 
     <PageTitle title="Events" />
 
-    <PageDescription>
-      <p><a href={programmeUrl} target="_blank" rel="noopener noreferrer">
-        Our full programme of events is available as a PDF to download or print
-      </a></p>
-    </PageDescription>
+    {programmeUrl && (
+      <PageDescription>
+        <p><a href={programmeUrl} target="_blank" rel="noopener noreferrer">
+          Our full programme of events is available as a PDF to download or print
+        </a></p>
+      </PageDescription>
+    )}
 
 
     <section class="upcoming">
