@@ -1,18 +1,19 @@
 ---
-import type { MetaProps } from '../utils/types'
+import type { MetaProps } from '../../utils/types'
 
 const props = Astro.props as MetaProps;
 
+// TODO: Better defaults
 const {
-    title = 'My Astro Site',
-    description = 'A site built with Astro',
-    keywords = 'astro, astro site, astro example',
+    title = '',
+    description = '',
+    keywords = '',
 } = props;
 
 ---
 
 <title>{title}</title>
+<meta charset="UTF-8" />
 <meta name="description" content={description} />
 <meta name="keywords" content={keywords} />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta charset="UTF-8" />

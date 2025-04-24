@@ -1,18 +1,9 @@
 ---
-export interface PreloadImage {
-  url: string;
-  srcSet?: string;
-  sizes?: string;
-  type?: string;
-}
+import type { SeoProps } from '../../utils/types'
 
-export interface Props {
-  title: string;
-  description?: string;
-  preloadImage?: PreloadImage;
-}
+const props = Astro.props as SeoProps;
 
-const { title, description, preloadImage } = Astro.props;
+const { title, description, preloadImage } = props;
 ---
 
 <head>

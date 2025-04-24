@@ -77,6 +77,18 @@ export interface MetaProps {
   keywords?: string;
 }
 
+export interface PreloadImage {
+  url: string;
+  srcSet?: string;
+  sizes?: string;
+  type?: string;
+}
+export interface SeoProps {
+  title: string;
+  description?: string;
+  preloadImage?: PreloadImage;
+}
+
 export interface EquipmentType {
   title: string;
   slug: string;

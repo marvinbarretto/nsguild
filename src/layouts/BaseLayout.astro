@@ -2,9 +2,9 @@
 import Header from '../components/Header.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import Meta from '../components/Meta.astro';
+import Meta from '../components/base/Meta.astro';
+import GoogleFonts from '../components/base/GoogleFonts.astro';
 import { fetchGlobals } from '../utils/sanity';
-import type { Globals } from '../utils/types';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 import '../styles/global.scss';
@@ -26,10 +26,10 @@ console.log("🔧 Layout loaded");
 ---
 <html lang="en">
   <Meta {...metadata} />
+  <GoogleFonts />
   
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&display=swap" rel="stylesheet">
+  
+  
 
   <link rel="icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
