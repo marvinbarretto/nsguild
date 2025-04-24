@@ -1,18 +1,16 @@
 @mixin panel {
-    background-color: #e4f5ff;
-    background-image: url('/images/noise.png');
-    padding: .5rem;
-    
+  background-color: #e4f5ff;
+  background-image: url('/images/noise.webp');
+  padding: .5rem;
+  
+  // TODO: Container query? 
+  
+  border-radius: 6px 12px 8px 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
 
-    // TODO: Container query? 
-    
-    border-radius: 6px 12px 8px 10px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-  }
-  
-  @mixin panel-border {
-    border: dashed 3px white;
-    border-radius: 6px 12px 8px 10px;
-    padding: 10px;
-  }
-  
+@mixin panel-border {
+  border: dashed 3px white;
+  border-radius: 6px 12px 8px 10px;
+  padding: 10px;
+}
