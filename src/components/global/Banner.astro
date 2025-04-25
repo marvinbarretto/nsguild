@@ -1,6 +1,6 @@
 ---
-import { fetchHomepage } from "../sanity/queries/homepage";
-import type { Homepage } from "../utils/types";
+import { fetchHomepage } from "../../sanity/queries/homepage";
+import type { Homepage } from "../../utils/types";
 
 const homepage: Homepage | null = await fetchHomepage();
 const banner = homepage?.banner;
@@ -18,11 +18,10 @@ const banner = homepage?.banner;
 
 <style>
   .banner {
-    /* background: var(--accent-light); */
+    /* TODO: Extract these values out */
     background-color: #FFC;
     color: var(--text-dark);
     padding: 4px;
-    /* border-radius: 8px; */
     text-align: center;
     font-weight: bold;
   }

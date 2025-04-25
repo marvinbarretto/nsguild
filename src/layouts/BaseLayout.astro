@@ -1,7 +1,7 @@
 ---
-import Header from '../components/Header.astro';
-import Nav from '../components/Nav.astro';
+import Header from '../components/global/Header.astro';
 import Footer from '../components/global/Footer.astro';
+import Nav from '../components/Nav.astro';
 import Meta from '../components/base/Meta.astro';
 import GoogleFonts from '../components/base/GoogleFonts.astro';
 import { fetchGlobals } from '../utils/sanity';
@@ -18,10 +18,7 @@ const metadata = Astro.props.metadata || {
   keywords: "",
 };
 
-// TODO: Descriotion, keywords from sanity
-
 console.log("🔧 Layout loaded");
-
 
 ---
 <html lang="en">
