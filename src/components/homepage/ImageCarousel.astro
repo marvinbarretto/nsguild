@@ -29,7 +29,9 @@ const { images = [] } = Astro.props; // ✅ Default to empty array
 
 </div>
 
-<style>
+<style lang="scss">
+  @use "../../styles/_breakpoints.scss" as *;
+
 .carousel-bg {
   position: absolute;
   inset: 0;
@@ -56,7 +58,7 @@ const { images = [] } = Astro.props; // ✅ Default to empty array
 }
 
 /* Adjust for larger screens */
-@media (min-width: 768px) {
+@media (min-width: $BREAKPOINT_TABLET_PORTRAIT) {
   .carousel-image {
     object-position: center center;
   }

@@ -3,8 +3,9 @@
 @use './layout.scss';
 
 
-@use './blog.scss';
 @use './portable-text.scss';
+
+@use './_breakpoints.scss' as *;
 
 
 body {
@@ -13,7 +14,7 @@ body {
 
 h1 {
     font-size: 2rem;
-    @media (min-width: 700px) {
+    @media (min-width: $BREAKPOINT_SMALL) {
       font-size: 3rem;
     }
 }
@@ -24,6 +25,7 @@ main {
 
 a {
   text-underline-position: under;
+  transition: color 0.3s ease;
 }
 
 .hidden {

@@ -93,7 +93,8 @@ const pageTitle = buildTitle(vm.title);
   </div>
 </BaseLayout>
 
-<style>
+<style lang="scss">
+  @use "../styles/_breakpoints.scss" as *;
 
   .location img {
     max-width: 300px;
@@ -105,7 +106,7 @@ const pageTitle = buildTitle(vm.title);
     flex-direction: column;
     gap: 1rem;
     margin: 1rem;
-    @media (min-width: 900px) {
+    @media (min-width: $BREAKPOINT_MEDIUM) {
       flex-direction: row;
     }
   }

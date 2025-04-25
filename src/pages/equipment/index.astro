@@ -63,18 +63,18 @@ const pageTitle = buildTitle("Equipment");
   </div>
 </BaseLayout>
 
-<style>
+<style lang="scss">
+
+  @use "../../styles/_breakpoints.scss" as *;
 
   .container {
     display: flex;
     flex-direction: column  ;
     gap: 2rem;
-    @media (min-width: 700px) {
+    @media (min-width: $BREAKPOINT_SMALL) {
      flex-direction: row;
     }
   }
-
-
 
   .for-sale, .for-rent {
 

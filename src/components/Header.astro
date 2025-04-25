@@ -25,7 +25,9 @@ const globals = await fetchGlobals();
   )}
 </header>
 
-<style>
+<style lang="scss">
+  @use "../styles/_breakpoints.scss" as *;
+
   header {
     /* background-color: var(--header-bg); */
     /* background-color: #6f0909; */
@@ -52,7 +54,7 @@ const globals = await fetchGlobals();
 
   .ns {
     font-size: 1.3rem;
-    @media (min-width: 900px) {
+    @media (min-width: $BREAKPOINT_MEDIUM) {
       font-size: 2.8rem;
     }
     line-height: 1;
@@ -61,7 +63,7 @@ const globals = await fetchGlobals();
   .wsd {
     line-height: 1;
     font-size: 2rem;
-    @media (min-width: 900px) {
+    @media (min-width: $BREAKPOINT_MEDIUM) {
       font-size: 3.8rem;
     }
   }

@@ -17,11 +17,13 @@ const news: Post | null = await fetchLatestNews();
     </section>
   )}
   
-  <style>
+  <style lang="scss">
+    @use "../../styles/_breakpoints.scss" as *;
+
     .latest-news {
       background: var(--bg-medium);
       padding: .5rem;
-      @media (min-width: 700px) {
+      @media (min-width: $BREAKPOINT_SMALL) {
         padding: 1rem;
       }
       border-radius: 8px;

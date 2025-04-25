@@ -65,6 +65,8 @@ const pageTitle = buildTitle("Distaff and Shuttle");
 </BaseLayout>
 
 <style lang="scss">
+  @use "../../styles/_breakpoints.scss" as *;
+
   .container {
     margin: 1rem;
   }
@@ -80,7 +82,7 @@ const pageTitle = buildTitle("Distaff and Shuttle");
     gap: 1rem;
     text-align: center;
 
-    @media (min-width: 768px) {
+    @media (min-width: $BREAKPOINT_TABLET_PORTRAIT) {
       grid-template-columns: 1fr 1fr;
     }
   }

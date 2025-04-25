@@ -43,174 +43,119 @@ const preloadImage = firstImage && {
 
 <BaseLayout>
   <Banner />
-
-  <div class="overlay-stack">
-
-    <HeroOverlaySection images={vm?.carouselImages} />
-
-    <div class="content-over-hero">
-      <div class="container">
-        <div class="primary">
-          {vm?.whoWeAre && (
-            <section id="who-we-are" class="portable-text">
-              <div class="panel-content">
-                <h2>Who We Are</h2>
-                <PortableText portableText={vm.whoWeAre} />
-              </div>
-            </section>
-          )}
-      
-          <aside>
-            <NextEvent />
-            <LatestNews />
-          </aside>
-        </div>
-        <div class="secondary">
-          {vm?.whatWeDo && (
-            <section id="what-we-do" class="portable-text">
-              <div class="panel-content">
-                <h2>What We Do</h2>
-                <PortableText portableText={vm.whatWeDo} />
-              </div>
-            </section>
-          )}
-            
-          {vm?.whenWeMeet && (
-            <section id="when-we-meet" class="portable-text">
-              <div class="panel-content">
-                <h2>When We Meet</h2>
-                <PortableText portableText={vm.whenWeMeet} />
-              </div>
-            </section>
-          )}
-      
-          {vm?.whereWeMeet && (
-            <section id="where-we-meet" class="portable-text">
-              <div class="panel-content">
-                <h2>Where We Meet</h2>
-                <PortableText portableText={vm.whereWeMeet} />
-              </div>
-            </section>
-          )}
-        </div>
+  <HeroOverlaySection images={vm?.carouselImages} />
+  <div class="container-over-hero">
+    <div class="content">
+      <div class="primary">
+        {vm?.whoWeAre && (
+          <section id="who-we-are" class="portable-text">
+            <div class="panel-content">
+              <h2>Who We Are</h2>
+              <PortableText portableText={vm.whoWeAre} />
+            </div>
+          </section>
+        )}
+        <aside>
+          <NextEvent />
+          <LatestNews />
+        </aside>
       </div>
-
-
+      <div class="secondary">
+        {vm?.whatWeDo && (
+          <section id="what-we-do" class="portable-text">
+            <div class="panel-content">
+              <h2>What We Do</h2>
+              <PortableText portableText={vm.whatWeDo} />
+            </div>
+          </section>
+        )}
+        {vm?.whenWeMeet && (
+          <section id="when-we-meet" class="portable-text">
+            <div class="panel-content">
+              <h2>When We Meet</h2>
+              <PortableText portableText={vm.whenWeMeet} />
+            </div>
+          </section>
+        )}
+        {vm?.whereWeMeet && (
+          <section id="where-we-meet" class="portable-text">
+            <div class="panel-content">
+              <h2>Where We Meet</h2>
+              <PortableText portableText={vm.whereWeMeet} />
+            </div>
+          </section>
+        )}
+      </div>
     </div>
   </div>
-
 </BaseLayout>
 
-<style lang="scss">
-
+<style scoped lang="scss">
+  @use "../styles/_breakpoints.scss" as *;
   @use "../styles/_panel.scss" as *;
 
-  .overlay-stack {
-  position: relative;
-}
-.primary {
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 1rem;
-}
-
-.secondary {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.desktop-next-event {
-  display: none;
-  @media (min-width: 1024px) {
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin-top: 1rem;
-    margin-right: 1rem;
-    z-index: 1;
-    max-width: 430px;
+  .container-over-hero {
+    position: relative;
+    margin-top: -100px;
   }
-}
 
-aside {
-  // border: solid 1px blue;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  @media (min-width: 700px) {
-    flex-direction: row;
-    
-  }
-  
-}
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1rem;
 
-.primary {
-
-  @media (min-width: 980px) {
-    flex-direction: row;
-
-    section {
-      flex: 2;
+    .primary {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 1rem;
     }
-
-    aside {
+    .secondary {
+      display: flex;
       flex-direction: column;
-      flex: 1;
+      gap: 1rem;
     }
   }
-  
-  section {
-    @media (min-width: 750px) {
-      max-width: 100%;
-    }
-  }
-
-}
-
-.secondary {
-  @media (min-width: 750px) {
-    flex-direction: row;
-
-    section {
-      flex: 1;
-    }
-  }
-}
-
-.content-over-hero {
-  position: relative;
-  top: 0;
-  width: 100%;
-  z-index: 10;
-  margin-top: -100px;
-}
-
 
   section {
     @include panel;
-
   }
-
+  aside {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
   .panel-content {
     @include panel-border;
     height: 100%;
   }
 
-  .others {
-    display: flex;
-    gap: 1rem;
-  }
-  .container {
-    display: flex;
-    gap: 1rem;
-    // border: solid 1px red;
-    flex-direction: column;
-    margin: 1rem;
+  @media (min-width: $BREAKPOINT_SMALL) {
+    aside {
+      flex-direction: row;
+    }
   }
 
+  @media (min-width: $BREAKPOINT_TABLET_PORTRAIT) {
+    section {
+      flex: 1;
+      max-width: 100%;
+    }
+    .secondary {
+      flex-direction: row;
+    }
+  }
 
-
-
+  @media (min-width: $BREAKPOINT_HOMEPAGE_DESKTOP_LAYOUT) {
+    .primary {
+      flex-direction: row;
+      section {
+        flex: 2;
+      }
+      aside {
+        flex-direction: column;
+        flex: 1;
+      }
+    }
+  }
 </style>

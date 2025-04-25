@@ -48,7 +48,8 @@ console.log(equipment?.image.url);
   </PageDescription>
 </BaseLayout>
 
-<style>
+<style lang="scss">
+  @use "../../styles/_breakpoints.scss" as *;
 
   .equipment {
     margin: 1rem;
@@ -72,7 +73,7 @@ console.log(equipment?.image.url);
     max-width: 500px;
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: $BREAKPOINT_TABLET_LANDSCAPE) {
     .equipment__listing {
       flex-direction: row;
       align-items: flex-start;

@@ -35,24 +35,19 @@ const event: EventType | null = await fetchNextEvent();
   </section>
 )}
 
-<style>
+<style lang="scss">
+  @use "../../styles/_breakpoints.scss" as *;
 
   .next-event {
     background: var(--bg-medium);
-    padding: 0.5rem;
-    @media (min-width: 700px) {
-      padding: 1rem;
-    }
     border-radius: 8px;
     flex: 1;
+    padding: 0.5rem;
+    @media (min-width: $BREAKPOINT_SMALL) {
+      padding: 1rem;
+    }
 
-    /* @media (min-width: 1024px) {
-      background-color: rgba(0,0,0, .5);
-      color: white;
-      .next-event__event {
-        text-shadow: 1px 1px black;
-      }
-    } */
+
   }
 
   .next-event__title {

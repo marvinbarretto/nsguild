@@ -67,7 +67,9 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 
-<style>
+<style lang="scss">
+  @use "../styles/_breakpoints.scss" as *;
+
   .label {  
     display: flex;
     justify-content: center;
@@ -130,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   
 
-  @media (min-width: 768px) {
+  @media (min-width: $BREAKPOINT_TABLET_PORTRAIT) {
     .nav-toggle {
       display: none;
     }
