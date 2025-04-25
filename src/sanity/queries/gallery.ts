@@ -37,7 +37,11 @@ export async function fetchGalleryBySlug(slug: string): Promise<GalleryData | nu
   const query = `
     *[_type == "photoGallery" && slug.current == $slug][0] {
       title,
-      "images": images[]{ "thumb": asset->url, "full": asset->url }
+      "images": images[]{
+        "thumb": asset->url + "?w=400&auto=format",
+        "thumb2x": asset->url + "?w=800&auto=format",
+        "full": asset->url + "?w=1600&auto=format"
+      }
     }
   `;
   return await getSanityData<Gallery | null>(query, { slug });
