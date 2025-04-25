@@ -2,8 +2,10 @@
 import GalleryGrid from "../../../components/gallery/GalleryGrid.vue";
 import PageDescription from "../../../components/shared/PageDescription.astro";
 import PageTitle from "../../../components/shared/PageTitle.astro";
+import Seo from "../../../components/shared/Seo.astro";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { fetchGalleryBySlug } from "../../../sanity/queries/gallery";
+import { buildTitle } from '../../../utils/meta';
 
 const { slug } = Astro.params;
 if (!slug) throw new Error("Slug is required");
@@ -12,7 +14,11 @@ const gallery = await fetchGalleryBySlug(slug);
 if (!gallery) throw new Error("Gallery not found");
 
 console.log(gallery);
+
+const pageTitle = buildTitle(`${gallery.title} | Photo Gallery`);
 ---
+
+<Seo title={pageTitle} />
 
 <BaseLayout>
   <PageTitle title={gallery.title} />
