@@ -1,6 +1,7 @@
 ---
 import Image from 'astro/components/Image.astro';
-import wsdLogo from '../images/wsd-logo.gif';
+import wsdLogo from '../../images/wsd-logo.gif';
+import StudioLink from './StudioLink.astro';
 
 const { footerText } = Astro.props;
 ---
@@ -20,12 +21,17 @@ const { footerText } = Astro.props;
 
   <div>
     <p>{footerText}</p>
-    <p class="attribution">Design & Development by <a href="https://www.linkedin.com/in/marvinbarretto/">Fourfold Media</a></p>
+    <p class="attribution">
+      <span>Design & Development by 
+        <a href="https://www.linkedin.com/in/marvinbarretto/">Fourfold Media</a>
+      </span>
+      <StudioLink />
+    </p>
   </div>
 </footer>
 
 <style scoped lang="scss">
-  @use "../styles/_breakpoints.scss" as *;
+  @use "../../styles/_breakpoints.scss" as *;
 
   .wsd-logo {
     opacity: 0.5;
@@ -34,6 +40,7 @@ const { footerText } = Astro.props;
     }
   }
   .attribution {
+    margin: 2px 0;
     font-size: 0.8rem;
     color: #798da3;
     a {
