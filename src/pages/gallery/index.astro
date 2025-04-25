@@ -4,16 +4,20 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getAllGalleryImages } from '../../sanity/queries/gallery';
 import PageTitle from '../../components/shared/PageTitle.astro';
 import GalleryNav from '../../components/gallery/GalleryNav.astro';
+import { buildTitle } from '../../utils/meta';
+import Seo from '../../components/shared/Seo.astro';
  
 const initialImages = await getAllGalleryImages({ limit: 5, offset: 0 });
+const pageTitle = buildTitle("Photo Gallery");
 
 ---
+
+<Seo title={pageTitle} />
 
 <BaseLayout>
   <div class="container">
     <PageTitle title="Photo Gallery" />
     <GalleryNav currentPath={Astro.url.pathname}  />
-
     <GalleryGrid client:load initialImages={initialImages} infinite={true} />
   </div>
 </BaseLayout>
