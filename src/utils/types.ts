@@ -95,6 +95,7 @@ export interface EquipmentType {
   category: "For Sale" | "For Hire";
   description: any;
   image: GalleryImage;
+  images?: GalleryImage[];
 }
 
 export type Gallery = {
@@ -110,6 +111,7 @@ export type GalleryImage = {
   thumb: string;
   thumb2x: string;
   full: string;
+  url?: string; // Used for legacy equipment
 };
 
 

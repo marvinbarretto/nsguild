@@ -34,17 +34,18 @@ export async function fetchGlobals(): Promise<Globals | null> {
 
 
 export function formatGalleryImages(images: any[]): GalleryImage[] {
-  return images.map((img) => {
-    const baseUrl = img.asset?.url;
+  return images
+    .map((img) => {
+      const baseUrl = img.asset?.url;
+      if (!baseUrl) return null;
 
-    return {
-      url: baseUrl,
-      thumbnailUrl: baseUrl + '?w=400&fit=crop',
-      lightboxUrl: baseUrl + '?w=1600',
-      altText: img.altText || '',
-      caption: img.caption || '',
-    };
-  });
+      return {
+        thumb: baseUrl + '?w=400&auto=format',
+        thumb2x: baseUrl + '?w=800&auto=format',
+        full: baseUrl + '?w=1600&auto=format',
+      };
+    })
+    .filter(Boolean) as GalleryImage[];
 }
 
 

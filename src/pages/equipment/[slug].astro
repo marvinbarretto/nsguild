@@ -6,7 +6,6 @@ import Image from "astro/components/Image.astro";
 import PortableText from "../../components/shared/PortableText.astro";
 import PageDescription from "../../components/shared/PageDescription.astro";
 import PageTitle from "../../components/shared/PageTitle.astro";
-import GalleryGrid from "../../components/gallery/GalleryGrid.vue";
 
 const { slug } = Astro.params;
 
@@ -17,7 +16,7 @@ if (!slug) {
 
 const equipment: EquipmentType | null = await fetchEquipmentBySlug(slug);
 
-console.log(equipment?.image.url);
+console.log(equipment?.image.full);
 
 ---
 
@@ -29,7 +28,7 @@ console.log(equipment?.image.url);
     <div class="equipment__listing">
       {equipment?.image && (
         <Image
-          src={equipment.image.url || ""}
+          src={equipment.image.full || ""}
           inferSize={true}
           class="equipment__image"
           alt={`Photo of ${equipment.title}`} />  
@@ -41,7 +40,6 @@ console.log(equipment?.image.url);
 
   </div>
   
-  <!-- <GalleryGrid client:load initialImages={equipment?.images || []} infinite={false} /> -->
 
   <PageDescription>
     Back to <a href="/equipment">Equipment list</a>
@@ -81,8 +79,5 @@ console.log(equipment?.image.url);
       margin: auto;
     }
 
-    .equipment__image {
-
-    }
   }
 </style>

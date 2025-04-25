@@ -8,8 +8,11 @@ export async function fetchAllEquipment(): Promise<EquipmentType[]> {
         "slug": slug.current,
         category,
         description,
-        "images": coalesce(images[].asset->{url}, []),  // ✅ Always return an array
-  
+        "images": images[]{
+          "thumb": asset->url + "?w=400&auto=format",
+          "thumb2x": asset->url + "?w=800&auto=format",
+          "full": asset->url + "?w=1600&auto=format"
+        },
         "documentUrl": document.asset->url
       }
     `;
@@ -23,7 +26,11 @@ export async function fetchAllEquipment(): Promise<EquipmentType[]> {
         title,
         category,
         description,
-        "image": image.asset->{url},
+        "image": {
+          "thumb": image.asset->url + "?w=400&auto=format",
+          "thumb2x": image.asset->url + "?w=800&auto=format",
+          "full": image.asset->url + "?w=1600&auto=format"
+        },
       }
     `;
     return await getSanityData<EquipmentType | null>(query, { slug });
