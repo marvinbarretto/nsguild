@@ -53,6 +53,13 @@ export const homepageType = defineType({
       ],
       description: "Images for the homepage carousel.",
     }),
+    // defineField({
+    //   name: 'carouselTransitionDuration',
+    //   title: 'Carousel Transition Duration',
+    //   type: 'number',
+    //   initialValue: 4,
+    //   description: 'Duration of transition between carousel images in seconds.',
+    // }),
     defineField({
       name: 'whoWeAre',
       title: 'Who We Are',

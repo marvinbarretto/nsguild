@@ -1,23 +1,20 @@
 ---
-import { urlForImage } from "../../sanity/lib/url-for-image";
+import { getCarouselImageUrl, getCarouselSrcSet } from "../../sanity/lib/images";
 const { images = [] } = Astro.props; // ✅ Default to empty array
+
+const { carouselTransitionDuration = 4 } = Astro.props;
 
 ---
 <div class="carousel-bg">
-  {images.length && (
-    images.map(({ asset }: { asset: { url: string } }, index: number) => {
-      const image = urlForImage(asset);
-      const srcSet = `
-        ${image.width(400).height(125).url()} 400w,
-        ${image.width(800).height(250).url()} 800w,
-        ${image.width(1200).height(375).url()} 1200w,
-        ${image.width(1600).height(500).url()} 1600w
-      `;
+  {images.length > 0 && (
+    images.map(({ asset }: { asset: any }, index: number) => {
+      const src = getCarouselImageUrl(asset); // default 1600x500
+      const srcSet = getCarouselSrcSet(asset); // up to 1920x500
 
       return (
         <img
           class={`carousel-image ${index === 0 ? "active" : ""}`}
-          src={image.width(800).height(250).url()}
+          src={src}
           srcset={srcSet}
           sizes="100vw"
           alt={`Guild work ${index + 1}`}
@@ -26,7 +23,6 @@ const { images = [] } = Astro.props; // ✅ Default to empty array
       );
     })
   )}
-
 </div>
 
 <style lang="scss">
@@ -46,10 +42,13 @@ const { images = [] } = Astro.props; // ✅ Default to empty array
   position: absolute;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center 25%; /* show more top on mobile */
   opacity: 0;
   transition: opacity 1s ease-in-out;
+  object-fit: cover;
+  object-position: center 25%; /* show more top on mobile */
+  @media (min-width: $BREAKPOINT_TABLET_PORTRAIT) {
+    object-position: center center;
+  }
 }
 
 .carousel-image.active {
@@ -57,21 +56,16 @@ const { images = [] } = Astro.props; // ✅ Default to empty array
   z-index: 1;
 }
 
-/* Adjust for larger screens */
-@media (min-width: $BREAKPOINT_TABLET_PORTRAIT) {
-  .carousel-image {
-    object-position: center center;
-  }
-}
 </style>
 
 <script is:inline>
   let current = 0;
   const images = document.querySelectorAll(".carousel-image");
+  const TIME_INTERVAL_BETWEEN_TRANSITIONS = 4000;
 
   setInterval(() => {
     images[current].classList.remove("active");
     current = (current + 1) % images.length;
     images[current].classList.add("active");
-  }, 4000);
+  }, TIME_INTERVAL_BETWEEN_TRANSITIONS);
 </script>

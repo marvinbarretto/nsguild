@@ -11,7 +11,7 @@ import LatestNews from "../components/homepage/LatestNews.astro";
 import NextEvent from "../components/homepage/NextEvent.astro";
 
 import { buildTitle } from "../utils/meta";
-import { imageBuilder } from "../sanity/lib/url-for-image";
+import { imageBuilder } from "../sanity/lib/images";
 
 const vm = await fetchHomepage();
 const globals = await fetchGlobals();
