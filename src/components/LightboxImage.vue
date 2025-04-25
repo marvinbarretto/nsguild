@@ -1,21 +1,25 @@
 <template>
-  <a :href="image.url" class="image-wrapper glightbox polaroid" data-gallery="gallery1">
-    <img 
-      :src="image.url"
-      :alt="''"
+  <a
+    :href="image.full"
+    class="image-wrapper glightbox polaroid"
+    data-gallery="gallery1"
+  >
+
+    <img
+      :src="image.thumb"
       loading="lazy"
+      decoding="async"
+      alt=""
     />
   </a>
 </template>
-  
+
 <script setup lang="ts">
 import type { GalleryImage } from '../utils/types';
 
 const props = defineProps<{
   image: GalleryImage;
 }>();
-
-const altText = 'Gallery image';
 </script>
 
   

@@ -19,7 +19,7 @@ export const photoGalleryType = defineType({
         source: "title", // ✅ Generates slug from the title
         maxLength: 96,
       },
-      validation: (Rule) => Rule.required(), // ✅ Make slug required
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "images",
@@ -35,7 +35,7 @@ export const photoGalleryType = defineType({
       title: "Related Event",
       type: "reference",
       to: [{ type: 'event' }],
-      description: "Optionally link this gallery to a specific event.",
+      description: "Link this gallery to a specific event.",
     }),
   ],
 });

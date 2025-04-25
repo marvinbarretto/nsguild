@@ -1,26 +1,25 @@
 import { getSanityData } from "../../utils/sanity";
 import type { GalleryData, Gallery, GalleryImage } from "../../utils/types";
 
-
-
 export async function getAllGalleryImages({ limit = 5, offset = 0 } = {}): Promise<GalleryImage[]> {
   const query = `
     *[_type == "photoGallery"] | order(_createdAt desc) {
-      "images": images[]{ "url": asset->url }
+      "images": images[]{
+        "thumb": asset->url + "?w=400&auto=format",
+        "thumb2x": asset->url + "?w=800&auto=format",
+        "full": asset->url + "?w=1600&auto=format"
+      }
     }
-  `;
+`;
 
   const galleries = await getSanityData<{ images: GalleryImage[] }[]>(query);
 
   const allImages = galleries
     .flatMap((gallery) => gallery.images ?? [])
-    .filter((img): img is GalleryImage => Boolean(img?.url)); // strong typing + cleanup
+    .filter((img): img is GalleryImage => Boolean(img?.thumb && img?.full)); 
 
   return allImages.slice(offset, offset + limit);
 }
-
-
-
 
 // Fetch all galleries (for navigation)
 export async function fetchGalleryList(): Promise<Gallery[]> {
@@ -38,7 +37,7 @@ export async function fetchGalleryBySlug(slug: string): Promise<GalleryData | nu
   const query = `
     *[_type == "photoGallery" && slug.current == $slug][0] {
       title,
-      "images": images[]{ "url": asset->url }
+      "images": images[]{ "thumb": asset->url, "full": asset->url }
     }
   `;
   return await getSanityData<Gallery | null>(query, { slug });

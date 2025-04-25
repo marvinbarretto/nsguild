@@ -107,7 +107,9 @@ export type Gallery = {
 
 
 export type GalleryImage = {
-  url: string;
+  thumb: string;
+  thumb2x: string;
+  full: string;
 };
 
 

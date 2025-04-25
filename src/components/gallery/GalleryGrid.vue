@@ -2,7 +2,7 @@
   <div class="gallery">
     <div
       v-for="(img, index) in images"
-      :key="img.url || index"
+      :key="img.thumb || index"
     >
       <LightboxImage
         v-if="isValidImage(img)"
@@ -16,8 +16,6 @@
     </div>
   </div>
 </template>
-
-
 
 <script setup lang="ts">
 import { ref, onMounted, nextTick, watch } from 'vue';
@@ -33,19 +31,19 @@ const props = defineProps<{
 const enableInfinite = props.infinite ?? true;
 const images = ref<GalleryImage[]>([...props.initialImages]);
 
-// Diagnostic logs
+// Debug: log initial data
 console.log('🖼️ Initial images passed to GalleryGrid:', props.initialImages);
 
 watch(images, (newImages: GalleryImage[]) => {
   console.log('🔄 Images updated:', newImages);
 });
 
-// Safety check for valid images
+// Check that image is valid
 function isValidImage(img: GalleryImage): boolean {
-  return !!img?.url;
+  return !!img?.thumb;
 }
 
-// Pagination state
+// Infinite scroll + GLightbox state
 const page = ref(1);
 const isLoading = ref(false);
 const sentinel = ref<HTMLElement | null>(null);
@@ -58,28 +56,24 @@ async function loadMoreImages() {
   isLoading.value = true;
 
   try {
+    const nextPage = page.value + 1;
     const limit = 5;
-    const res = await fetch(`/api/gallery?page=${page.value + 1}&limit=${limit}`);
 
-    const newImages: GalleryImage[] = await res.json(); // Already correct shape
+    const res = await fetch(`/api/gallery?page=${nextPage}&limit=${limit}`);
+    const newImages: GalleryImage[] = await res.json();
 
     console.log('📥 Loaded new images:', newImages);
 
     if (newImages.length > 0) {
-      images.value.push(...newImages);
-      page.value++;
+      images.value = [...images.value, ...newImages];
+      page.value = nextPage;
 
       await nextTick();
 
-      if (lightbox) lightbox.destroy();
-      const { default: GLightbox } = await import('glightbox');
-      lightbox = GLightbox({
-        touchNavigation: true,
-        loop: true,
-        zoomable: true,
-        openEffect: 'zoom',
-        closeEffect: 'fade',
-      });
+      // Instead of destroying and reinitializing, just reload
+      if (lightbox?.reload) {
+        lightbox.reload();
+      }
     }
 
     if (newImages.length < limit) {
@@ -96,6 +90,7 @@ async function loadMoreImages() {
 onMounted(async () => {
   console.log('🔧 GalleryGrid mounted');
 
+  // Attach observer for infinite scroll
   observer = new IntersectionObserver(
     entries => {
       if (entries[0].isIntersecting) {
@@ -106,11 +101,15 @@ onMounted(async () => {
     { rootMargin: '100px', threshold: 0.1 }
   );
 
-  if (sentinel.value) {
-    observer.observe(sentinel.value);
-    console.log('👁️ Observer attached to sentinel');
-  }
+  // Delay slightly to avoid early triggers
+  setTimeout(() => {
+    if (sentinel.value) {
+      observer.observe(sentinel.value);
+      console.log('👁️ Observer attached to sentinel');
+    }
+  }, 250);
 
+  // Initialize GLightbox once
   const { default: GLightbox } = await import('glightbox');
   lightbox = GLightbox({
     touchNavigation: true,
@@ -118,22 +117,16 @@ onMounted(async () => {
     zoomable: true,
     openEffect: 'zoom',
     closeEffect: 'fade',
+    selector: '.glightbox'
   });
 });
 </script>
 
 <style scoped>
-  .gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1rem;
-    padding: 1rem;
-  }
-
-  img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 4px;
-  }
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
 </style>
