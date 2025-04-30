@@ -1,7 +1,5 @@
 ---
-import DateDisplay from '../shared/DateDisplay.astro';
 import ListItemContent from './ListItemContent.astro';
-import PortableText from "./PortableText.astro";
 
 export interface Props {
   title: string;
@@ -45,7 +43,6 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
 
 ---
 
-
 <li class={listItemClass}>
   {linkThroughToPage ? (
     <a class="list-item__content" href={url}>
@@ -78,12 +75,11 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
 
 <style lang="scss">
   @use "../../styles/_panel.scss" as *;
-  // TODO: Wtf
 
   .list-item {
-    display: flex;
-  flex-direction: column;
     @include panel;
+    display: flex;
+    flex-direction: column;
   }
 
   .list-item--news-full {
@@ -122,15 +118,15 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
 
 
   .gallery-link {
-  display: inline-block;
-  margin-top: 0.5rem;
-  padding: 4px 8px;
-  background: #d8f2ff;
-  border: 2px dotted #c8eaff;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: bold;
-  color: #003344;
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 4px 8px;
+    background: #d8f2ff;
+    border: 2px dotted #c8eaff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #003344;
 }
 
 </style>

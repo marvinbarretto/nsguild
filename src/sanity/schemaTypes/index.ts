@@ -5,7 +5,6 @@ import { linkType } from "./link";
 import { postType } from "./post";
 import { publicationType } from "./publication";
 import { homepageType } from "./homepage";
-import { contactType } from "./contact";
 import { globalsType } from "./globals";
 import { blockContentType } from "./blockContent";
 import { authorType } from "./author";
@@ -22,7 +21,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     photoGalleryType,
     equipmentType,
     publicationType,
-    // contactType,
     globalsType,
     authorType,
     categoryType,

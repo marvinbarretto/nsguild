@@ -1,8 +1,6 @@
 ---
 import { getCarouselImageUrl, getCarouselSrcSet } from "../../sanity/lib/images";
-const { images = [] } = Astro.props; // ✅ Default to empty array
-
-const { carouselTransitionDuration = 4 } = Astro.props;
+const { images = [] } = Astro.props; // Default to empty array
 
 ---
 <div class="carousel-bg">

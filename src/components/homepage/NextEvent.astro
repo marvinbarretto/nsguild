@@ -12,20 +12,16 @@ const event: EventType | null = await fetchNextEvent();
 <!-- TODO: Allow for no events as well -->
 {event && (
   <section class="next-event">
-      <h2 class="next-event__title">Next Event</h2>
+    <div class="next-event__title">
+      <h2>Next Event</h2>
+      <span class="next-event__days">
+        {isToday(event.date) && <span class="badge">Today!</span>}
+        {!isToday(event.date) && <span class="badge">in {daysUntil(event.date)} days</span>}
+      </span>
+    </div>
       <div class="next-event__content">
-          
         <div class="next-event__event">
-          {/* Count how many days until the event */}
-          <span class="next-event__days">
-            
-            {isToday(event.date) && <span class="badge">Today!</span>}
-            {!isToday(event.date) && <span class="badge">in {daysUntil(event.date)} days</span>}
-          </span>
-
-          <h3>
-            {event.title}
-          </h3>
+          <h3>{event.title}</h3>
           <div class="portable-text">
             <PortableText portableText={event.description} />
           </div>
@@ -40,30 +36,32 @@ const event: EventType | null = await fetchNextEvent();
 
   .next-event {
     background: var(--bg-medium);
+    background-image: url('/images/noise.webp');
+    background-blend-mode: exclusion;
     border-radius: 8px;
     flex: 1;
-    padding: 0.5rem;
-    @media (min-width: $BREAKPOINT_SMALL) {
-      padding: 1rem;
-    }
-
-
+    display: flex;
+    flex-direction: column;
   }
 
   .next-event__title {
-    /* background-color: #333;
+    gap: .5rem;
+    background-color: #003f42;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
     color:#FFF;
     line-height: 1;
-    padding: 3px; */
-    /* display: inline-block; */
-    /* transform: rotate(-4deg); */
-    /* margin-top: -2.5rem; */
-    /* font-family: "Helvetica", sans-serif; */
+    padding: .5rem 1rem;
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: .5rem;
   }
 
   .next-event__content {
     display: flex;
     gap: .75rem;
+    padding-inline: 1rem;
+    padding-bottom: 1rem;
   }
 
   .next-event__event {
@@ -77,13 +75,11 @@ const event: EventType | null = await fetchNextEvent();
     color: #666;
   }
 
-  /* TODO: Consolidate styles */
-
   .badge {
-    background: #333;
+    background: rgba(0, 0, 0, 0.5);
     color: white;
     font-size: 0.8rem;
     padding: 3px 6px;
-
+    border-radius: 4px;
   }
 </style>

@@ -1,9 +1,7 @@
 ---
-// ./src/components/PortableTextImage.astro
-import { imageBuilderFor, srcSetForImage } from "../../sanity/lib/images";
+import { imageBuilderFor } from "../../sanity/lib/images";
 
 const { asset, alt } = Astro.props.node;
-
 const url = imageBuilderFor(asset).url();
 const webpUrl = imageBuilderFor(asset).format("webp").url();
 ---

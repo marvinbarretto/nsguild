@@ -1,7 +1,7 @@
 import { createClient } from "@sanity/client";
-import type { EventType, Post, Publication, Globals, GalleryImage } from "./types";
+import type { Post, Publication, Globals, GalleryImage } from "./types";
 import type { APIRoute } from "astro";
-import type { Gallery, GalleryData, EquipmentType, PagesContent } from "../utils/types";
+import type { PagesContent } from "../utils/types";
 import { fetchHomepage } from "../sanity/queries/homepage";
 
 

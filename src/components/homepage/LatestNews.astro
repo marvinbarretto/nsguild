@@ -22,12 +22,12 @@ const news: Post | null = await fetchLatestNews();
 
     .latest-news {
       background: var(--bg-medium);
+      border-radius: 8px;
+      flex: 1;
       padding: .5rem;
       @media (min-width: $BREAKPOINT_SMALL) {
         padding: 1rem;
       }
-      border-radius: 8px;
-      flex: 1;
     }
   
     .latest-news .date {
