@@ -14,7 +14,7 @@ import { buildTitle } from "../utils/meta";
 import { imageBuilder } from "../sanity/lib/images";
 import AsideCard from "../components/homepage/AsideCard.astro";
 import type { EventType } from "../utils/types";
-import { isToday, daysUntil } from "../utils/dates";
+import { getEventTiming } from "../utils/dates";
 import { fetchLatestNews } from "../sanity/queries/news";
 import type { Post } from "../utils/types";
 
@@ -38,7 +38,6 @@ const preloadImage = firstImage && {
 
 const nextEvent: EventType | null = await fetchNextEvent();
 const latestNews: Post | null = await fetchLatestNews();
-const badge = nextEvent && isToday(nextEvent.date) ? "Today!" : "in " + daysUntil(nextEvent!.date) + " days";
 
 ---
 
@@ -66,7 +65,7 @@ const badge = nextEvent && isToday(nextEvent.date) ? "Today!" : "in " + daysUnti
           {nextEvent && (
             <AsideCard
               heading="Next Event"
-              badge={badge}
+              badge={getEventTiming(nextEvent.date).label}
               date={nextEvent.date}>
                 <h3>{nextEvent.title}</h3>
                 <div class="portable-text">

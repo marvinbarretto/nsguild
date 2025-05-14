@@ -1,11 +1,12 @@
 ---
 import { fetchNextEvent } from "../../sanity/queries/event";
 import type { EventType } from "../../utils/types";
-import { daysUntil, isToday } from "../../utils/dates";
+import { getEventTiming } from "../../utils/dates";
 import DateDisplayComponent from "../shared/DateDisplay.astro"
 import PortableText from "../shared/PortableText.astro";
 
 const event: EventType | null = await fetchNextEvent();
+const timing = getEventTiming(event!.date);
 
 ---
 
@@ -15,8 +16,7 @@ const event: EventType | null = await fetchNextEvent();
     <div class="next-event__title">
       <h2>Next Event</h2>
       <span class="next-event__days">
-        {isToday(event.date) && <span class="badge">Today!</span>}
-        {!isToday(event.date) && <span class="badge">in {daysUntil(event.date)} days</span>}
+        <span class={`badge ${timing.className}`}>{timing.label}</span>
       </span>
     </div>
       <div class="next-event__content">

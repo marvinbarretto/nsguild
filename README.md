@@ -13,6 +13,9 @@ npm install
 npm run dev
 ```
 
+Dev should run on port 4321
+
+
 ## Deploy
 
 ```bash
@@ -24,13 +27,11 @@ npx sanity deploy
 ```bash
 - PUBLIC_SANITY_PROJECT_ID
 - PUBLIC_SANITY_DATASET
-- PUBLIC_SANITY_VISUAL_EDITING_ENABLED
 - SANITY_API_TOKEN
 - WEB3FORMS_ACCESS_KEY
 ```
 
 ## Todo
-- [ ] Remove `PUBLIC_SANITY_VISUAL_EDITING_ENABLED` ?
 - [ ] Explore 'Presentation mode' for Sanity
 - [ ] Google Analytics when live
 - [ ] Hook up hosting

@@ -20,16 +20,12 @@ const pageTitle = buildTitle("Equipment");
 <Seo title={pageTitle} />
 
 <BaseLayout>
-
   <PageTitle title="Equipment" />
 
+  <!-- TODO: Astro componentise this -->
   <div class="container">
-
     <section class="for-sale">
-      
       <h3>For sale</h3>
-      
-      <!-- Sort out equipmentList but only show items with category "For sale" -->
       {equipmentList.filter(item => item.category === "For Sale").map((item) => (
         <li>
           <a href={`/equipment/${item.slug}`}>
@@ -38,13 +34,12 @@ const pageTitle = buildTitle("Equipment");
         </li>
       ))}
       {equipmentList.filter(item => item.category === "For Sale").length === 0 && (
-        <p>Nothing available</p>
+        <p>Nothing at the moment</p>
       )}
     </section>
 
     <section class="for-rent">
       <h3>For rent (members only)</h3>
-      <!-- Sort out equipmentList but only show items with category "For Hire" -->
       {equipmentList.filter(item => item.category === "For Hire").map((item) => (
         <li>
           <a href={`/equipment/${item.slug}`}>
@@ -53,10 +48,9 @@ const pageTitle = buildTitle("Equipment");
         </li>
       ))}
       {equipmentList.filter(item => item.category === "For Hire").length === 0 && (
-        <p>Nothing available</p>
+        <p>Nothing at the moment</p>
       )}
     </section>
-
   </div>
 </BaseLayout>
 
@@ -111,7 +105,4 @@ const pageTitle = buildTitle("Equipment");
       color: white;
       font-weight: bold;
     }
-    
-
-
 </style>
