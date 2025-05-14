@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import type { Publication } from '../../utils/types';
-import { fetchAllPublications, fetchPagesContent } from '../../utils/sanity';
+import { fetchLatestPublication, fetchArchivePublications, fetchPagesContent } from '../../utils/sanity';
 import PageTitle from '../../components/shared/PageTitle.astro'; 
 import PageDescription from '../../components/shared/PageDescription.astro'; 
 
@@ -12,7 +11,8 @@ import Seo from "../../components/shared/Seo.astro";
 
 const pagesContent = await fetchPagesContent();
 const distaffDescription = pagesContent?.distaffPageDescription;
-const publications = await fetchAllPublications();
+const latest = await fetchLatestPublication();
+const archive = await fetchArchivePublications();
 
 const pageTitle = buildTitle("Distaff and Shuttle");
 
@@ -22,44 +22,46 @@ const pageTitle = buildTitle("Distaff and Shuttle");
 
 <BaseLayout>
 
-  <!-- TODO: make dynamic -->
-
   <div class="container">
     <PageTitle title="Distaff and Shuttle" />
     {distaffDescription && <PageDescription>
       <PortableText portableText={distaffDescription}></PortableText>
     </PageDescription>}
 
-    {publications.map((publication: Publication, index: number) => {
-      const isLatest = index === 0; 
-  
-      return (
+      {latest && (
         <div>
           <PageDescription variant="secondary">
-            <h2>{publication.title}</h2>
+            <h2>{latest.title}</h2>
           </PageDescription>
-  
-          {isLatest ? (
-            <iframe
-              src={publication.documentUrl}#toolbar=0
-              width="100%"
-              height="600px"
-              title={publication.title}
-            />
-
-          ) : (
-            <a
-              href={publication.documentUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn"
-            >
-              Download PDF
-            </a>
-          )}
+          <iframe
+            src={`${latest.documentUrl}#toolbar=0`}
+            width="100%"
+            height="600px"
+            title={latest.title}
+          />
         </div>
-      );
-    })}
+      )}
+
+      {archive.length > 0 && (
+        <div class="archive">
+          <h3 class="archive__heading">Archive editions</h3>
+          <ol class="archive__list">
+            {archive.map((publication) => (
+              <li>
+                <a
+                  href={publication.documentUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn"
+                >
+                  Download {publication.title}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
+
   </div>
 
 </BaseLayout>
@@ -72,7 +74,20 @@ const pageTitle = buildTitle("Distaff and Shuttle");
   }
 
 
+.archive {
+  margin: auto;
+  text-align: center;
+}
 
+.archive__heading {
+  margin-bottom: .5rem;
+}
+
+.archive__list {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
   
 
   .pub-grid {
