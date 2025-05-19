@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "release": "standard-version"
   },
   "dependencies": {
     "@astrojs/react": "4.1.2",
@@ -36,7 +37,8 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.4",
-    "sass-embedded": "1.82.0"
+    "sass-embedded": "1.82.0",
+    "standard-version": "9.5.0"
   },
   "engines": {
     "node": ">=20.x"
