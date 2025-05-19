@@ -7,8 +7,6 @@ import PortableText from "../components/shared/PortableText.astro";
 import Seo from "../components/shared/Seo.astro";
 import Banner from '../components/global/Banner.astro';
 import HeroOverlaySection from "../components/homepage/HeroOverlaySection.astro";
-import LatestNews from "../components/homepage/LatestNews.astro";
-import NextEvent from "../components/homepage/NextEvent.astro";
 
 import { buildTitle } from "../utils/meta";
 import { imageBuilder } from "../sanity/lib/images";
@@ -34,7 +32,6 @@ const preloadImage = firstImage && {
   sizes: "100vw",
   type: "image/webp"
 };
-
 
 const nextEvent: EventType | null = await fetchNextEvent();
 const latestNews: Post | null = await fetchLatestNews();
@@ -67,7 +64,7 @@ const latestNews: Post | null = await fetchLatestNews();
               heading="Next Event"
               badge={getEventTiming(nextEvent.date).label}
               date={nextEvent.date}>
-                <h3>{nextEvent.title}</h3>
+                <h2>{nextEvent.title}</h2>
                 <div class="portable-text">
                   <PortableText portableText={nextEvent.description} />
                 </div>
@@ -76,7 +73,7 @@ const latestNews: Post | null = await fetchLatestNews();
 
           {latestNews && (
             <AsideCard heading="For your diary">
-              <h3>{latestNews.title}</h3>
+              <h2>{latestNews.title}</h2>
               <div class="portable-text">
                 <PortableText portableText={latestNews.body} />
               </div>

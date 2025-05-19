@@ -29,3 +29,5 @@ pnpm-debug.log*
 #sanity
 .sanity
 .qodo
+
+.vscode

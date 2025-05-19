@@ -3,6 +3,12 @@ export type RichTextBlock = {
   children: { text: string }[];
 };
 
+export type EventTiming = {
+  label: string;
+  className: string;
+  isToday: boolean;
+}
+
 export type Globals = {
   siteTitle: string;
   description: string;
@@ -92,7 +98,7 @@ export interface SeoProps {
 export interface EquipmentType {
   title: string;
   slug: string;
-  category: "For Sale" | "For Hire";
+  category: "For Sale" | "For Loan";
   description: any;
   image: GalleryImage;
   images?: GalleryImage[];

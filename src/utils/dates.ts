@@ -1,17 +1,12 @@
-export function getEventTiming(dateString: string): {
-  label: string;
-  className: string;
-  isToday: boolean;
-} {
+export function getEventTiming(dateString: string, now: Date = new Date()): EventTiming {
   if (!dateString) {
     return { label: '', className: '', isToday: false };
   }
 
-  const today = new Date();
   const eventDate = new Date(dateString);
 
   // Zero out time to compare just dates
-  const todayDateOnly = new Date(today.toISOString().split("T")[0]);
+  const todayDateOnly = new Date(now.toISOString().split("T")[0]);
   const eventDateOnly = new Date(eventDate.toISOString().split("T")[0]);
 
   const diffTime = eventDateOnly.getTime() - todayDateOnly.getTime();
@@ -23,10 +18,28 @@ export function getEventTiming(dateString: string): {
   if (days === 1) {
     return { label: "Tomorrow", className: "badge--tomorrow", isToday: false };
   }
-  if (days > 1) {
+  if (days < 7) {
     return { label: `in ${days} days`, className: "badge--future", isToday: false };
   }
+  if (days < 30) {
+    const weeks = days / 7;
+    const roundedWeeks = Math.round(weeks);
+    const descriptor =
+      weeks < roundedWeeks ? "just under" : weeks > roundedWeeks ? "just over" : "about";
+    return {
+      label: `in ${descriptor} ${roundedWeeks} week${roundedWeeks > 1 ? "s" : ""}`,
+      className: "badge--future",
+      isToday: false,
+    };
+  }
 
-  // Optional: past events
-  return { label: "In the past", className: "badge--past", isToday: false };
+  const months = days / 30;
+  const roundedMonths = Math.round(months);
+  const descriptor =
+    months < roundedMonths ? "just under" : months > roundedMonths ? "just over" : "about";
+  return {
+    label: `in ${descriptor} ${roundedMonths} month${roundedMonths > 1 ? "s" : ""}`,
+    className: "badge--future",
+    isToday: false,
+  };
 }

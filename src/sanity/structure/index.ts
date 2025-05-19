@@ -36,12 +36,6 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .title('Equipment')
         .child(S.documentTypeList('equipment').title('Equipment')),
 
-      // Contact Page (Singleton)
-      // S.listItem()
-      //   .title('Contact')
-      //   .id('contact')
-      //   .child(S.document().schemaType('contact').documentId('contact')),
-
       S.divider(), // Separate content from settings
 
       // Global Settings (Singleton)
@@ -49,6 +43,17 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .title('⚙️ Global Settings')
         .id('globals')
         .child(S.document().schemaType('globals').documentId('globals')),
+
+      // Programme (singleton)
+      S.listItem()
+        .title('Event Programme')
+        .id('programme')
+        .child(
+          S.document()
+            .schemaType('programme')
+            .documentId('programme')
+        ),
+
 
       // Page Content (Singleton)
       S.listItem()
@@ -65,7 +70,7 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
       // Other document types not explicitly listed above
       ...S.documentTypeListItems().filter(
         (listItem) =>
-          !['homepage', 'contact', 'globals', 'post', 'event', 'photoGallery', 'equipment', 'publication', 'pagesContent'].includes(
+          !['homepage', 'globals', 'post', 'event', 'photoGallery', 'equipment', 'publication', 'pagesContent', 'programme'].includes(
             listItem.getId() as string
           )
       ),

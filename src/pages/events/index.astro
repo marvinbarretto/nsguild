@@ -1,12 +1,13 @@
 ---
 import type { EventType } from "../../utils/types";
 import { fetchAllEvents } from "../../sanity/queries/event";
-import { fetchGlobals } from "../../utils/sanity";
+import { fetchGlobals, fetchPagesContent } from "../../utils/sanity";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 import PageTitle from "../../components/shared/PageTitle.astro";
 import PageDescription from "../../components/shared/PageDescription.astro";
 import { portableTextToPlainText } from "../../utils/portableText";
+import PortableText from '../../components/shared/PortableText.astro';
 import Seo from "../../components/shared/Seo.astro";
 import { buildTitle } from "../../utils/meta";
 
@@ -27,6 +28,9 @@ pastEvents.sort((a, b) => b.date.localeCompare(a.date));
 const globals = await fetchGlobals();
 const programmeUrl = globals?.programmeUrl;
 
+const pagesContent = await fetchPagesContent();
+const eventsDescription = pagesContent?.eventsPageDescription;
+
 const pageTitle = buildTitle("Events");
 
 ---
@@ -37,15 +41,13 @@ const pageTitle = buildTitle("Events");
   <div class="container">
 
     <PageTitle title="Events" />
+    {eventsDescription && <PageDescription>
+      <PortableText portableText={eventsDescription}></PortableText>
+    </PageDescription>}
 
-    {programmeUrl && (
-      <PageDescription>
-        <p><a href={programmeUrl} target="_blank" rel="noopener noreferrer">
-          Our full programme of events is available as a PDF to download or print
-        </a></p>
-      </PageDescription>
-    )}
-
+    <!--
+      <p><a href={programmeUrl} target="_blank" rel="noopener noreferrer">Our full programme of events is available as a PDF to download or print</a></p>
+    -->
 
     <section class="upcoming">
       <ul class="upcoming__list">
@@ -111,7 +113,6 @@ const pageTitle = buildTitle("Events");
 
 
 <style lang="scss">
-
 
 .container {
     display: flex;

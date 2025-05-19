@@ -22,7 +22,7 @@
     // ✅ Paragraph spacing - adjusts for readability
     p {
       font-size: clamp(1rem, 1.5vw, 1.2rem);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       line-height: 1.6;
       &:last-child {
         margin-bottom: 0;

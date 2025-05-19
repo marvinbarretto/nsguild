@@ -26,7 +26,7 @@ export const equipmentType = defineType({
       title: "Category",
       type: "string",
       options: {
-        list: ["For Sale", "For Hire"],  // ✅ Dropdown for category
+        list: ["For Sale", "For Loan"],
       },
       validation: (Rule) => Rule.required(),
     }),

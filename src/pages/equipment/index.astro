@@ -3,9 +3,11 @@ import type { EquipmentType } from "../../utils/types";
 import { fetchAllEquipment } from "../../sanity/queries/equipment";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageTitle from "../../components/shared/PageTitle.astro";
+import PageDescription from "../../components/shared/PageDescription.astro";
 import { fetchPagesContent } from "../../utils/sanity";
 import Seo from "../../components/shared/Seo.astro";
 import { buildTitle } from "../../utils/meta";
+import PortableText from '../../components/shared/PortableText.astro';
 
 const equipmentList: EquipmentType[] = await fetchAllEquipment();
 console.log("Fetched Equipment:", JSON.stringify(equipmentList, null, 2));  // ✅ Debug Output
@@ -21,6 +23,9 @@ const pageTitle = buildTitle("Equipment");
 
 <BaseLayout>
   <PageTitle title="Equipment" />
+  {equipmentDescription && <PageDescription>
+    <PortableText portableText={equipmentDescription}></PortableText>
+  </PageDescription>}
 
   <!-- TODO: Astro componentise this -->
   <div class="container">
@@ -38,16 +43,16 @@ const pageTitle = buildTitle("Equipment");
       )}
     </section>
 
-    <section class="for-rent">
-      <h3>For rent (members only)</h3>
-      {equipmentList.filter(item => item.category === "For Hire").map((item) => (
+    <section class="for-loan">
+      <h3>For loan (members only)</h3>
+      {equipmentList.filter(item => item.category === "For Loan").map((item) => (
         <li>
           <a href={`/equipment/${item.slug}`}>
             {item.title}
           </a>
         </li>
       ))}
-      {equipmentList.filter(item => item.category === "For Hire").length === 0 && (
+      {equipmentList.filter(item => item.category === "For Loan").length === 0 && (
         <p>Nothing at the moment</p>
       )}
     </section>
@@ -67,7 +72,7 @@ const pageTitle = buildTitle("Equipment");
     }
   }
 
-  .for-sale, .for-rent {
+  .for-sale, .for-loan {
 
     display: flex;
     align-items: center;
