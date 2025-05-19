@@ -10,9 +10,7 @@ const news: Post | null = await fetchLatestNews();
     <section class="latest-news">
       <h2>For your diary</h2>
       <h3>{news.title}</h3>
-      <div class="portable-text">
-        <PortableText portableText={news.body} />
-      </div>
+      <PortableText portableText={news.body} />
       {/* <p>For more information, please email the secretary at <a href="mailto:mail@norfolksuffolkwsd.org.uk">mail@norfolksuffolkwsd.org.uk</a></p> */}
     </section>
   )}

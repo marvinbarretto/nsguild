@@ -22,9 +22,7 @@ const timing = getEventTiming(event!.date);
       <div class="next-event__content">
         <div class="next-event__event">
           <h3>{event.title}</h3>
-          <div class="portable-text">
-            <PortableText portableText={event.description} />
-          </div>
+          <PortableText portableText={event.description} />
         </div>
         <DateDisplayComponent date={event.date} variant="calendar" />
       </div>

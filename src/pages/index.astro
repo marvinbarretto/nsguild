@@ -3,25 +3,24 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { fetchHomepage } from "../sanity/queries/homepage";
 import { fetchGlobals } from "../utils/sanity";
 import { fetchNextEvent } from "../sanity/queries/event";
+import { fetchLatestNews } from "../sanity/queries/news";
+
 import PortableText from "../components/shared/PortableText.astro";
 import Seo from "../components/shared/Seo.astro";
 import Banner from '../components/global/Banner.astro';
 import HeroOverlaySection from "../components/homepage/HeroOverlaySection.astro";
+import AsideCard from "../components/homepage/AsideCard.astro";
 
+import type { EventType } from "../utils/types";
+import type { Post } from "../utils/types";
 import { buildTitle } from "../utils/meta";
 import { imageBuilder } from "../sanity/lib/images";
-import AsideCard from "../components/homepage/AsideCard.astro";
-import type { EventType } from "../utils/types";
 import { getEventTiming } from "../utils/dates";
-import { fetchLatestNews } from "../sanity/queries/news";
-import type { Post } from "../utils/types";
 
 const vm = await fetchHomepage();
 const globals = await fetchGlobals();
 
-const title = buildTitle("Home");
-
-const firstImage = vm?.carouselImages?.[0]; // pass full image object, not just .asset
+const firstImage = vm.carouselImages?.[0]; // pass full image object, not just .asset
 const preloadImage = firstImage && {
   url: imageBuilder.image(firstImage).width(1200).format("webp").url(),
   srcSet: `
@@ -33,6 +32,7 @@ const preloadImage = firstImage && {
   type: "image/webp"
 };
 
+const title = buildTitle("Home");
 const nextEvent: EventType | null = await fetchNextEvent();
 const latestNews: Post | null = await fetchLatestNews();
 
@@ -46,12 +46,12 @@ const latestNews: Post | null = await fetchLatestNews();
 
 <BaseLayout>
   <Banner />
-  <HeroOverlaySection images={vm?.carouselImages} />
+  <HeroOverlaySection images={vm.carouselImages} />
   <div class="container-over-hero">
     <div class="content">
       <div class="primary">
-        {vm?.whoWeAre && (
-          <section id="who-we-are" class="portable-text">
+        {vm.whoWeAre && (
+          <section id="who-we-are">
             <div class="panel-content">
               <h2>Who We Are</h2>
               <PortableText portableText={vm.whoWeAre} />
@@ -65,41 +65,37 @@ const latestNews: Post | null = await fetchLatestNews();
               badge={getEventTiming(nextEvent.date).label}
               date={nextEvent.date}>
                 <h2>{nextEvent.title}</h2>
-                <div class="portable-text">
-                  <PortableText portableText={nextEvent.description} />
-                </div>
+                <PortableText portableText={nextEvent.description} />
             </AsideCard>
           )}
 
           {latestNews && (
             <AsideCard heading="For your diary">
               <h2>{latestNews.title}</h2>
-              <div class="portable-text">
-                <PortableText portableText={latestNews.body} />
-              </div>
+              <PortableText portableText={latestNews.body} />
             </AsideCard>
           )}
         </aside>
       </div>
       <div class="secondary">
-        {vm?.whatWeDo && (
-          <section id="what-we-do" class="portable-text">
+        {vm.whatWeDo && (
+          <section id="what-we-do">
             <div class="panel-content">
               <h2>What We Do</h2>
               <PortableText portableText={vm.whatWeDo} />
             </div>
           </section>
         )}
-        {vm?.whenWeMeet && (
-          <section id="when-we-meet" class="portable-text">
+        {vm.whenWeMeet && (
+          <section id="when-we-meet">
             <div class="panel-content">
               <h2>When We Meet</h2>
               <PortableText portableText={vm.whenWeMeet} />
             </div>
           </section>
         )}
-        {vm?.whereWeMeet && (
-          <section id="where-we-meet" class="portable-text">
+        {vm.whereWeMeet && (
+          <section id="where-we-meet">
             <div class="panel-content">
               <h2>Where We Meet</h2>
               <PortableText portableText={vm.whereWeMeet} />
@@ -149,7 +145,6 @@ const latestNews: Post | null = await fetchLatestNews();
 
   section {
     @include panel;
-    max-width: 100%; // Let them override portable-text
   }
   aside {
     display: flex;
@@ -165,5 +160,8 @@ const latestNews: Post | null = await fetchLatestNews();
   .panel-content {
     @include panel-border;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
   }
 </style>
