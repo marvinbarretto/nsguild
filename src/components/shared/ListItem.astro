@@ -53,9 +53,8 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
         variant={variant} 
         body={body} 
         description={description}
-      >
-        <slot name="extra" />
-      </ListItemContent>
+        relatedGallery={relatedGallery}
+      />
     </a>
   ) : (
     <div class="list-item__content">
@@ -66,9 +65,8 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
         variant={variant} 
         body={body} 
         description={description}
-      >
-        <slot name="extra" />
-      </ListItemContent>
+        relatedGallery={relatedGallery}
+      />
     </div>
   )}
 </li>

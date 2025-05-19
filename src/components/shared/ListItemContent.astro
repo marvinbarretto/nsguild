@@ -2,7 +2,7 @@
 import PortableText from "./PortableText.astro";
 import DateDisplay from "./DateDisplay.astro";
 
-const { date, dateVariant, title, variant, body, description } = Astro.props;
+const { date, dateVariant, title, variant, body, description, relatedGallery} = Astro.props;
 ---
 
 {date && <DateDisplay date={date} variant={dateVariant} />}
@@ -10,14 +10,18 @@ const { date, dateVariant, title, variant, body, description } = Astro.props;
   <h3 class="list-item__title">{title}</h3>
 
   {variant === "news-full" && body ? (
-    <div class="list-item__body portable-text">
+    <div class="list-item__body">
       <PortableText portableText={body} />
     </div>
   ) : (
     description && <p class="snippet">{description}</p>
   )}
 
-  <slot name="extra" />
+  {relatedGallery && (
+  <a href={`/gallery/albums/${relatedGallery.slug}`} class="gallery-link">
+    View Gallery of {relatedGallery.title}
+  </a>
+  )}
 </div>
 
 <style lang="scss">
