@@ -35,3 +35,8 @@ npx sanity deploy
 - [ ] Explore 'Presentation mode' for Sanity
 - [ ] Google Analytics when live
 - [ ] Hook up hosting
+
+## Workflow
+- commit with a proper prefix
+- `npm run release`
+- `git push --follow-tags origin master`
