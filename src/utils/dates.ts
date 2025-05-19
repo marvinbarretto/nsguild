@@ -1,3 +1,5 @@
+import type { EventTiming } from "../utils/types";
+
 export function getEventTiming(dateString: string, now: Date = new Date()): EventTiming {
   if (!dateString) {
     return { label: '', className: '', isToday: false };
