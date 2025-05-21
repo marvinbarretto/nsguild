@@ -109,18 +109,21 @@ const latestNews: Post | null = await fetchLatestNews();
 
 <style scoped lang="scss">
   @use "../styles/_breakpoints.scss" as *;
-  @use "../styles/_panel.scss" as *;
+  @use "../styles/_mixins" as *;
 
   .container-over-hero {
     position: relative;
     margin-top: -100px;
+    display: flex;
+    justify-content: center;
   }
 
   .content {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    margin: 1rem;
+    margin: 2rem 1rem;
+    max-width: 1200px;
 
     .primary {
       display: flex;

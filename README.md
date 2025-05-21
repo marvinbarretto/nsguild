@@ -40,3 +40,6 @@ npx sanity deploy
 - commit with a proper prefix
 - `npm run release`
 - `git push --follow-tags origin master`
+
+<!-- npx standard-version --dry-run -->
+<!-- npm run release -- --release-as minor -->

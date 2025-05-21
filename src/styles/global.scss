@@ -3,20 +3,24 @@
 @use './layout.scss';
 
 
+@use './_utility';
+@use './_typography';
+  
+
 @use './portable-text.scss';
 
+
 @use './_breakpoints.scss' as *;
-
-
-body {
-    font-family: "Delius Swash Caps", sans-serif;
-}
 
 h1 {
     font-size: 2rem;
     @media (min-width: $BREAKPOINT_SMALL) {
       font-size: 3rem;
     }
+}
+
+body {
+    font-family: "Delius Swash Caps", sans-serif;
 }
 
 main {
@@ -27,25 +31,3 @@ a {
   text-underline-position: under;
   transition: color 0.3s ease;
 }
-
-.hidden {
-  display: none;
-}
-
-.stitched {
-    position: relative;
-    padding: 20px;
-    background: #f5f5f5; /* Light fabric-like background */
-    border: 2px dashed #444; /* Stitched effect */
-    border-radius: 6px;
-    box-shadow: 
-      0 2px 0 #999,  /* 3D raised effect */
-      0 4px 5px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
-    
-    /* Simulating an embroidery stitch effect */
-    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.2) 1px, transparent 1px);
-    background-size: 5px 5px;
-  }
-  
-
-  
