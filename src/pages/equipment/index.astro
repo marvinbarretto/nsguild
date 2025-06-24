@@ -19,9 +19,8 @@ const pageTitle = buildTitle("Equipment");
 
 ---
 
-<Seo title={pageTitle} />
-
 <BaseLayout>
+  <Seo slot="head" title={pageTitle} />
   <PageTitle title="Equipment" />
   {equipmentDescription && <PageDescription>
     <PortableText portableText={equipmentDescription}></PortableText>

@@ -18,9 +18,8 @@ console.log(gallery);
 const pageTitle = buildTitle(`${gallery.title} | Photo Gallery`);
 ---
 
-<Seo title={pageTitle} />
-
 <BaseLayout>
+  <Seo slot="head" title={pageTitle} />
   <PageTitle title={gallery.title} />
   <PageDescription>
     <a href="/gallery/albums">Back to Album list</a>

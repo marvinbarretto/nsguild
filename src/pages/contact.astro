@@ -13,11 +13,8 @@ const vm = await fetchContactPage();
 const pageTitle = buildTitle(vm.title);
 ---
 
-<Seo title={pageTitle} />
-
-
-
 <BaseLayout>
+  <Seo slot="head" title={pageTitle} />
   <PageTitle title={vm.title} />
   <div class="container" itemscope itemtype="https://schema.org/Organization">
 

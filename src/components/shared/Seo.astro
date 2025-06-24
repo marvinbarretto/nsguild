@@ -1,26 +1,18 @@
 ---
 import type { SeoProps } from '../../utils/types'
-
-const props = Astro.props as SeoProps;
-
-const { title, description, preloadImage } = props;
+const { title, description, preloadImage } = Astro.props as SeoProps;
 ---
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{title && <title>{title}</title>}
+{description && <meta name="description" content={description} />}
 
-  <title>{title}</title>
-  {description && <meta name="description" content={description} />}
-
-  {preloadImage && (
-    <link
-      rel="preload"
-      as="image"
-      href={preloadImage.url}
-      imagesrcset={preloadImage.srcSet}
-      imagesizes={preloadImage.sizes || "100vw"}
-      type={preloadImage.type || "image/webp"}
-    />
-  )}
-</head>
+{preloadImage && (
+  <link
+    rel="preload"
+    as="image"
+    href={preloadImage.url}
+    imagesrcset={preloadImage.srcSet}
+    imagesizes={preloadImage.sizes || "100vw"}
+    type={preloadImage.type || "image/webp"}
+  />
+)}

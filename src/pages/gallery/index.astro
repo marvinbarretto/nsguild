@@ -12,9 +12,8 @@ const pageTitle = buildTitle("Photo Gallery");
 
 ---
 
-<Seo title={pageTitle} />
-
 <BaseLayout>
+  <Seo slot="head" title={pageTitle} />
   <div class="container">
     <PageTitle title="Photo Gallery" />
     <GalleryNav currentPath={Astro.url.pathname}  />
