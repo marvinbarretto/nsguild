@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/marvinbarretto/nsguild/compare/v1.0.0...v1.0.1) (2025-06-24)
+
+
+### Bug Fixes
+
+* Move head stuff into the <head> ([1c4e287](https://github.com/marvinbarretto/nsguild/commit/1c4e28734466a49ea7faa35fa21ea36f104460ab))
+
 ## [1.0.0](https://github.com/marvinbarretto/nsguild/compare/v0.0.5...v1.0.0) (2025-06-24)
 
 
