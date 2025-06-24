@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/marvinbarretto/nsguild/compare/v0.0.5...v1.0.0) (2025-06-24)
+
+
+### Features
+
+* Add robots txt ([9feb7d8](https://github.com/marvinbarretto/nsguild/commit/9feb7d867ccfbf0af89464bebd1d42a94d1e77fc))
+* Bump Astro version ([d63c57f](https://github.com/marvinbarretto/nsguild/commit/d63c57f7f97f05a35a4a371e3a01323850a7db8d))
+* Create sitemap wip ([7af20bc](https://github.com/marvinbarretto/nsguild/commit/7af20bc60ae9b76a5d0b01018893b22dc2755d0e))
+* Move Seo component to head slot ([8efaa31](https://github.com/marvinbarretto/nsguild/commit/8efaa3179523f67758dab667bffd6127687cde7b))
+* Reorganise queries ([10c7f66](https://github.com/marvinbarretto/nsguild/commit/10c7f66551fd1351700da8e70aa719380c903d22))
+
 ### [0.0.5](https://github.com/marvinbarretto/nsguild/compare/v0.0.4...v0.0.5) (2025-05-21)
 
 
