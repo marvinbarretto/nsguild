@@ -1,8 +1,19 @@
 ---
 import type { EventType } from "../../utils/types";
-import { fetchEventBySlug } from "../../sanity/queries/event";
+import { fetchEventBySlug, fetchAllEvents } from "../../sanity/queries/event";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PortableText from "../../components/shared/PortableText.astro";
+
+// Tell Astro which pages to build at compile time
+// This fetches all events from Sanity and pre-builds a page for each one
+export async function getStaticPaths() {
+  const events = await fetchAllEvents();
+  return events
+    .filter(event => event.slug)
+    .map(event => ({
+      params: { slug: event.slug }
+    }));
+}
 
 const { slug } = Astro.params;
 

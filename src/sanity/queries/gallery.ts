@@ -47,3 +47,17 @@ export async function fetchGalleryBySlug(slug: string): Promise<GalleryData | nu
   return await getSanityData<Gallery | null>(query, { slug });
 }
 
+export function formatGalleryImages(images: any[]): GalleryImage[] {
+  return images
+    .map((img) => {
+      const baseUrl = img.asset?.url;
+      if (!baseUrl) return null;
+
+      return {
+        thumb: baseUrl + '?w=400&auto=format',
+        thumb2x: baseUrl + '?w=800&auto=format',
+        full: baseUrl + '?w=1600&auto=format',
+      };
+    })
+    .filter(Boolean) as GalleryImage[];
+}

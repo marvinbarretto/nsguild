@@ -1,11 +1,22 @@
 ---
 import type { EquipmentType } from "../../utils/types";
-import { fetchEquipmentBySlug } from "../../sanity/queries/equipment";
+import { fetchEquipmentBySlug, fetchAllEquipment } from "../../sanity/queries/equipment";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Image from "astro/components/Image.astro";
 import PortableText from "../../components/shared/PortableText.astro";
 import PageDescription from "../../components/shared/PageDescription.astro";
 import PageTitle from "../../components/shared/PageTitle.astro";
+
+// Tell Astro which pages to build at compile time
+// This fetches all equipment from Sanity and pre-builds a page for each one
+export async function getStaticPaths() {
+  const equipment = await fetchAllEquipment();
+  return equipment
+    .filter(item => item.slug)
+    .map(item => ({
+      params: { slug: item.slug }
+    }));
+}
 
 const { slug } = Astro.params;
 

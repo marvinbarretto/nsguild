@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { fetchLatestPublication, fetchArchivePublications, fetchPagesContent } from '../../utils/sanity';
+
+
+import { fetchPagesContent } from '../../sanity/queries/news';
 import PageTitle from '../../components/shared/PageTitle.astro'; 
 import PageDescription from '../../components/shared/PageDescription.astro'; 
 
@@ -8,6 +10,7 @@ import PortableText from '../../components/shared/PortableText.astro';
 import { buildTitle } from "../../utils/meta";
 
 import Seo from "../../components/shared/Seo.astro";
+import { fetchArchivePublications, fetchLatestPublication } from '../../sanity/queries/publications';
 
 const pagesContent = await fetchPagesContent();
 const distaffDescription = pagesContent?.distaffPageDescription;

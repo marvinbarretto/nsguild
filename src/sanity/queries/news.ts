@@ -1,6 +1,7 @@
 
 import { getSanityData } from "../../utils/sanity";
 import type { Post } from "../../utils/types";
+import type { PagesContent } from "../../utils/types";
 
 export async function fetchLatestNews(): Promise<Post | null> {
     const query = `
@@ -40,5 +41,26 @@ export async function fetchAllPosts(): Promise<Post[]> {
       }
     `;
     return await getSanityData<Post[]>(query);
-  }
+}
   
+
+export async function fetchPostsPage(): Promise<Post[]> {
+  const posts = `
+    *[_type == "post" && defined(slug.current)]
+    | order(publishedAt desc)[0...12]{
+      _id, 
+      title, 
+      "slug": slug.current, 
+      publishedAt,
+      snippet,
+      body
+    }
+  `;
+
+  return await getSanityData<Post[]>(posts);
+}
+
+export async function fetchPagesContent(): Promise<PagesContent | null> {
+  const query = `*[_type == "pagesContent"][0]`;
+  return await getSanityData<PagesContent | null>(query);
+}

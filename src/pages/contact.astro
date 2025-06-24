@@ -1,12 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { fetchContactPage } from '../utils/sanity';
 import PageTitle from '../components/shared/PageTitle.astro';
 import PageDescription from '../components/shared/PageDescription.astro';
 import { buildTitle } from "../utils/meta";
 import Seo from "../components/shared/Seo.astro";
 import Image from "astro/components/Image.astro";
 import villageHall from '../images/village-hall.webp';
+import { fetchContactPage } from '../sanity/queries/contact';
 const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY;
 
 const vm = await fetchContactPage();

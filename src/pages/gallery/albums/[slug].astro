@@ -4,8 +4,19 @@ import PageDescription from "../../../components/shared/PageDescription.astro";
 import PageTitle from "../../../components/shared/PageTitle.astro";
 import Seo from "../../../components/shared/Seo.astro";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { fetchGalleryBySlug } from "../../../sanity/queries/gallery";
+import { fetchGalleryBySlug, fetchGalleryList } from "../../../sanity/queries/gallery";
 import { buildTitle } from '../../../utils/meta';
+
+// Tell Astro which pages to build at compile time
+// This fetches all photo albums from Sanity and pre-builds a page for each one
+export async function getStaticPaths() {
+  const albums = await fetchGalleryList();
+  return albums
+    .filter(album => album.slug)
+    .map(album => ({
+      params: { slug: album.slug }
+    }));
+}
 
 const { slug } = Astro.params;
 if (!slug) throw new Error("Slug is required");
