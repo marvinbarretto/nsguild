@@ -22,25 +22,23 @@ console.log("🔧 Layout loaded");
 
 ---
 <html lang="en">
-  <Meta {...metadata} />
-  <GoogleFonts />
-  
-  
-  
-
-  <link rel="icon" href="/favicon.ico" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-  <link rel="manifest" href="/site.webmanifest" />
-
-  <SpeedInsights />
-  <Analytics/>
-
   <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{globals?.siteTitle || "Norfolk & Suffolk Guild of Weavers, Spinners and Dyers"}</title>
+    
+    <Meta {...metadata} />
+    <GoogleFonts />
+    
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <SpeedInsights />
+    <Analytics/>
+    
     <slot name="head" />
   </head>
   <body>
