@@ -31,3 +31,6 @@ pnpm-debug.log*
 .qodo
 
 .vscode
+
+ACTION_PLAN.md
+PLAYWRIGHT_CHEATSHEET.md

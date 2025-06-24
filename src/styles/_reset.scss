@@ -12,14 +12,14 @@ body {
 }
 
 input, button, textarea, select {
-    font: inherit; /* Ensure inputs match the font */
+    font: inherit;
 }
 
 ol, ul {
-    list-style: none; /* Remove default list styling */
+    list-style: none;
 }
 
 img, video {
-    max-width: 100%; /* Ensure media does not overflow */
+    max-width: 100%; 
     height: auto;
 }

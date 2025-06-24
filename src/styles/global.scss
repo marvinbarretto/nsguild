@@ -1,15 +1,11 @@
-@use './reset.scss';
-@use './variables.scss';
-@use './layout.scss';
-
-
+@use './reset';
+@use './variables';
+@use './layout';
 @use './_utility';
-  
-
-@use './portable-text.scss';
+@use './portable-text';
 
 
-@use './_breakpoints.scss' as *;
+@use './_breakpoints' as *;
 
 h1 {
     font-size: 2rem;
