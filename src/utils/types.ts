@@ -16,6 +16,7 @@ export type Globals = {
   footerText: string;
   programmeUrl: string;
   metaDescriptions?: MetaDescriptions;
+  pagesContent?: PagesContent;
 }
 
 export type Banner = {
@@ -129,6 +130,7 @@ export type GalleryImage = {
   thumb2x: string;
   full: string;
   url?: string; // Used for legacy equipment
+  _createdAt?: string; // Used for sorting images by upload date
 };
 
 

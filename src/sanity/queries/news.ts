@@ -12,7 +12,7 @@ export async function fetchLatestNews(): Promise<Post | null> {
         publishedAt
       }
     `;
-    return await getSanityData<Post | null>(query); // ✅ This ensures we get a single object
+    return await getSanityData<Post | null>(query, {}, 'fetchLatestNews'); // ✅ This ensures we get a single object
 }
 
 export async function fetchPostBySlug(slug: string): Promise<Post | null> {
@@ -57,10 +57,10 @@ export async function fetchPostsPage(): Promise<Post[]> {
     }
   `;
 
-  return await getSanityData<Post[]>(posts);
+  return await getSanityData<Post[]>(posts, {}, 'fetchPostsPage');
 }
 
 export async function fetchPagesContent(): Promise<PagesContent | null> {
   const query = `*[_type == "pagesContent"][0]`;
-  return await getSanityData<PagesContent | null>(query);
+  return await getSanityData<PagesContent | null>(query, {}, 'fetchPagesContent');
 }

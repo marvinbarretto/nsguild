@@ -1,5 +1,4 @@
 import { getSanityData } from "../../utils/sanity";
-import type { EventType } from "../../utils/types";
 import type { MetaDescriptions } from "../../utils/types";
 
 export async function fetchMetaDescriptions(): Promise<MetaDescriptions | null> {

@@ -1,0 +1,117 @@
+
+> astro-nsguild@1.2.0 dev
+> astro dev
+
+17:57:41 [types] Generated 0ms
+17:57:41 [content] Syncing content
+17:57:41 [content] Synced content
+17:57:41 [vite] Re-optimizing dependencies because vite config has changed
+
+ astro  v5.10.0 ready in 279 ms
+
+┃ Local    http://localhost:4321/
+┃ Network  use --host to expose
+
+17:57:41 watching for file changes...
+🔥 [Sanity API Hit #1] getAllGalleryImages(offset:0, limit:5)
+📋 Query: *[_type == "photoGallery"].images[defined(asset)] | order(asset->_createdAt desc) [0...5] { "thumb": asset->url + "?w=400&auto=format", "thumb2x": ass...
+📊 Params: {}
+✅ [Sanity API Hit #1] Completed in 110ms
+📦 Response size: 2169 characters
+📈 Total API calls so far: 1
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Fetching globals from Sanity (cache miss)
+🔥 [Sanity API Hit #2] fetchGlobals (with pagesContent)
+📋 Query: { "globals": *[_type == "globals" && _id == "globals"][0]{ description, "programmeUrl": programmeFile.asset->url, footerText, metaDescriptions }, "pag...
+📊 Params: {}
+🖼️ Initial images passed to GalleryGrid: [
+  {
+    _createdAt: '2025-05-12T15:05:12Z',
+    full: 'https://cdn.sanity.io/images/8cxh2o2e/production/31325f4d726f0aaed7e32b4885ee882331471485-240x320.jpg?w=1600&auto=format',
+    thumb: 'https://cdn.sanity.io/images/8cxh2o2e/production/31325f4d726f0aaed7e32b4885ee882331471485-240x320.jpg?w=400&auto=format',
+    thumb2x: 'https://cdn.sanity.io/images/8cxh2o2e/production/31325f4d726f0aaed7e32b4885ee882331471485-240x320.jpg?w=800&auto=format'
+  },
+  {
+    _createdAt: '2025-05-12T15:01:20Z',
+    full: 'https://cdn.sanity.io/images/8cxh2o2e/production/28ccd892a17bd7a0564fccf73b7ae740a2c086ce-1200x1600.jpg?w=1600&auto=format',
+    thumb: 'https://cdn.sanity.io/images/8cxh2o2e/production/28ccd892a17bd7a0564fccf73b7ae740a2c086ce-1200x1600.jpg?w=400&auto=format',
+    thumb2x: 'https://cdn.sanity.io/images/8cxh2o2e/production/28ccd892a17bd7a0564fccf73b7ae740a2c086ce-1200x1600.jpg?w=800&auto=format'
+  },
+  {
+    _createdAt: '2025-05-12T14:59:47Z',
+    full: 'https://cdn.sanity.io/images/8cxh2o2e/production/30c0cd52deb7c5500f79a22126e3fe4170c5d3f9-1600x1200.jpg?w=1600&auto=format',
+    thumb: 'https://cdn.sanity.io/images/8cxh2o2e/production/30c0cd52deb7c5500f79a22126e3fe4170c5d3f9-1600x1200.jpg?w=400&auto=format',
+    thumb2x: 'https://cdn.sanity.io/images/8cxh2o2e/production/30c0cd52deb7c5500f79a22126e3fe4170c5d3f9-1600x1200.jpg?w=800&auto=format'
+  },
+  {
+    _createdAt: '2025-05-12T14:58:35Z',
+    full: 'https://cdn.sanity.io/images/8cxh2o2e/production/782641f69784745a27d70bccf85ea16a24374d5b-240x320.jpg?w=1600&auto=format',
+    thumb: 'https://cdn.sanity.io/images/8cxh2o2e/production/782641f69784745a27d70bccf85ea16a24374d5b-240x320.jpg?w=400&auto=format',
+    thumb2x: 'https://cdn.sanity.io/images/8cxh2o2e/production/782641f69784745a27d70bccf85ea16a24374d5b-240x320.jpg?w=800&auto=format'
+  },
+  {
+    _createdAt: '2025-05-12T14:56:16Z',
+    full: 'https://cdn.sanity.io/images/8cxh2o2e/production/d856b4b9cc39a379ec5e0d61e22ce676578108ff-1600x1200.jpg?w=1600&auto=format',
+    thumb: 'https://cdn.sanity.io/images/8cxh2o2e/production/d856b4b9cc39a379ec5e0d61e22ce676578108ff-1600x1200.jpg?w=400&auto=format',
+    thumb2x: 'https://cdn.sanity.io/images/8cxh2o2e/production/d856b4b9cc39a379ec5e0d61e22ce676578108ff-1600x1200.jpg?w=800&auto=format'
+  }
+]
+17:57:42 [200] /gallery 135ms
+✅ [Sanity API Hit #2] Completed in 48ms
+📦 Response size: 2644 characters
+📈 Total API calls so far: 2
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔧 Layout loaded {
+  description: 'Learn about the Norfolk & Suffolk Guild of Weavers, Spinners and Dyers, when we meet, and who we are for',
+  footerText: 'Norfolk and Suffolk Guild of Weavers, Spinners and Dyers',
+  metaDescriptions: {
+    contact: 'Contact information for the secretary of the Guild',
+    equipment: 'Members can hire a range of equipment for weaving, spinning and dyeing – or browse items for sale from fellow Guild members.',
+    events: 'Join us for regular Guild events – mostly held in Broome, near Bungay – including workshops, talks, and chances to meet fellow fibre enthusiasts.',
+    gallery: 'Take a look at what our members have been making. Our gallery shows off past projects, exhibition pieces, and moments from Guild life.',
+    homepage: 'A friendly Guild for weavers, spinners and dyers in the Norfolk & Suffolk area. Come along to our events, browse the gallery, and see what our community is up to.',
+    news: 'Catch up on the latest Guild news, updates, and stories from our members.',
+    publications: 'Read *Distaff and Shuttle*, our in-house magazine that comes out four times a year with reports, stories, and news from the Guild.'
+  },
+  programmeUrl: 'https://cdn.sanity.io/files/8cxh2o2e/production/a617114a9aa9cdcba8bb70b1d3ec1c2a0dadd047.pdf',
+  pagesContent: {
+    _createdAt: '2025-04-07T17:51:40Z',
+    _id: 'pagesContent',
+    _rev: 'gmuAoK3AkU1bBZhwhTOIRM',
+    _type: 'pagesContent',
+    _updatedAt: '2025-06-04T09:31:39Z',
+    distaffPageDescription: [ [Object] ],
+    equipmentPageDescription: [ [Object] ],
+    eventsPageDescription: [ [Object] ],
+    newsPageDescription: [ [Object] ]
+  }
+}
+17:57:43 [WARN] `Astro.request.headers` was used when rendering the route `src/pages/gallery/index.astro'`. `Astro.request.headers` is not available on prerendered pages. If you need access to request headers, make sure that the page is server-rendered using `export const prerender = false;` or by setting `output` to `"server"` in your Astro config to make all your pages server-rendered by default.
+title Photo Gallery | Norfolk and Suffolk Guild of Weavers, Spinners and Dyers
+description undefined
+preloadImage undefined
+17:57:43 [404] /.well-known/appspecific/com.chrome.devtools.json 8ms
+🔥 [Sanity API Hit #3] getAllGalleryImages(offset:0, limit:5)
+📋 Query: *[_type == "photoGallery"].images[defined(asset)] | order(asset->_createdAt desc) [0...5] { "thumb": asset->url + "?w=400&auto=format", "thumb2x": ass...
+📊 Params: {}
+✅ [Sanity API Hit #3] Completed in 47ms
+📦 Response size: 2169 characters
+📈 Total API calls so far: 3
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+17:57:43 [200] /api/gallery 49ms
+🔥 [Sanity API Hit #4] getAllGalleryImages(offset:0, limit:5)
+📋 Query: *[_type == "photoGallery"].images[defined(asset)] | order(asset->_createdAt desc) [0...5] { "thumb": asset->url + "?w=400&auto=format", "thumb2x": ass...
+📊 Params: {}
+✅ [Sanity API Hit #4] Completed in 82ms
+📦 Response size: 2169 characters
+📈 Total API calls so far: 4
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+18:04:32 [200] /api/gallery 89ms
+🔥 [Sanity API Hit #5] getAllGalleryImages(offset:0, limit:5)
+📋 Query: *[_type == "photoGallery"].images[defined(asset)] | order(asset->_createdAt desc) [0...5] { "thumb": asset->url + "?w=400&auto=format", "thumb2x": ass...
+📊 Params: {}
+✅ [Sanity API Hit #5] Completed in 57ms
+📦 Response size: 2169 characters
+📈 Total API calls so far: 5
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+18:04:49 [200] /api/gallery 59ms

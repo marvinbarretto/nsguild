@@ -1,5 +1,5 @@
 import { createClient } from "@sanity/client";
-import type { Globals } from "./types";
+import type { Globals, PagesContent } from "./types";
 import type { APIRoute } from "astro";
 import { fetchHomepage } from "../sanity/queries/homepage";
 
@@ -11,22 +11,59 @@ export const sanityClient = createClient({
     token: import.meta.env.SANITY_TOKEN,
 })
 
-export async function getSanityData<T>(query: string, params?: {}): Promise<T> {
-  return await sanityClient.fetch<T>(query, params);
+// Global counter to track API requests
+let apiCallCounter = 0;
+
+export async function getSanityData<T>(query: string, params?: {}, label?: string): Promise<T> {
+  apiCallCounter++;
+  const startTime = Date.now();
+  
+  console.log(`🔥 [Sanity API Hit #${apiCallCounter}] ${label || 'Unknown query'}`);
+  console.log(`📋 Query: ${query.replace(/\s+/g, ' ').slice(0, 150)}${query.length > 150 ? '...' : ''}`);
+  console.log(`📊 Params:`, params || 'none');
+  
+  const result = await sanityClient.fetch<T>(query, params);
+  const duration = Date.now() - startTime;
+  
+  console.log(`✅ [Sanity API Hit #${apiCallCounter}] Completed in ${duration}ms`);
+  console.log(`📦 Response size: ${JSON.stringify(result).length} characters`);
+  console.log(`📈 Total API calls so far: ${apiCallCounter}`);
+  console.log('━'.repeat(60));
+  
+  return result;
+}
+
+// Function to get API call statistics
+export function getSanityApiStats() {
+  console.log('━'.repeat(80));
+  console.log(`🎯 BUILD SUMMARY: Total Sanity API calls made: ${apiCallCounter}`);
+  console.log('━'.repeat(80));
+  return {
+    totalCalls: apiCallCounter,
+    message: `🎯 Build completed with ${apiCallCounter} Sanity API calls`
+  };
 }
 
 export async function fetchGlobals(): Promise<Globals | null> {
-  const query = `
-    *[_type == "globals" && _id == "globals"][0]{
+  const query = `{
+    "globals": *[_type == "globals" && _id == "globals"][0]{
       description,
       "programmeUrl": programmeFile.asset->url,
       footerText,
       metaDescriptions
-    }
-  `;
+    },
+    "pagesContent": *[_type == "pagesContent"][0]
+  }`;
   
-  const globals = await getSanityData<Globals | null>(query);
-  return globals;
+  const result = await getSanityData<{globals: Globals, pagesContent: PagesContent} | null>(query, {}, 'fetchGlobals (with pagesContent)');
+  
+  if (!result) return null;
+  
+  // Merge pagesContent into globals
+  return {
+    ...result.globals,
+    pagesContent: result.pagesContent
+  };
 }
 
 // API Route

@@ -2,23 +2,40 @@ import { getSanityData } from "../../utils/sanity";
 import type { GalleryData, Gallery, GalleryImage } from "../../utils/types";
 
 export async function getAllGalleryImages({ limit = 5, offset = 0 } = {}): Promise<GalleryImage[]> {
-  const query = `
-    *[_type == "photoGallery"] | order(_createdAt desc) {
-      "images": images[]{
-        "thumb": asset->url + "?w=400&auto=format",
-        "thumb2x": asset->url + "?w=800&auto=format",
-        "full": asset->url + "?w=1600&auto=format"
-      }
-    }
-`;
+  console.log('🔍 getAllGalleryImages called with:', { limit, offset });
+  
+  // Simple GROQ query - get all images first, then slice in JS
+  const query = `*[_type == "photoGallery"].images[defined(asset)] | order(asset->_createdAt desc) {
+    "thumb": asset->url + "?w=400&auto=format",
+    "thumb2x": asset->url + "?w=800&auto=format", 
+    "full": asset->url + "?w=1600&auto=format",
+    "_createdAt": asset->_createdAt
+  }`;
 
-  const galleries = await getSanityData<{ images: GalleryImage[] }[]>(query);
+  console.log('📋 GROQ query:', query);
+  const allImages = await getSanityData<GalleryImage[]>(query, {}, `getAllGalleryImages(offset:${offset}, limit:${limit})`);
+  console.log('📦 Raw Sanity response length:', allImages.length);
+  
+  // Check if offset exceeds available images
+  if (offset >= allImages.length) {
+    console.log('🏁 Offset', offset, 'exceeds available images', allImages.length, '- returning empty array');
+    return [];
+  }
+  
+  // Do pagination in JavaScript with proper bounds
+  const paginatedImages = allImages.slice(offset, offset + limit);
+  console.log('✂️ After JS pagination:', { 
+    offset, 
+    limit, 
+    totalAvailable: allImages.length,
+    requestedRange: `${offset}-${offset + limit - 1}`,
+    actualRange: `${offset}-${Math.min(offset + paginatedImages.length - 1, allImages.length - 1)}`,
+    resultLength: paginatedImages.length 
+  });
 
-  const allImages = galleries
-    .flatMap((gallery) => gallery.images ?? [])
-    .filter((img): img is GalleryImage => Boolean(img?.thumb && img?.full)); 
-
-  return allImages.slice(offset, offset + limit);
+  const filteredImages = paginatedImages.filter((img): img is GalleryImage => Boolean(img?.thumb && img?.full));
+  console.log('🎯 Final result length:', filteredImages.length);
+  return filteredImages;
 }
 
 // Fetch all galleries (for navigation)
@@ -29,7 +46,7 @@ export async function fetchGalleryList(): Promise<Gallery[]> {
       "slug": slug.current
     }
   `;
-  return await getSanityData<Gallery[]>(query);
+  return await getSanityData<Gallery[]>(query, {}, 'fetchGalleryList');
 }
 
 
@@ -44,7 +61,7 @@ export async function fetchGalleryBySlug(slug: string): Promise<GalleryData | nu
       }
     }
   `;
-  return await getSanityData<Gallery | null>(query, { slug });
+  return await getSanityData<Gallery | null>(query, { slug }, 'fetchGalleryBySlug');
 }
 
 export function formatGalleryImages(images: any[]): GalleryImage[] {

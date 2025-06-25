@@ -1,10 +1,10 @@
 ---
 import type { EquipmentType } from "../../utils/types";
 import { fetchAllEquipment } from "../../sanity/queries/equipment";
+import { getCachedGlobals } from "../../utils/cache";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageTitle from "../../components/shared/PageTitle.astro";
 import PageDescription from "../../components/shared/PageDescription.astro";
-import { fetchPagesContent } from "../../sanity/queries/news";
 import Seo from "../../components/shared/Seo.astro";
 import { buildTitle } from "../../utils/meta";
 import PortableText from '../../components/shared/PortableText.astro';
@@ -12,8 +12,8 @@ import PortableText from '../../components/shared/PortableText.astro';
 const equipmentList: EquipmentType[] = await fetchAllEquipment();
 console.log("Fetched Equipment:", JSON.stringify(equipmentList, null, 2));  // ✅ Debug Output
 
-const pagesContent = await fetchPagesContent();
-const equipmentDescription = pagesContent?.equipmentPageDescription;
+const globals = await getCachedGlobals();
+const equipmentDescription = globals?.pagesContent?.equipmentPageDescription;
 
 const pageTitle = buildTitle("Equipment");
 

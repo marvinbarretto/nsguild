@@ -16,7 +16,7 @@ export async function fetchEventsPage(): Promise<EventType[]> {
         }
       }
     `;
-    return await getSanityData(query);
+    return await getSanityData(query, {}, 'fetchEventsPage');
 }
   
 export async function fetchAllEvents(): Promise<EventType[]> {
@@ -33,7 +33,7 @@ export async function fetchAllEvents(): Promise<EventType[]> {
       }
     }
   `;
-  return await getSanityData<EventType[]>(query);
+  return await getSanityData<EventType[]>(query, {}, 'fetchAllEvents');
 }
 
 export async function fetchEventBySlug(slug: string): Promise<EventType | null> {
@@ -61,7 +61,7 @@ export async function fetchNextEvent(): Promise<EventType | null> {
     }
   `;
 
-  return await getSanityData<EventType | null>(query, { today });
+  return await getSanityData<EventType | null>(query, { today }, 'fetchNextEvent');
 }
 
 

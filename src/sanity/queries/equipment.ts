@@ -21,7 +21,7 @@ export async function fetchAllEquipment(): Promise<EquipmentType[]> {
         "documentUrl": document.asset->url
       }
     `;
-    return await getSanityData<EquipmentType[]>(query);  
+    return await getSanityData<EquipmentType[]>(query, {}, 'fetchAllEquipment');  
   }
   
   

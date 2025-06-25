@@ -4,10 +4,14 @@
   "version": "1.2.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build",
+    "build": "npm test && astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "release": "standard-version"
+    "release": "standard-version",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@astrojs/react": "4.3.0",
@@ -39,9 +43,13 @@
     "@astrojs/check": "0.9.4",
     "@playwright/test": "1.53.1",
     "@vitejs/plugin-vue": "6.0.0",
+    "@vitest/ui": "3.2.4",
+    "@vue/test-utils": "2.4.6",
+    "jsdom": "26.1.0",
     "sass-embedded": "1.82.0",
     "standard-version": "9.5.0",
-    "typescript": "5.8.3"
+    "typescript": "5.8.3",
+    "vitest": "3.2.4"
   },
   "engines": {
     "node": ">=20.x"

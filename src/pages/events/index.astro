@@ -1,8 +1,8 @@
 ---
 import type { EventType } from "../../utils/types";
 import { fetchAllEvents } from "../../sanity/queries/event";
+import { getCachedGlobals } from "../../utils/cache";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { fetchPagesContent } from "../../sanity/queries/news";
 import PageTitle from "../../components/shared/PageTitle.astro";
 import PageDescription from "../../components/shared/PageDescription.astro";
 import { portableTextToPlainText } from "../../utils/portableText";
@@ -24,8 +24,8 @@ const pastEvents = events.filter(event => event.date < today);
 upcomingEvents.sort((a, b) => a.date.localeCompare(b.date));
 pastEvents.sort((a, b) => b.date.localeCompare(a.date)); 
 
-const pagesContent = await fetchPagesContent();
-const eventsDescription = pagesContent?.eventsPageDescription;
+const globals = await getCachedGlobals();
+const eventsDescription = globals?.pagesContent?.eventsPageDescription;
 
 const pageTitle = buildTitle("Events");
 

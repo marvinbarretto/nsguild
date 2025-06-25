@@ -1,5 +1,6 @@
 ---
-import { fetchPostsPage, fetchPagesContent } from '../../sanity/queries/news';
+import { fetchPostsPage } from '../../sanity/queries/news';
+import { getCachedGlobals } from '../../utils/cache';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ListItem from "../../components/shared/ListItem.astro";
 import PageTitle from "../../components/shared/PageTitle.astro";
@@ -10,9 +11,8 @@ import { buildTitle } from "../../utils/meta";
 
 
 const posts = await fetchPostsPage();
-
-const pagesContent = await fetchPagesContent();
-const newsDescription = pagesContent?.newsPageDescription;
+const globals = await getCachedGlobals();
+const newsDescription = globals?.pagesContent?.newsPageDescription;
 
 const pageTitle = buildTitle("News");
 

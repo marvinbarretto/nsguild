@@ -5,12 +5,14 @@ import { visionTool } from "@sanity/vision";
 import {structure} from './src/sanity/structure'
 import { StudioCookie } from "./src/sanity/components/StudioCookie";
 
+const isDev = import.meta.env.DEV;
+
 export default defineConfig({
   projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
   dataset: import.meta.env.PUBLIC_SANITY_DATASET,
   plugins: [
     structureTool({ structure }),
-    visionTool()
+    ...(isDev ? [visionTool()] : []) // Only include Vision tool in development
   ],
   schema,
   studio: {

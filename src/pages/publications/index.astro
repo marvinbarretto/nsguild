@@ -1,8 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-
-
-import { fetchPagesContent } from '../../sanity/queries/news';
+import { getCachedGlobals } from '../../utils/cache';
 import PageTitle from '../../components/shared/PageTitle.astro'; 
 import PageDescription from '../../components/shared/PageDescription.astro'; 
 
@@ -12,8 +10,8 @@ import { buildTitle } from "../../utils/meta";
 import Seo from "../../components/shared/Seo.astro";
 import { fetchArchivePublications, fetchLatestPublication } from '../../sanity/queries/publications';
 
-const pagesContent = await fetchPagesContent();
-const distaffDescription = pagesContent?.distaffPageDescription;
+const globals = await getCachedGlobals();
+const distaffDescription = globals?.pagesContent?.distaffPageDescription;
 const latest = await fetchLatestPublication();
 const archive = await fetchArchivePublications();
 

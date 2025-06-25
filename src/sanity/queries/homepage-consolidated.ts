@@ -51,7 +51,7 @@ export async function fetchHomepageData(): Promise<HomepageData> {
     }
   }`;
 
-  const data = await getSanityData<HomepageData>(query, { today });
+  const data = await getSanityData<HomepageData>(query, { today }, 'fetchHomepageData (consolidated)');
   
   if (!data.homepage) {
     throw new Error("Sanity: Homepage not found");
