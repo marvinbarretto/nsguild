@@ -1,6 +1,11 @@
 # Norfolk & Suffolk Guild Website
 
-![Tests](https://github.com/marvinbarretto/astro-nsguild/workflows/Tests/badge.svg)
+[![Tests](https://github.com/marvinbarretto/nsguild/actions/workflows/test.yml/badge.svg)](https://github.com/marvinbarretto/nsguild/actions/workflows/test.yml)
+![Last Commit](https://img.shields.io/github/last-commit/marvinbarretto/nsguild)
+
+![Built with Astro](https://img.shields.io/badge/Built%20with-Astro-blueviolet)
+![CMS: Sanity](https://img.shields.io/badge/CMS-Sanity-orange)
+[![Vercel](https://vercelbadge.vercel.app/api/marvinbarretto/nsguild)](https://vercel.com/marvinbarrettos-projects/nsguild)
 
 ## Stack
 - Astro 5 (SSG)
