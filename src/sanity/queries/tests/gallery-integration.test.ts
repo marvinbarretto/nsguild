@@ -89,11 +89,11 @@ describe('Gallery Pagination Integration', () => {
     },
   ];
 
-  it('should use different queries for different pagination calls (PROVING THE FIX)', async () => {
-    // Mock different responses for different pagination calls - this is the fix!
+  it('should use JavaScript pagination to get different slices of data', async () => {
+    // Now we fetch ALL images and slice in JavaScript
     vi.mocked(getSanityData)
-      .mockResolvedValueOnce(mockImageArray.slice(0, 5))  // Page 1: first 5 images
-      .mockResolvedValueOnce(mockImageArray.slice(5, 10)); // Page 2: next 5 images
+      .mockResolvedValueOnce(mockImageArray)  // First call: all 10 images
+      .mockResolvedValueOnce(mockImageArray); // Second call: all 10 images
 
     // Simulate infinite scroll: get page 1, then page 2
     const page1 = await getAllGalleryImages({ limit: 5, offset: 0 });
@@ -106,25 +106,27 @@ describe('Gallery Pagination Integration', () => {
     console.log('Page 1 URLs:', page1Urls);
     console.log('Page 2 URLs:', page2Urls);
     
-    // Verify queries are DIFFERENT (this proves the fix)
+    // Verify we call getSanityData with the SAME query each time
     expect(vi.mocked(getSanityData)).toHaveBeenCalledTimes(2);
     
     const call1Args = vi.mocked(getSanityData).mock.calls[0];
     const call2Args = vi.mocked(getSanityData).mock.calls[1]; 
-    expect(call1Args[0]).not.toBe(call2Args[0]); // Different queries = fixed!
+    expect(call1Args[0]).toBe(call2Args[0]); // Same query, different JS slicing!
     
     // The pages should be different and non-overlapping
     const hasOverlap = page1Urls.some(url => page2Urls.includes(url));
     expect(hasOverlap).toBe(false);
     expect(page1Urls).not.toEqual(page2Urls);
+    expect(page1).toHaveLength(5);
+    expect(page2).toHaveLength(5);
   });
 
   it('should handle multiple consecutive pages without duplicates', async () => {
-    // Mock different responses for each page
+    // Now we fetch ALL images each time and slice in JavaScript
     vi.mocked(getSanityData)
-      .mockResolvedValueOnce(mockImageArray.slice(0, 3))  // Page 1: images 1-3
-      .mockResolvedValueOnce(mockImageArray.slice(3, 6))  // Page 2: images 4-6
-      .mockResolvedValueOnce(mockImageArray.slice(6, 9)); // Page 3: images 7-9
+      .mockResolvedValueOnce(mockImageArray)  // First call: all 10 images
+      .mockResolvedValueOnce(mockImageArray)  // Second call: all 10 images
+      .mockResolvedValueOnce(mockImageArray); // Third call: all 10 images
     
     const page1 = await getAllGalleryImages({ limit: 3, offset: 0 });
     const page2 = await getAllGalleryImages({ limit: 3, offset: 3 });
@@ -140,5 +142,10 @@ describe('Gallery Pagination Integration', () => {
     const uniqueUrls = new Set(allUrls);
     expect(uniqueUrls.size).toBe(allUrls.length); // Should be 9 unique images
     expect(uniqueUrls.size).toBe(9);
+    
+    // Check we got the right number from each page
+    expect(page1).toHaveLength(3);
+    expect(page2).toHaveLength(3);
+    expect(page3).toHaveLength(3);
   });
 });

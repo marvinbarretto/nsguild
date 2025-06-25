@@ -58,7 +58,8 @@ describe('getAllGalleryImages', () => {
   });
 
   it('should respect offset parameter', async () => {
-    vi.mocked(getSanityData).mockResolvedValueOnce(mockImageArray.slice(1, 3));
+    // Now we fetch ALL images and slice in JS
+    vi.mocked(getSanityData).mockResolvedValueOnce(mockImageArray);
 
     const result = await getAllGalleryImages({ offset: 1, limit: 2 });
 
@@ -68,7 +69,8 @@ describe('getAllGalleryImages', () => {
   });
 
   it('should handle pagination beyond available images', async () => {
-    vi.mocked(getSanityData).mockResolvedValueOnce([]);
+    // Now we fetch ALL images and handle offset exceeding length
+    vi.mocked(getSanityData).mockResolvedValueOnce(mockImageArray); // 3 images total
 
     const result = await getAllGalleryImages({ offset: 5, limit: 5 });
 
@@ -122,10 +124,10 @@ describe('getAllGalleryImages', () => {
   });
 
   it('should maintain consistent ordering across multiple calls', async () => {
-    // Mock different responses for different pagination calls
+    // Now we fetch ALL images for each call and slice differently
     vi.mocked(getSanityData)
-      .mockResolvedValueOnce(mockImageArray.slice(0, 2))  // First call: images 1-2
-      .mockResolvedValueOnce(mockImageArray.slice(2, 4)); // Second call: image 3
+      .mockResolvedValueOnce(mockImageArray)  // First call: all images
+      .mockResolvedValueOnce(mockImageArray); // Second call: all images
 
     const firstCall = await getAllGalleryImages({ limit: 2, offset: 0 });
     const secondCall = await getAllGalleryImages({ limit: 2, offset: 2 });
@@ -136,5 +138,9 @@ describe('getAllGalleryImages', () => {
     
     expect(firstIds).not.toEqual(expect.arrayContaining(secondIds));
     expect(secondIds).not.toEqual(expect.arrayContaining(firstIds));
+    
+    // Check specific values
+    expect(firstCall).toHaveLength(2);
+    expect(secondCall).toHaveLength(1); // Only 1 image left (mockImageArray has 3 total)
   });
 });
