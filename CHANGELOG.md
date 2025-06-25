@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/marvinbarretto/nsguild/compare/v1.0.1...v1.1.0) (2025-06-25)
+
+
+### Features
+
+* Add Google Analytics ([774f21a](https://github.com/marvinbarretto/nsguild/commit/774f21af58ce15ddcf2f11384b6fb6fb866b0b93))
+
 ### [1.0.1](https://github.com/marvinbarretto/nsguild/compare/v1.0.0...v1.0.1) (2025-06-24)
 
 
