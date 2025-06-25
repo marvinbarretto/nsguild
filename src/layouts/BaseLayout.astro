@@ -2,7 +2,6 @@
 import Header from '../components/global/Header.astro';
 import Footer from '../components/global/Footer.astro';
 import Nav from '../components/global/Nav.astro';
-import Meta from '../components/base/Meta.astro';
 import GoogleFonts from '../components/base/GoogleFonts.astro';
 import { fetchGlobals } from '../utils/sanity';
 import Analytics from '@vercel/analytics/astro';
@@ -13,13 +12,7 @@ import '../styles/global.scss';
 const globals = await fetchGlobals();
 const isHomePage = Astro.url.pathname === '/';
 
-const metadata = Astro.props.metadata || {
-  title: globals?.siteTitle,
-  description: "",
-  keywords: "",
-};
-
-console.log("🔧 Layout loaded");
+console.log("🔧 Layout loaded", globals);
 
 ---
 <html lang="en">
@@ -28,24 +21,21 @@ console.log("🔧 Layout loaded");
     <meta name="robots" content="index, follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{globals?.siteTitle || "Norfolk & Suffolk Guild of Weavers, Spinners and Dyers"}</title>
-    
-    <Meta {...metadata} />
-    <GoogleFonts />
-    
+
     <link rel="icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+
     <slot name="head" />
 
-    <SpeedInsights />
-    <Analytics/>    
+    <GoogleFonts />
+    <Analytics/>
     <GoogleAnalytics />
   </head>
   <body>
     <Header isHomePage={isHomePage} />
     <Nav />
-    
     <main>
       <slot />
     </main>
