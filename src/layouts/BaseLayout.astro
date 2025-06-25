@@ -7,6 +7,7 @@ import GoogleFonts from '../components/base/GoogleFonts.astro';
 import { fetchGlobals } from '../utils/sanity';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
+import GoogleAnalytics from '../components/base/GoogleAnalytics.astro';
 import '../styles/global.scss';
 
 const globals = await fetchGlobals();
@@ -35,11 +36,11 @@ console.log("🔧 Layout loaded");
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+    <slot name="head" />
 
     <SpeedInsights />
-    <Analytics/>
-    
-    <slot name="head" />
+    <Analytics/>    
+    <GoogleAnalytics />
   </head>
   <body>
     <Header isHomePage={isHomePage} />
