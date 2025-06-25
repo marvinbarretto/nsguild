@@ -1,8 +1,5 @@
 ---
-// src/components/GoogleAnalytics.astro
 const GA_ID = import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID;
-
-// Only load in production
 const isProduction = import.meta.env.PROD;
 ---
 
@@ -11,6 +8,12 @@ const isProduction = import.meta.env.PROD;
     <!-- Google tag (gtag.js) -->
     <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
     <script define:vars={{ GA_ID }}>
+
+      {/* Disable tracking if 'ga-disable' cookie is present */}
+      if (document.cookie.includes('ga-disable=true')) {
+        window[`ga-disable-${GA_ID}`] = true;
+      }
+
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
