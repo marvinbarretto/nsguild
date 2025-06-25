@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/marvinbarretto/nsguild/compare/v1.3.0...v1.3.1) (2025-06-25)
+
+
+### Bug Fixes
+
+* Move tests outside of pages ([a7fe1af](https://github.com/marvinbarretto/nsguild/commit/a7fe1afc63a755fcd661e9f694bc1c9493743359))
+* unit tests around gallery ([73ec2dc](https://github.com/marvinbarretto/nsguild/commit/73ec2dcc9cd74dc8f6ccf988e620b21655652a9c))
+
 ## [1.3.0](https://github.com/marvinbarretto/nsguild/compare/v1.2.0...v1.3.0) (2025-06-25)
 
 
