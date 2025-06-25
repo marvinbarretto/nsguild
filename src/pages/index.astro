@@ -1,9 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { fetchHomepage } from "../sanity/queries/homepage";
-import { getCachedGlobals } from "../utils/cache";
-import { fetchNextEvent } from "../sanity/queries/event";
-import { fetchLatestNews } from "../sanity/queries/news";
+import { fetchHomepageData } from "../sanity/queries/homepage-consolidated";
 
 import PortableText from "../components/shared/PortableText.astro";
 import Seo from "../components/shared/Seo.astro";
@@ -17,8 +14,13 @@ import { buildTitle } from "../utils/meta";
 import { imageBuilder } from "../sanity/lib/images";
 import { getEventTiming } from "../utils/dates";
 
-const vm = await fetchHomepage();
-const globals = await getCachedGlobals();
+const { homepage: vm, globals, nextEvent, latestNews } = await fetchHomepageData();
+console.log("🏠 Homepage data loaded with single query:", {
+  hasHomepage: !!vm,
+  hasGlobals: !!globals,
+  hasNextEvent: !!nextEvent,
+  hasLatestNews: !!latestNews
+});
 
 const firstImage = vm.carouselImages?.[0]; // pass full image object, not just .asset
 const preloadImage = firstImage && {
@@ -33,8 +35,6 @@ const preloadImage = firstImage && {
 };
 
 const title = buildTitle("Home");
-const nextEvent: EventType | null = await fetchNextEvent();
-const latestNews: Post | null = await fetchLatestNews();
 
 ---
 
