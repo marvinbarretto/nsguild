@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/marvinbarretto/nsguild/compare/v1.1.0...v1.2.0) (2025-06-25)
+
+
+### Features
+
+* Implement cache layer for globals ([16cc5f1](https://github.com/marvinbarretto/nsguild/commit/16cc5f12e4e2a5882a9337dbd50e5098d68dbda0))
+
+
+### Bug Fixes
+
+* Remove double SpeedInsights insert ([5cd2d97](https://github.com/marvinbarretto/nsguild/commit/5cd2d9795c2099e8a9e02e9c68870e238cc73fd9))
+* Render meta descriptions for each page ([2f8e788](https://github.com/marvinbarretto/nsguild/commit/2f8e788ee8898a5faf443a0505da38288a63813f))
+
+
+### Code Refactoring
+
+* Consolidate homepage queries ([f0bf1e5](https://github.com/marvinbarretto/nsguild/commit/f0bf1e59554929ce25faa30cbc0bcfe333b0cce0))
+
 ## [1.1.0](https://github.com/marvinbarretto/nsguild/compare/v1.0.1...v1.1.0) (2025-06-25)
 
 
