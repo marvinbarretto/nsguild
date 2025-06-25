@@ -1,6 +1,6 @@
 ---
-import type { EquipmentType } from "../../utils/types";
-import { fetchEquipmentBySlug, fetchAllEquipment } from "../../sanity/queries/equipment";
+import type { EquipmentPageProps } from "../../utils/types";
+import { fetchAllEquipment } from "../../sanity/queries/equipment";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Image from "astro/components/Image.astro";
 import PortableText from "../../components/shared/PortableText.astro";
@@ -14,18 +14,17 @@ export async function getStaticPaths() {
   return equipment
     .filter(item => item.slug)
     .map(item => ({
-      params: { slug: item.slug }
+      params: { slug: item.slug },
+      props: { equipment: item } // Pass equipment data to eliminate individual fetch
     }));
 }
 
-const { slug } = Astro.params;
+// Get equipment data from props (passed from getStaticPaths)
+const { equipment } = Astro.props as EquipmentPageProps;
 
-// Ensure `slug` is a string before using it
-if (!slug) {
-  throw new Error("Slug is missing!");  // ✅ Handle missing slugs explicitly
+if (!equipment) {
+  throw new Error("Equipment data is missing!");
 }
-
-const equipment: EquipmentType | null = await fetchEquipmentBySlug(slug);
 
 console.log(equipment?.image.full);
 

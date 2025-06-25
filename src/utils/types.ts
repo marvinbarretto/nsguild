@@ -159,3 +159,12 @@ export type PhotoAlbum = {
   date?: string;
   images: GalleryImage[];
 }
+
+// Astro.props interfaces for dynamic routes
+export interface EquipmentPageProps {
+  equipment: EquipmentType;
+}
+
+export interface GalleryPageProps {
+  gallery: GalleryData;
+}

@@ -8,6 +8,11 @@ export async function fetchAllEquipment(): Promise<EquipmentType[]> {
         "slug": slug.current,
         category,
         description,
+        "image": {
+          "thumb": image.asset->url + "?w=400&auto=format",
+          "thumb2x": image.asset->url + "?w=800&auto=format",
+          "full": image.asset->url + "?w=1600&auto=format"
+        },
         "images": images[]{
           "thumb": asset->url + "?w=400&auto=format",
           "thumb2x": asset->url + "?w=800&auto=format",
