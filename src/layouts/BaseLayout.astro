@@ -3,13 +3,13 @@ import Header from '../components/global/Header.astro';
 import Footer from '../components/global/Footer.astro';
 import Nav from '../components/global/Nav.astro';
 import GoogleFonts from '../components/base/GoogleFonts.astro';
-import { fetchGlobals } from '../utils/sanity';
+import { getCachedGlobals } from '../utils/cache';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 import GoogleAnalytics from '../components/base/GoogleAnalytics.astro';
 import '../styles/global.scss';
 
-const globals = await fetchGlobals();
+const globals = await getCachedGlobals();
 const isHomePage = Astro.url.pathname === '/';
 
 console.log("🔧 Layout loaded", globals);
