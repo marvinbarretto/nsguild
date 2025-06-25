@@ -1,10 +1,16 @@
 ---
 import type { SeoProps } from '../../utils/types'
-const { title, description, preloadImage } = Astro.props as SeoProps;
+const { title, description, preloadImage } = Astro.props as any;
+
+console.log("title", title);
+console.log("description", description);
+console.log("preloadImage", preloadImage);
+
 ---
 
 {title && <title>{title}</title>}
 {description && <meta name="description" content={description} />}
+
 
 {preloadImage && (
   <link

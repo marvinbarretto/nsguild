@@ -27,6 +27,50 @@ export const globalsType = defineType({
         },
         description: 'Upload a programme of events (PDF or Word).',
         validation: (rule) => rule.required().error('A programme file is required.'),
+      }),
+      defineField({
+        name: 'metaDescriptions',
+        title: 'Meta Descriptions',
+        description: 'General descriptions of the pages picked up by search engines',
+        type: 'object',
+        fields: [
+          defineField({
+            name: 'homepage',
+            title: 'Homepage Description',
+            type: 'string',
+          }),
+          defineField({
+            name: 'news',
+            title: 'News Page Description',
+            type: 'string',
+          }),
+          defineField({
+            name: 'events',
+            title: 'Events Page Description',
+            type: 'string',
+          }),
+          defineField({
+            name: 'gallery',
+            title: 'Gallery Page Description',
+            type: 'string',
+          }),
+          defineField({
+            name: 'publications',
+            title: 'Distaff & Shuttle Page Description',
+            type: 'string',
+          }),
+          defineField({
+            name: 'equipment',
+            title: 'Equipment Page Description',
+            type: 'string',
+          }),
+          defineField({
+            name: 'contact',
+            title: 'Contact Page Description',
+            type: 'string',
+          }),
+        ],
       })
+
     ]
 });

@@ -18,11 +18,10 @@ export async function getSanityData<T>(query: string, params?: {}): Promise<T> {
 export async function fetchGlobals(): Promise<Globals | null> {
   const query = `
     *[_type == "globals" && _id == "globals"][0]{
-      siteTitle,
       description,
-      keywords,
       "programmeUrl": programmeFile.asset->url,
-      footerText
+      footerText,
+      metaDescriptions
     }
   `;
   

@@ -42,7 +42,7 @@ const latestNews: Post | null = await fetchLatestNews();
   <Seo
     slot="head"
     title={title}
-    description={globals?.description}
+    description={globals?.metaDescriptions?.homepage}
     preloadImage={preloadImage}
   />
   <Banner />

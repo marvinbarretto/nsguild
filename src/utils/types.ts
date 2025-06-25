@@ -15,12 +15,23 @@ export type Globals = {
   keywords: string;
   footerText: string;
   programmeUrl: string;
+  metaDescriptions?: MetaDescriptions;
 }
 
 export type Banner = {
   message: string;
   isActive: boolean;
   link?: string;
+}
+
+export type MetaDescriptions = {
+  contact: string;
+  equipment: string;
+  events: string;
+  gallery: string;
+  homepage: string;
+  news: string;
+  publications: string;
 }
 
 export type Homepage = {

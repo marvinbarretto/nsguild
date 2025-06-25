@@ -44,16 +44,6 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .id('globals')
         .child(S.document().schemaType('globals').documentId('globals')),
 
-      // Programme (singleton)
-      S.listItem()
-        .title('Event Programme')
-        .id('programme')
-        .child(
-          S.document()
-            .schemaType('programme')
-            .documentId('programme')
-        ),
-
 
       // Page Content (Singleton)
       S.listItem()
