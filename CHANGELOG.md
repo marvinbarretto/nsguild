@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/marvinbarretto/nsguild/compare/v1.2.0...v1.3.0) (2025-06-25)
+
+
+### Features
+
+* Add unit tests around gallery ([18f451e](https://github.com/marvinbarretto/nsguild/commit/18f451e0328361ae377b003eeacf7156d7e2c448))
+
+
+### Code Refactoring
+
+* Sanity calls optimised ([81bfff2](https://github.com/marvinbarretto/nsguild/commit/81bfff29a4467102ac7f72c422663f9a5751410f))
+
 ## [1.2.0](https://github.com/marvinbarretto/nsguild/compare/v1.1.0...v1.2.0) (2025-06-25)
 
 
