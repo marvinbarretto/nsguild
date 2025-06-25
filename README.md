@@ -1,45 +1,53 @@
-# Norfolk & Suffolk Guild website
+# Norfolk & Suffolk Guild Website
 
 ## Stack
-- Frontend [Astro](https://astro.build/) and [Vue](https://vuejs.org/) (just for the Photo Gallery)
-- Backend [Sanity](https://www.sanity.io/)
-- [Web3Forms](https://web3forms.com/) for contact form
-- Auto deployments to [Vercel](https://vercel.com/) on push
+- Astro 5 (SSG)
+- Vue 3 (islands)
+- Sanity CMS + embedded studio
+- TypeScript, SCSS
+- Vercel deployment
 
-## Getting Started
+## Notable bits
+- Vue infinite scroll gallery with intersection observer
+- Vue components for the lightbox and gallery stuff
+- Embedded Sanity studio at `/studio`
+- Contact form with Web3Forms
+- Google Analytics with cookie opt-out
+- Custom cache layer for globals (`/src/utils/cache.ts`)
+
+## Setup
 
 ```bash
 npm install
-npm run dev
 ```
 
-Dev should run on port 4321
-
-
-## Deploy
+Create `.env`:
+```bash
+PUBLIC_SANITY_PROJECT_ID=your_project_id
+PUBLIC_SANITY_DATASET=production
+SANITY_API_TOKEN=your_token_with_write_access
+WEB3FORMS_ACCESS_KEY=your_web3forms_key
+```
 
 ```bash
-npx sanity deploy
+npm run dev  # localhost:4321
 ```
 
-## Environment variables needed
+## Deployment
+
+Vercel auto-deploys on push. Studio deploys with the app at `/studio`.
+
+## Releases
 
 ```bash
-- PUBLIC_SANITY_PROJECT_ID
-- PUBLIC_SANITY_DATASET
-- SANITY_API_TOKEN
-- WEB3FORMS_ACCESS_KEY
+npm run release
+git push --follow-tags origin master
 ```
 
-## Todo
-- [ ] Explore 'Presentation mode' for Sanity
-- [ ] Google Analytics when live
-- [ ] Hook up hosting
+## Commands
 
-## Workflow
-- commit with a proper prefix
-- `npm run release`
-- `git push --follow-tags origin master`
-
-<!-- npx standard-version --dry-run -->
-<!-- npm run release -- --release-as minor -->
+```bash
+npm run dev          # Dev server
+npm run build        # Production build  
+npm run release      # Version bump + changelog
+```
