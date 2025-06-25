@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { GET } from '../gallery';
+import { GET } from '../../pages/api/gallery';
 
 // Mock the gallery query function
-vi.mock('../../../sanity/queries/gallery', () => ({
+vi.mock('../../sanity/queries/gallery', () => ({
   getAllGalleryImages: vi.fn(),
 }));
 
-const { getAllGalleryImages } = await import('../../../sanity/queries/gallery');
+const { getAllGalleryImages } = await import('../../sanity/queries/gallery');
 
 describe('Gallery API Route', () => {
   beforeEach(() => {
