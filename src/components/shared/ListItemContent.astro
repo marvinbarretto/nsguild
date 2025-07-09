@@ -6,7 +6,7 @@ const { date, dateVariant, title, variant, body, description, relatedGallery} = 
 ---
 
 {date && <DateDisplay date={date} variant={dateVariant} />}
-<div>
+<div class="list-item__content">
   <h3 class="list-item__title">{title}</h3>
 
   {variant === "news-full" && body ? (
@@ -26,8 +26,9 @@ const { date, dateVariant, title, variant, body, description, relatedGallery} = 
 
 <style lang="scss">
   .list-item__content {
+      display: flex;
       flex-direction: column;
-      gap: 0;
+      justify-content: center;
     }
 
     .snippet {
