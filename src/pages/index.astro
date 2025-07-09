@@ -11,6 +11,7 @@ import AsideCard from "../components/homepage/AsideCard.astro";
 import { buildTitle } from "../utils/meta";
 import { imageBuilder } from "../sanity/lib/images";
 import { getEventTiming } from "../utils/dates";
+import EventBadge from "../components/homepage/EventBadge.astro";
 
 const { homepage: vm, globals, nextEvent, latestNews } = await fetchHomepageData();
 console.log("🏠 Homepage data loaded with single query:", {
@@ -60,10 +61,12 @@ const title = buildTitle("Home");
           {nextEvent && (
             <AsideCard
               heading="Next Event"
-              badge={getEventTiming(nextEvent.date).label}
               date={nextEvent.date}>
                 <h2>{nextEvent.title}</h2>
                 <PortableText portableText={nextEvent.description} />
+                <span slot="badge">
+                  <EventBadge date={nextEvent.date} client:load />
+                </span>
             </AsideCard>
           )}
 

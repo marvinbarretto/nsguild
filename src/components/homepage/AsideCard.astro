@@ -3,17 +3,16 @@ import DateDisplayComponent from "../shared/DateDisplay.astro";
 
 export interface AsideCardProps {
     heading: string;
-    badge? : string | null;
     date?: string;
 }
 
-const { heading, badge, date } = Astro.props;
+const { heading, date } = Astro.props;
 ---
 
 <section class="aside-card">
     <div class="aside-card__title">
         <h2>{heading}</h2>
-        {badge && <span class="aside-card__badge badge">{badge}</span>}
+        <slot name="badge" />
     </div>
 
     <div class="aside-card__content">
@@ -62,13 +61,5 @@ const { heading, badge, date } = Astro.props;
         flex-direction: column;
         flex: 1;
         gap: .5rem;
-    }
-  
-    .aside-card__badge {
-        background: rgba(0, 0, 0, 0.5);
-        color: white;
-        font-size: 0.8rem;
-        padding: 3px 6px;
-        border-radius: 4px;
     }
 </style>
