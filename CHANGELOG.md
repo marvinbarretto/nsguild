@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/marvinbarretto/nsguild/compare/v1.3.2...v1.4.0) (2025-07-09)
+
+
+### Features
+
+* Event card alignment tweaks ([55f1475](https://github.com/marvinbarretto/nsguild/commit/55f14759db63a7c60bed50a8649077da66930823))
+
+
+### Bug Fixes
+
+* Ensure date is interpreted at runtime ([85bd93c](https://github.com/marvinbarretto/nsguild/commit/85bd93ce77fe790a8d793211cf33155de2133242))
+
 ### [1.3.2](https://github.com/marvinbarretto/nsguild/compare/v1.3.1...v1.3.2) (2025-07-09)
 
 ### [1.3.1](https://github.com/marvinbarretto/nsguild/compare/v1.3.0...v1.3.1) (2025-06-25)
