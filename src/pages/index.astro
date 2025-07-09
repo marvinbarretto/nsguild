@@ -10,8 +10,7 @@ import AsideCard from "../components/homepage/AsideCard.astro";
 
 import { buildTitle } from "../utils/meta";
 import { imageBuilder } from "../sanity/lib/images";
-import { getEventTiming } from "../utils/dates";
-import EventBadge from "../components/homepage/EventBadge.astro";
+import EventBadge from "../components/homepage/EventBadge";
 
 const { homepage: vm, globals, nextEvent, latestNews } = await fetchHomepageData();
 console.log("🏠 Homepage data loaded with single query:", {
