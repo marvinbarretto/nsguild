@@ -8,29 +8,11 @@ import { fetchGalleryBySlug, fetchGalleryList } from "../../../sanity/queries/ga
 import { buildTitle } from '../../../utils/meta';
 import type { GalleryPageProps } from '../../../utils/types';
 
-// Tell Astro which pages to build at compile time
-// This fetches all photo albums from Sanity and pre-builds a page for each one
-export async function getStaticPaths() {
-  const albums = await fetchGalleryList();
-  
-  // Fetch full data for all albums in parallel
-  const albumsWithData = await Promise.all(
-    albums
-      .filter(album => album.slug)
-      .map(async (album) => {
-        const fullData = await fetchGalleryBySlug(album.slug);
-        return {
-          params: { slug: album.slug },
-          props: { gallery: fullData } // Pass gallery data to eliminate individual fetch
-        };
-      })
-  );
-  
-  return albumsWithData;
-}
+// Get slug from URL params and fetch gallery data on each request
+const { slug } = Astro.params;
 
-// Get gallery data from props (passed from getStaticPaths)
-const { gallery } = Astro.props as GalleryPageProps;
+// Fetch gallery data for this specific slug
+const gallery = await fetchGalleryBySlug(slug!);
 if (!gallery) throw new Error("Gallery data is missing!");
 
 console.log(gallery);

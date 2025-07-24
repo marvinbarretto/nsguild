@@ -7,20 +7,12 @@ import PortableText from "../../components/shared/PortableText.astro";
 import PageDescription from "../../components/shared/PageDescription.astro";
 import PageTitle from "../../components/shared/PageTitle.astro";
 
-// Tell Astro which pages to build at compile time
-// This fetches all equipment from Sanity and pre-builds a page for each one
-export async function getStaticPaths() {
-  const equipment = await fetchAllEquipment();
-  return equipment
-    .filter(item => item.slug)
-    .map(item => ({
-      params: { slug: item.slug },
-      props: { equipment: item } // Pass equipment data to eliminate individual fetch
-    }));
-}
+// Get slug from URL params and fetch equipment data on each request
+const { slug } = Astro.params;
 
-// Get equipment data from props (passed from getStaticPaths)
-const { equipment } = Astro.props as EquipmentPageProps;
+// Fetch all equipment and find the one matching this slug
+const allEquipment = await fetchAllEquipment();
+const equipment = allEquipment.find(item => item.slug === slug);
 
 if (!equipment) {
   throw new Error("Equipment data is missing!");

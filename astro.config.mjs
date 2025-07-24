@@ -16,7 +16,7 @@ const { PUBLIC_SANITY_DATASET, PUBLIC_SANITY_PROJECT_ID } = loadEnv(
 // ✅ Regular sync config
 export default defineConfig({
   site: 'https://norfolksuffolkwsd.org.uk',
-  output: 'static',
+  output: 'server',
   adapter: vercel(),
   integrations: [
     sitemap(),
