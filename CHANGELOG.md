@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.2](https://github.com/marvinbarretto/nsguild/compare/v1.4.1...v1.4.2) (2025-07-24)
+
+
+### Bug Fixes
+
+* Change astro to serve from server with small cache ([f8beef7](https://github.com/marvinbarretto/nsguild/commit/f8beef75f554f2bb64bb300f27b4c5e0d5906d19))
+
 ### [1.4.1](https://github.com/marvinbarretto/nsguild/compare/v1.4.0...v1.4.1) (2025-07-09)
 
 
