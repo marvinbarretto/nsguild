@@ -11,6 +11,10 @@ export interface Props {
   dateVariant?: "default" | "calendar";
   linkThroughToPage?: boolean;
   variant?: "default" | "news" | "news-full";
+  mainImage?: {
+    asset: any;
+    alt?: string;
+  };
   relatedGallery?: {
     title: string;
     slug: string;
@@ -26,7 +30,8 @@ const {
   basePath, 
   dateVariant = "default", 
   linkThroughToPage = true,
-  variant = "default" 
+  variant = "default",
+  mainImage
 }: Props = Astro.props;
 
 // Construct the link if needed
@@ -53,6 +58,7 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
         variant={variant} 
         body={body} 
         description={description}
+        mainImage={mainImage}
         relatedGallery={relatedGallery}
       />
     </a>
@@ -65,6 +71,7 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
         variant={variant} 
         body={body} 
         description={description}
+        mainImage={mainImage}
         relatedGallery={relatedGallery}
       />
     </div>
@@ -85,6 +92,7 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
       flex-direction: column;
       gap: 0;
       max-width: 72ch;
+      gap: 1rem;
     }
 
     .list-item__title {

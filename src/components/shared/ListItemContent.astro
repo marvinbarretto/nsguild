@@ -1,34 +1,55 @@
 ---
 import PortableText from "./PortableText.astro";
 import DateDisplay from "./DateDisplay.astro";
+import { imageBuilderFor } from "../../sanity/lib/images.ts";
 
-const { date, dateVariant, title, variant, body, description, relatedGallery} = Astro.props;
+const { date, dateVariant, title, variant, body, description, mainImage, relatedGallery} = Astro.props;
 ---
+
+{mainImage && mainImage.asset && (
+  <img 
+    src={imageBuilderFor(mainImage.asset).width(600).auto('format').url()} 
+    alt={mainImage.alt || title}
+    class="list-item__image"
+  />
+)}
 
 {date && <DateDisplay date={date} variant={dateVariant} />}
 <div class="list-item__content">
-  <h3 class="list-item__title">{title}</h3>
+  <div class="list-item__text">
+    <h3 class="list-item__title">{title}</h3>
 
-  {variant === "news-full" && body ? (
-    <div class="list-item__body">
-      <PortableText portableText={body} />
-    </div>
-  ) : (
-    description && <p class="snippet">{description}</p>
-  )}
+    {variant === "news-full" && body ? (
+      <div class="list-item__body">
+        <PortableText portableText={body} />
+      </div>
+    ) : (
+      description && <p class="snippet">{description}</p>
+    )}
 
-  {relatedGallery && (
-  <a href={`/gallery/albums/${relatedGallery.slug}`} class="gallery-link">
-    View Gallery of {relatedGallery.title}
-  </a>
-  )}
+    {relatedGallery && (
+    <a href={`/gallery/albums/${relatedGallery.slug}`} class="gallery-link">
+      View Gallery of {relatedGallery.title}
+    </a>
+    )}
+  </div>
 </div>
 
 <style lang="scss">
   .list-item__content {
       display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+
+    .list-item__text {
+      flex: 1;
+      display: flex;
       flex-direction: column;
       justify-content: center;
+      gap: 1rem;
     }
 
     .snippet {
@@ -37,5 +58,10 @@ const { date, dateVariant, title, variant, body, description, relatedGallery} = 
 
     .list-item__title {
       font-size: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+
+
     }
   </style>

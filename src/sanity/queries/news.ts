@@ -9,7 +9,11 @@ export async function fetchLatestNews(): Promise<Post | null> {
         title,
         body,
         "slug": slug.current,
-        publishedAt
+        publishedAt,
+        mainImage {
+          asset,
+          alt
+        }
       }
     `;
     return await getSanityData<Post | null>(query, {}, 'fetchLatestNews'); // ✅ This ensures we get a single object
@@ -25,7 +29,11 @@ export async function fetchPostBySlug(slug: string): Promise<Post | null> {
       title,
       publishedAt,
       "slug": slug.current,
-      body
+      body,
+      mainImage {
+        asset,
+        alt
+      }
     }
   `;
 
@@ -53,7 +61,11 @@ export async function fetchPostsPage(): Promise<Post[]> {
       "slug": slug.current, 
       publishedAt,
       snippet,
-      body
+      body,
+      mainImage {
+        asset,
+        alt
+      }
     }
   `;
 

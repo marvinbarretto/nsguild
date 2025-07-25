@@ -72,13 +72,10 @@ export interface Post {
   slug: string;
   attachPublication?: boolean;
   attachedPublication?: Publication;
-  images?: {
-    asset: {
-      url: string;
-    };
+  mainImage?: {
+    asset: any;
     alt?: string;
-    caption?: string;
-  }[];
+  };
   body: any;
   snippet?: string;
 }
