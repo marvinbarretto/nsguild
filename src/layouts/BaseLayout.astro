@@ -1,4 +1,8 @@
 ---
+export interface Props {
+  title?: string;
+}
+
 import Header from '../components/global/Header.astro';
 import Footer from '../components/global/Footer.astro';
 import Nav from '../components/global/Nav.astro';
@@ -9,8 +13,13 @@ import SpeedInsights from '@vercel/speed-insights/astro';
 import GoogleAnalytics from '../components/base/GoogleAnalytics.astro';
 import '../styles/global.scss';
 
+const { title } = Astro.props;
 const globals = await getCachedGlobals();
 const isHomePage = Astro.url.pathname === '/';
+
+const pageTitle = title 
+  ? `${title} | ${globals?.siteTitle || "Norfolk & Suffolk Guild of Weavers, Spinners and Dyers"}` 
+  : globals?.siteTitle || "Norfolk & Suffolk Guild of Weavers, Spinners and Dyers";
 
 console.log("🔧 Layout loaded", globals);
 
@@ -20,7 +29,7 @@ console.log("🔧 Layout loaded", globals);
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{globals?.siteTitle || "Norfolk & Suffolk Guild of Weavers, Spinners and Dyers"}</title>
+    <title>{pageTitle}</title>
 
     <link rel="icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />

@@ -47,6 +47,7 @@ export async function fetchHomepageData(): Promise<HomepageData> {
       title,
       body,
       "slug": slug.current,
+      mainImage,
       publishedAt
     }
   }`;

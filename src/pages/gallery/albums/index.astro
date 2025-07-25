@@ -14,9 +14,9 @@ const pageTitle = buildTitle("Album list | Photo Gallery");
 
 ---
 
-<BaseLayout>
+<BaseLayout title={pageTitle}>
   <Seo slot="head" title={pageTitle} />
-  <PageTitle title="Photo Gallery" />
+  <PageTitle title={pageTitle} />
   <GalleryNav currentPath={currentPath} />
 
   <ul class="album-list">

@@ -20,7 +20,7 @@ console.log(gallery);
 const pageTitle = buildTitle(`${gallery.title} | Photo Gallery`);
 ---
 
-<BaseLayout>
+<BaseLayout title={pageTitle}>
   <Seo slot="head" title={pageTitle} />
   <PageTitle title={gallery.title} />
   <PageDescription>

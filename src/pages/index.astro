@@ -72,6 +72,13 @@ const title = buildTitle("Home");
           {latestNews && (
             <AsideCard heading="For your diary">
               <h2>{latestNews.title}</h2>
+              {/* {latestNews.mainImage && (
+                <img 
+                  src={imageBuilder.image(latestNews.mainImage).width(300).url()} 
+                  alt={latestNews.mainImage.alt || latestNews.title}
+                  style="width: 100%; height: auto; border-radius: 4px; margin-bottom: 0.5rem;"
+                />
+              )} */}
               <PortableText portableText={latestNews.body} />
             </AsideCard>
           )}

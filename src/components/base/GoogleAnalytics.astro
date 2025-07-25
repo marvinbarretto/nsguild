@@ -1,4 +1,9 @@
 ---
+export interface Props {
+  title?: string;
+}
+
+const { title } = Astro.props;
 const GA_ID = import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID;
 const isProduction = import.meta.env.PROD;
 ---
