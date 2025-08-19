@@ -11,12 +11,13 @@ const currentPath = Astro.url.pathname;
 
 const albums = await fetchGalleryList();
 const pageTitle = buildTitle("Album list | Photo Gallery");
+const displayTitle = "Album list";
 
 ---
 
 <BaseLayout title={pageTitle}>
   <Seo slot="head" title={pageTitle} />
-  <PageTitle title={pageTitle} />
+  <PageTitle title={displayTitle} />
   <GalleryNav currentPath={currentPath} />
 
   <ul class="album-list">
