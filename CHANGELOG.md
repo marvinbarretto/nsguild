@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/marvinbarretto/nsguild/compare/v1.6.0...v1.7.0) (2026-07-23)
+
+
+### Features
+
+* [News] show latest 3 posts under 'News' heading on homepage ([90b01d1](https://github.com/marvinbarretto/nsguild/commit/90b01d1c7f4b50339a60b726e8449630a7b9aa8b))
+
+
+### Bug Fixes
+
+* Title display for Photo Gallery ([95d05fa](https://github.com/marvinbarretto/nsguild/commit/95d05fa8e3ed2bc4a1b199cb9046e03e8a4bb2af))
+
 ## [1.6.0](https://github.com/marvinbarretto/nsguild/compare/v1.5.0...v1.6.0) (2025-07-25)
 
 
