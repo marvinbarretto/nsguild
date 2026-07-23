@@ -12,12 +12,12 @@ import { buildTitle } from "../utils/meta";
 import { imageBuilder } from "../sanity/lib/images";
 import EventBadge from "../components/homepage/EventBadge";
 
-const { homepage: vm, globals, nextEvent, latestNews } = await fetchHomepageData();
+const { homepage: vm, globals, nextEvent, newsPosts } = await fetchHomepageData();
 console.log("🏠 Homepage data loaded with single query:", {
   hasHomepage: !!vm,
   hasGlobals: !!globals,
   hasNextEvent: !!nextEvent,
-  hasLatestNews: !!latestNews
+  newsCount: newsPosts?.length ?? 0
 });
 
 const firstImage = vm.carouselImages?.[0]; // pass full image object, not just .asset
@@ -69,17 +69,14 @@ const title = buildTitle("Home");
             </AsideCard>
           )}
 
-          {latestNews && (
-            <AsideCard heading="For your diary">
-              <h2>{latestNews.title}</h2>
-              {/* {latestNews.mainImage && (
-                <img 
-                  src={imageBuilder.image(latestNews.mainImage).width(300).url()} 
-                  alt={latestNews.mainImage.alt || latestNews.title}
-                  style="width: 100%; height: auto; border-radius: 4px; margin-bottom: 0.5rem;"
-                />
-              )} */}
-              <PortableText portableText={latestNews.body} />
+          {newsPosts && newsPosts.length > 0 && (
+            <AsideCard heading="News">
+              {newsPosts.map((post) => (
+                <article class="news-item">
+                  <h2>{post.title}</h2>
+                  <PortableText portableText={post.body} />
+                </article>
+              ))}
             </AsideCard>
           )}
         </aside>
@@ -173,5 +170,11 @@ const title = buildTitle("Home");
     display: flex;
     flex-direction: column;
     gap: .5rem;
+  }
+
+  .news-item + .news-item {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
 </style>

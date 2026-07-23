@@ -5,7 +5,7 @@ export interface HomepageData {
   homepage: Homepage;
   globals: Globals | null;
   nextEvent: EventType | null;
-  latestNews: Post | null;
+  newsPosts: Post[];
 }
 
 export async function fetchHomepageData(): Promise<HomepageData> {
@@ -43,7 +43,7 @@ export async function fetchHomepageData(): Promise<HomepageData> {
       date,
       description
     },
-    "latestNews": *[_type == "post"] | order(publishedAt desc)[0] {
+    "newsPosts": *[_type == "post"] | order(publishedAt desc)[0...3] {
       title,
       body,
       "slug": slug.current,
