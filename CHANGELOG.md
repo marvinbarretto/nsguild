@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.1](https://github.com/marvinbarretto/nsguild/compare/v1.7.0...v1.7.1) (2026-07-23)
+
+
+### Bug Fixes
+
+* pin Node runtime to 22.x for Vercel deploy ([fb238f8](https://github.com/marvinbarretto/nsguild/commit/fb238f8a924d7fec1c0e7c6097a19c5b59bcb26a))
+
 ## [1.7.0](https://github.com/marvinbarretto/nsguild/compare/v1.6.0...v1.7.0) (2026-07-23)
 
 
