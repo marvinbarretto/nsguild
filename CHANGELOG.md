@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.2](https://github.com/marvinbarretto/nsguild/compare/v1.7.1...v1.7.2) (2026-08-10)
+
+
+### Bug Fixes
+
+* handle equipment pages with no image and unknown slugs ([2db825c](https://github.com/marvinbarretto/nsguild/commit/2db825c6fd49de37418a338ba90f627ce72f3bec))
+
 ### [1.7.1](https://github.com/marvinbarretto/nsguild/compare/v1.7.0...v1.7.1) (2026-07-23)
 
 
