@@ -15,10 +15,15 @@ const allEquipment = await fetchAllEquipment();
 const equipment = allEquipment.find(item => item.slug === slug);
 
 if (!equipment) {
-  throw new Error("Equipment data is missing!");
+  // Unknown slug should be a 404, not a crashed render (Vercel shows a bare
+  // "Internal server error" for uncaught throws in SSR)
+  return new Response(null, { status: 404, statusText: "Not found" });
 }
 
-console.log(equipment?.image.full);
+// The GROQ query always projects an `image` object, so when the Sanity doc has
+// no image uploaded we get { thumb: null, full: null } — truthy, but useless.
+// Guard on the actual URL, otherwise <Image inferSize> throws on an empty src.
+const imageUrl = equipment.image?.full;
 
 ---
 
@@ -29,9 +34,9 @@ console.log(equipment?.image.full);
     <PageTitle title={equipment?.title} />
 
     <div class="equipment__listing">
-      {equipment?.image && (
+      {imageUrl && (
         <Image
-          src={equipment.image.full || ""}
+          src={imageUrl}
           inferSize={true}
           class="equipment__image"
           alt={`Photo of ${equipment.title}`} />  
