@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.1](https://github.com/marvinbarretto/nsguild/compare/v1.8.0...v1.8.1) (2026-08-11)
+
+
+### Bug Fixes
+
+* add skip link and visible focus styles ([65e0516](https://github.com/marvinbarretto/nsguild/commit/65e0516324a20487573bb5086d4c234885ecbaeb))
+* make portable text links work and linkify bare urls ([c08d39b](https://github.com/marvinbarretto/nsguild/commit/c08d39b58f24096dab55e653ad931a6a523dd201))
+* preload the carousel's real hero urls and guard the rotation ([3bc27d0](https://github.com/marvinbarretto/nsguild/commit/3bc27d0a0c3f0d026db6155cc5424f2d74744f9e))
+* remove duplicate title tag and emit cms meta descriptions ([0098fba](https://github.com/marvinbarretto/nsguild/commit/0098fba4bb35757b18a2e12f151cc7ca9fffa0d0))
+
 ## [1.8.0](https://github.com/marvinbarretto/nsguild/compare/v1.7.2...v1.8.0) (2026-08-11)
 
 
