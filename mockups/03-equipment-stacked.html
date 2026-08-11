@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup 03 — Equipment, single stacked page</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="baseline.css">
+<style>
+  .page-intro { max-width: 62ch; margin-bottom: 1.75rem; }
+
+  .equip-card {
+    display: grid; gap: 1.5rem;
+    grid-template-columns: 1fr;
+    margin-bottom: 1.5rem;
+    scroll-margin-top: 1rem;
+  }
+  @media (min-width: 700px) {
+    .equip-card { grid-template-columns: 280px 1fr; }
+  }
+  .equip-card .photo .polaroid { width: 100%; transform: rotate(-1.5deg); }
+  .equip-card:nth-of-type(even) .photo .polaroid { transform: rotate(1.5deg); }
+  .equip-card .no-photo {
+    border: 3px dotted var(--sky); border-radius: var(--radius-quirky);
+    display: grid; place-items: center; min-height: 200px;
+    color: var(--ink-soft); font-family: var(--font-display); font-size: 1.1rem;
+    background: var(--sky-soft);
+  }
+  .equip-card h3 { font-size: 1.4rem; margin-bottom: .4rem; }
+  .equip-card p { margin-bottom: .6rem; }
+
+  .facts { display: flex; flex-wrap: wrap; gap: .5rem; margin: .25rem 0 .9rem; }
+  .fact {
+    background: var(--sky-soft); border: 2px dotted var(--sky); border-radius: 999px;
+    padding: .2rem .8rem; font-size: .9rem;
+  }
+  .fact strong { color: var(--navy); }
+  .fact--price { background: var(--navy); border-color: var(--navy); color: #fff; font-weight: 700; }
+
+  .copy-link {
+    font-size: .85rem; background: none; border: none; cursor: pointer;
+    color: var(--link); text-decoration: underline; text-underline-offset: 2px;
+    font-family: var(--font-body); padding: 0;
+  }
+  .copy-link:hover { color: var(--navy); }
+
+  .empty-state {
+    text-align: center; padding: 2rem 1.5rem;
+    background: var(--sky-soft);
+  }
+  .empty-state .yarn { font-size: 2rem; }
+  .empty-state p { max-width: 48ch; margin: .4rem auto; }
+
+  .list-note {
+    margin-top: 2rem; text-align: center; font-size: .95rem; color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site">
+  <span class="of">Norfolk &amp; Suffolk Guild of</span>
+  <span class="name">Weavers, Spinners and Dyers</span>
+</header>
+<nav class="site" aria-label="Main">
+  <a href="01-home-two-column.html">Home</a>
+  <a href="#">News</a>
+  <a href="#">Events</a>
+  <a href="#">Photo Gallery</a>
+  <a href="#">Distaff and Shuttle</a>
+  <a href="#" aria-current="page">Equipment</a>
+  <a href="#">Contact</a>
+</nav>
+
+<main id="main" class="container">
+
+  <h1>Equipment</h1>
+  <p class="page-intro">Equipment for sale from members and friends of the Guild, and equipment members can borrow. To list something here, <a href="#">get in touch</a>.</p>
+
+  <section aria-labelledby="for-sale-title">
+    <h2 class="section-head" id="for-sale-title">For sale</h2>
+
+    <!-- Everything inline: no click-through needed. Anchor id keeps items shareable. -->
+    <article class="panel equip-card" id="kromski-minstrel-spinning-wheel-for-sale">
+      <div class="photo">
+        <figure class="polaroid">
+          <img src="https://cdn.sanity.io/images/8cxh2o2e/production/919eff03fb6815227a5cdd51163ef827ccaddffc-475x926.png?w=400" alt="Kromski Minstrel spinning wheel">
+          <figcaption>Kromski Minstrel</figcaption>
+        </figure>
+      </div>
+      <div class="body">
+        <h3>Kromski Minstrel spinning wheel</h3>
+        <div class="facts">
+          <span class="fact fact--price">£400 ono</span>
+          <span class="fact"><strong>Where:</strong> Stowmarket / Hadleigh, Suffolk</span>
+        </div>
+        <p>Comes with various accessories: 10 bobbins, threading hook, distaff, nostepinne, a home-made lazy kate and niddy noddy.</p>
+        <p>More photos on the <a href="https://spinwise.co.uk/?product=used-equipment">Spinwise website</a>.</p>
+        <p><strong>Contact:</strong> Sheila — 01234 567890 · <a href="mailto:example@example.com">email</a> — viewing can be arranged.</p>
+        <button class="copy-link" data-anchor="kromski-minstrel-spinning-wheel-for-sale" type="button">🔗 Copy link to this item</button>
+      </div>
+    </article>
+
+    <article class="panel equip-card" id="spinning-wheel-for-sale">
+      <div class="photo">
+        <figure class="polaroid">
+          <img src="https://cdn.sanity.io/images/8cxh2o2e/production/4cccf4215a18079d1338a18fe888c50deb2ff39f-1536x2048.jpg?w=400" alt="Handmade walnut spinning wheel">
+          <figcaption>Handmade walnut wheel</figcaption>
+        </figure>
+      </div>
+      <div class="body">
+        <h3>Handmade walnut spinning wheel</h3>
+        <div class="facts">
+          <span class="fact fact--price">Open to offers</span>
+          <span class="fact"><strong>Where:</strong> Westhorpe, near Diss — can deliver locally to Broome</span>
+        </div>
+        <p>The seller says: “It was hand made by a local carpenter from a large walnut tree felled in his garden. It’s close to the Ashford Traditional single-drive design, bar the spindles and foot treadle. No woodworm or warping — it spins beautifully.” Often thought of as a beginner’s wheel. Comes with 6 bobbins.</p>
+        <p><strong>Contact:</strong> Kate Lamb — <a href="mailto:example@example.com">email</a> for more information.</p>
+        <button class="copy-link" data-anchor="spinning-wheel-for-sale" type="button">🔗 Copy link to this item</button>
+      </div>
+    </article>
+  </section>
+
+  <section aria-labelledby="for-loan-title">
+    <h2 class="section-head" id="for-loan-title">For loan — members only</h2>
+
+    <div class="panel empty-state">
+      <div class="yarn" aria-hidden="true">🧶</div>
+      <p><strong>Nothing available to borrow right now.</strong></p>
+      <p>The Guild lends looms, wheels and other equipment to members. Got something the Guild could lend out? <a href="#">Let us know</a>.</p>
+    </div>
+  </section>
+
+  <p class="list-note">Sold or found a new home? Items come off this page as soon as we hear.</p>
+
+</main>
+
+<footer class="site">
+  Norfolk and Suffolk Guild of Weavers, Spinners and Dyers · <a href="#">Contact</a> · <a href="https://www.wsd.org.uk">National Association</a>
+</footer>
+
+<aside class="mockup-notes">
+  <h2>Mockup notes — decisions to approve or dismiss</h2>
+  <ul>
+    <li><strong>Everything on one page</strong> — no click-through to near-empty detail pages. Each card carries an <code>id</code>, so <code>/equipment#kromski-minstrel-spinning-wheel-for-sale</code> stays shareable; old <code>/equipment/slug</code> URLs would 301 to the anchor.</li>
+    <li><strong>“Copy link to this item”</strong> makes the shareability explicit (works in this mockup — try it).</li>
+    <li><strong>Price / location / contact as structured chips</strong> — these are prose in the CMS today; would need <code>price</code>, <code>location</code>, <code>contact</code> (and a <code>sold</code> flag) added to the equipment schema. Cards degrade gracefully without them.</li>
+    <li><strong>Empty state invites action</strong> ("let us know") instead of the current bare “Nothing at the moment”.</li>
+    <li>Seller phone numbers and emails are placeholders in this mockup (the real details live on the site) since this file may get shared around.</li>
+  </ul>
+</aside>
+
+<script>
+  for (const btn of document.querySelectorAll('.copy-link')) {
+    btn.addEventListener('click', async () => {
+      const url = location.origin + location.pathname + '#' + btn.dataset.anchor;
+      try { await navigator.clipboard.writeText(url); btn.textContent = '✓ Link copied'; }
+      catch { btn.textContent = url; }
+      setTimeout(() => { btn.textContent = '🔗 Copy link to this item'; }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup 06 — Homepage, hero mosaic + next event</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="baseline.css">
+<style>
+  /* ---- hero row: photo mosaic and next event share the top of the page ---- */
+  .hero-row {
+    display: grid; gap: 1.25rem;
+    grid-template-columns: 1fr;
+    margin-bottom: 1.25rem;
+  }
+  @media (min-width: 820px) {
+    .hero-row { grid-template-columns: 5fr 4fr; align-items: stretch; }
+  }
+  .mosaic {
+    display: grid; gap: 8px;
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: 1fr 1fr;
+    background: #fff; padding: 8px;
+    border-radius: var(--radius-quirky);
+    box-shadow: var(--shadow-soft);
+    height: clamp(280px, 34vw, 400px);
+  }
+  .mosaic a { display: block; overflow: hidden; min-height: 0; }
+  .mosaic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .mosaic a:first-child { grid-row: 1 / 3; }
+  .mosaic-caption { font-size: .9rem; text-align: center; margin-top: .4rem; }
+
+  .event-panel { display: flex; flex-direction: column; }
+  .event-panel .eyebrow { font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; color: var(--madder); font-weight: 700; }
+  .event-panel h2 { margin: .3rem 0 .4rem; }
+  .event-panel .meta { font-size: .92rem; color: var(--ink-soft); margin-top: .4rem; }
+  .event-panel .more { font-weight: 700; }
+  .event-panel .cal-line { display: flex; gap: 1rem; align-items: center; margin-bottom: .5rem; }
+
+  .columns { display: grid; gap: 1.25rem; grid-template-columns: 1fr; }
+  @media (min-width: 760px) { .columns { grid-template-columns: 3fr 2fr; align-items: start; } }
+  .news-item { padding: 1rem 0; border-bottom: 2px dotted var(--sky); }
+  .news-item:last-of-type { border-bottom: none; padding-bottom: .25rem; }
+  .news-item h3 { margin: .15rem 0 .3rem; }
+  .news-item p { margin-bottom: .35rem; }
+  .event-row { display: flex; gap: .9rem; padding: .8rem 0; border-bottom: 2px dotted var(--sky); align-items: flex-start; }
+  .event-row:last-of-type { border-bottom: none; }
+  .event-row h3 { margin-bottom: .1rem; }
+  .event-row p { font-size: .95rem; color: var(--ink-soft); }
+  .all-link { display: inline-block; margin-top: .75rem; font-weight: 700; }
+  .visit-card { margin-top: 1.25rem; background: var(--sky-soft); }
+  .visit-card ul { padding-left: 1.2rem; margin: .5rem 0; }
+
+  @media (min-width: 760px) {
+    .static-info { grid-template-columns: 1fr 1fr; }
+    .static-info .wide { grid-column: 1 / -1; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site">
+  <span class="of">Norfolk &amp; Suffolk Guild of</span>
+  <span class="name">Weavers, Spinners and Dyers</span>
+</header>
+<nav class="site" aria-label="Main">
+  <a href="#" aria-current="page">Home</a>
+  <a href="#">News</a>
+  <a href="#">Events</a>
+  <a href="#">Photo Gallery</a>
+  <a href="#">Distaff and Shuttle</a>
+  <a href="#">Equipment</a>
+  <a href="#">Contact</a>
+</nav>
+
+<main id="main" class="container">
+
+  <!-- Imagery and the next event share the hero: colour up top, information beside it -->
+  <div class="hero-row">
+    <div>
+      <div class="mosaic" aria-label="Recent photos from the gallery">
+        <a href="#"><img src="https://cdn.sanity.io/images/8cxh2o2e/production/4a50db6f8922ff93f7ec8cb68d7a5b9565eb3ec8-1731x1298.jpg?w=800" alt="Exhibition table with woven textiles"></a>
+        <a href="#"><img src="https://cdn.sanity.io/images/8cxh2o2e/production/1d71241bcc246c50780184a86a72e146a3a13029-1104x1473.jpg?w=400" alt="Branch loom weaving with leaves"></a>
+        <a href="#"><img src="https://cdn.sanity.io/images/8cxh2o2e/production/1033b6f58fa314e792a2387d1faa1548202dda5f-1558x1169.jpg?w=400" alt="Woven sampler on a display table"></a>
+      </div>
+      <p class="mosaic-caption">Made by our members — <a href="#">browse the photo gallery →</a></p>
+    </div>
+
+    <section class="panel event-panel" aria-labelledby="next-event-title">
+      <div class="cal-line">
+        <div class="cal" aria-hidden="true">
+          <div class="wd">Thursday</div>
+          <div class="day">20</div>
+          <div class="mon">August</div>
+        </div>
+        <div>
+          <span class="eyebrow">Next event</span><br>
+          <span class="badge-soon">in just over 1 week</span>
+        </div>
+      </div>
+      <h2 id="next-event-title">Visit to Burnt Fen Alpacas</h2>
+      <p>Instead of our usual meeting we’ll visit Burnt Fen Alpacas in Horning to meet the alpacas, hear about their care, and spend the afternoon talking all things alpaca — fleece, yarns and felting.</p>
+      <p class="meta">Booking is open — places are limited and members get priority. <a class="more" href="#">Full details →</a></p>
+    </section>
+  </div>
+
+  <nav class="quick-links" aria-label="About the Guild">
+    <a href="#about">About the Guild</a>
+    <a href="#meetings">Meetings &amp; what we do</a>
+    <a href="#find-us">Find us</a>
+    <a href="#membership">Membership &amp; costs</a>
+  </nav>
+
+  <div class="columns">
+    <section class="panel" aria-labelledby="news-title">
+      <h2 class="section-head" id="news-title">Latest news</h2>
+
+      <article class="news-item">
+        <span class="kind kind--news">News</span>
+        <span class="dateline">Posted Monday 10 August</span>
+        <h3>Threads of Paper Workshop, 22–23 September 2026</h3>
+        <p>Artist Sue Lawty and Kendall Clarke are running a two-day workshop as part of Selvedge London Textile Month at the Geffrye Museum of the Home — the ancient Japanese craft of making thread from paper, alongside exploring its woven possibilities.</p>
+        <p><a href="https://www.selvedge.org/products/london-textile-month-threads-of-paper">Booking and details at selvedge.org</a></p>
+      </article>
+
+      <article class="news-item">
+        <span class="kind kind--news">News</span>
+        <span class="dateline">Posted Monday 20 July</span>
+        <h3>Workshop cancellation</h3>
+        <p>Sadly June Croll’s workshop on 3rd October has been cancelled for personal reasons.</p>
+      </article>
+
+      <article class="news-item">
+        <span class="kind kind--news">News</span>
+        <span class="dateline">Posted Friday 10 July</span>
+        <h3>Spinning wheel for sale</h3>
+        <p>A handmade walnut wheel and a Kromski Minstrel are looking for new homes. <a href="03-equipment-stacked.html">See the Equipment page</a>.</p>
+      </article>
+
+      <a class="all-link" href="#">All news →</a>
+    </section>
+
+    <div>
+      <section class="panel" aria-labelledby="coming-up-title">
+        <h2 class="section-head" id="coming-up-title">Coming up</h2>
+
+        <div class="event-row">
+          <div class="cal cal--mini" aria-hidden="true"><div class="wd">Thu</div><div class="day">17</div><div class="mon">Sep</div></div>
+          <div><h3>Waterloo Park Dye Garden Project</h3><p>Rita Kearton and friends on creating a dye garden in a public park in Norwich.</p></div>
+        </div>
+        <div class="event-row">
+          <div class="cal cal--mini" aria-hidden="true"><div class="wd">Thu</div><div class="day">15</div><div class="mon">Oct</div></div>
+          <div><h3>Designing for the yarn you may have</h3><p>Mim, Tessie and Eleonora on using limited quantities of handspun.</p></div>
+        </div>
+        <div class="event-row">
+          <div class="cal cal--mini" aria-hidden="true"><div class="wd">Sat</div><div class="day">7</div><div class="mon">Nov</div></div>
+          <div><h3>Weave and Spin Open Day</h3><p>Drop in — spend the day weaving and spinning in friendly company.</p></div>
+        </div>
+        <div class="event-row">
+          <div class="cal cal--mini" aria-hidden="true"><div class="wd">Thu</div><div class="day">19</div><div class="mon">Nov</div></div>
+          <div><h3>November Show and Tell</h3><p>Triumphs and ‘learning experiences’ alike!</p></div>
+        </div>
+
+        <a class="all-link" href="#">Full programme →</a>
+      </section>
+
+      <section class="panel visit-card" aria-labelledby="visit-title">
+        <h2 class="section-head" id="visit-title">New here?</h2>
+        <p>Everyone’s welcome — beginners especially.</p>
+        <ul>
+          <li>We meet on the <strong>third Thursday</strong> of the month, <strong>1–4pm</strong></li>
+          <li>The Village Hall, Broome, near Bungay <a href="#find-us">(map &amp; directions)</a></li>
+          <li>Visitors £3.50 — just come along</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+
+  <div class="static-info">
+    <section class="panel wide" id="about" aria-labelledby="about-title">
+      <h2 class="section-head" id="about-title">About the Guild</h2>
+      <p>We are a friendly group who exist to encourage and support anyone who loves textiles — design, colour, texture, or creating and experimenting with yarn and fibres through weaving, spinning and dyeing. We are keen to encourage beginners as well as the more experienced, and to share ideas, skills, knowledge and enthusiasm.</p>
+      <p>The Guild was formed in 1958, and we have maintained a healthy membership throughout that time. We are affiliated to the <a href="https://www.wsd.org.uk">National Association of the Guilds of Weavers, Spinners and Dyers</a> — all our members automatically become members of the National Association.</p>
+      <p><strong>Committee:</strong> Anne Guyon (Chair); Carol Houghton (Secretary); Claudette Davies (Treasurer); Sue Browne; Annette Ford; Mim Barnes; Anna Aires; Eleonora Knowland.</p>
+      <a class="to-top" href="#main">↑ Back to top</a>
+    </section>
+
+    <section class="panel" id="meetings" aria-labelledby="meetings-title">
+      <h2 class="section-head" id="meetings-title">Meetings &amp; what we do</h2>
+      <p>We hold monthly meetings with invited speakers, locally and nationally recognised, on a range of textile topics — plus workshops, Open Weave and Spin days, exhibitions and visits.</p>
+      <p>We meet on the third Thursday of the month, 1–4pm (second Thursday in December). Open Weave and Spin days run on four Saturdays a year, 10am–3pm, and are open to drop-ins.</p>
+      <a class="to-top" href="#main">↑ Back to top</a>
+    </section>
+
+    <section class="panel" id="find-us" aria-labelledby="find-us-title">
+      <h2 class="section-head" id="find-us-title">Find us</h2>
+      <p>The Village Hall<br>Sun Road, Broome<br>Nr Bungay, NR35 2RW</p>
+      <p>There is a large car park, and the 81 bus from Beccles stops outside the hall.</p>
+      <a class="to-top" href="#main">↑ Back to top</a>
+    </section>
+
+    <section class="panel wide" id="membership" aria-labelledby="membership-title">
+      <h2 class="section-head" id="membership-title">Membership &amp; costs</h2>
+      <p>Annual membership <strong>£25.00</strong> · Monthly meetings <strong>£1.50</strong> members / <strong>£3.50</strong> visitors · Weave and Spin days <strong>£3.00</strong> members / <strong>£4.00</strong> visitors.</p>
+      <a class="to-top" href="#main">↑ Back to top</a>
+    </section>
+  </div>
+
+</main>
+
+<footer class="site">
+  Norfolk and Suffolk Guild of Weavers, Spinners and Dyers · <a href="#">Contact</a> · <a href="https://www.wsd.org.uk">National Association</a>
+</footer>
+
+<aside class="mockup-notes">
+  <h2>Mockup notes — experiment: hero mosaic</h2>
+  <ul>
+    <li><strong>Photos and the next event share the hero row</strong> — imagery gets the biggest single presence of the three experiments, and the event keeps above-the-fold visibility without shouting.</li>
+    <li><strong>Mosaic feeds from the latest gallery uploads</strong> (one landscape + two supporting). Degrades to a single photo if the gallery is quiet.</li>
+    <li>The most conventional of the three layouts — closest to what any modern site would do. Less “handmade” personality up top than 04/05; the polaroids and wonk live further down.</li>
+    <li>Compare: <a href="04-home-washing-line.html">04 washing line</a> · <a href="05-home-fabric-ribbon.html">05 fabric ribbon</a> · <a href="01-home-two-column.html">01 original</a>.</li>
+  </ul>
+</aside>
+
+</body>
+</html>
