@@ -22,10 +22,23 @@ const { images } = Astro.props;
       <div class="ribbon-inner">
         <div class="track">
           {images.map((img) => (
-            <img src={img.thumb2x} alt="" loading="eager" />
+            <img
+              src={img.thumb2x}
+              srcset={`${img.thumb} 400w, ${img.thumb2x} 800w`}
+              sizes="(min-width: 1334px) 320px, (max-width: 750px) 180px, 24vw"
+              alt=""
+              loading="eager"
+            />
           ))}
           {images.map((img) => (
-            <img src={img.thumb2x} alt="" aria-hidden="true" loading="lazy" />
+            <img
+              src={img.thumb2x}
+              srcset={`${img.thumb} 400w, ${img.thumb2x} 800w`}
+              sizes="(min-width: 1334px) 320px, (max-width: 750px) 180px, 24vw"
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+            />
           ))}
         </div>
       </div>
@@ -75,7 +88,6 @@ const { images } = Astro.props;
 
   .track {
     display: flex;
-    gap: var(--ribbon-gap);
     height: 100%;
     width: max-content;
   }
@@ -85,6 +97,10 @@ const { images } = Astro.props;
     height: 100%;
     object-fit: cover;
     display: block;
+    /* margin, not flex gap: with a trailing margin on every image, half the
+       track width is exactly one loop period, so the wrap lands pixel-perfect
+       (a gap between the halves would leave a 2.5px seam jump). */
+    margin-right: var(--ribbon-gap);
   }
 
   /* The track holds two identical halves; sliding one half's width loops seamlessly.
@@ -104,3 +120,17 @@ const { images } = Astro.props;
     to   { transform: translateX(-50%); }
   }
 </style>
+
+<script>
+  // Pause the drift while the ribbon is scrolled out of view — no point
+  // compositing an animation nobody can see. Clearing the inline style when
+  // visible (rather than setting "running") keeps the CSS hover-pause working.
+  // Page-lifetime observer; the browser tears it down on navigation (MPA).
+  for (const ribbon of document.querySelectorAll<HTMLElement>(".ribbon-link")) {
+    const track = ribbon.querySelector<HTMLElement>(".track");
+    if (!track) continue;
+    new IntersectionObserver((entries) => {
+      track.style.animationPlayState = entries[0].isIntersecting ? "" : "paused";
+    }).observe(ribbon);
+  }
+</script>
