@@ -34,13 +34,6 @@
   const enableInfinite = props.infinite ?? true;
   const images = ref<GalleryImage[]>([...props.initialImages]);
 
-  // Debug: log initial data
-  console.log('🖼️ Initial images passed to GalleryGrid:', props.initialImages);
-
-  watch(images, (newImages: GalleryImage[]) => {
-    console.log('🔄 Images updated:', newImages);
-  });
-
   // Check that image is valid
   function isValidImage(img: GalleryImage): boolean {
     return !!img?.thumb;
@@ -56,44 +49,22 @@
 
   async function loadMoreImages() {
     if (!enableInfinite || isLoading.value || allImagesLoaded.value) {
-      console.log('🚫 Load more blocked:', { enableInfinite, isLoading: isLoading.value, allImagesLoaded: allImagesLoaded.value });
       return;
     }
 
     isLoading.value = true;
     const nextPage = page.value + 1;
     const limit = 5;
-    
-    console.log('🔄 Loading more images - requesting page', nextPage, 'with limit', limit);
 
     try {
-      const fetchUrl = `/api/gallery?page=${nextPage}&limit=${limit}`;
-      console.log('🌐 Fetching URL:', fetchUrl);
-      
-      const res = await fetch(fetchUrl, {
+      const res = await fetch(`/api/gallery?page=${nextPage}&limit=${limit}`, {
         cache: 'no-cache'
       });
       const newImages: GalleryImage[] = await res.json();
 
-      // Log detailed response info
-      console.log('📥 Loaded new images:', { 
-        page: nextPage, 
-        requested: limit, 
-        received: newImages.length, 
-        images: newImages 
-      });
-      
-      // Log first and last image URLs to detect duplicates
-      if (newImages.length > 0) {
-        console.log('🔍 First image URL (last 30 chars):', newImages[0]?.thumb?.slice(-30));
-        console.log('🔍 Last image URL (last 30 chars):', newImages[newImages.length - 1]?.thumb?.slice(-30));
-        console.log('🔍 All image URLs (last 20 chars):', newImages.map((img, idx) => `${idx}: ${img.thumb?.slice(-20)}`));
-      }
-
       if (newImages.length > 0) {
         images.value = [...images.value, ...newImages];
         page.value = nextPage;
-        console.log('✅ Updated gallery:', { totalImages: images.value.length, currentPage: page.value });
 
         await nextTick();
 
@@ -107,7 +78,6 @@
       if (newImages.length < limit) {
         allImagesLoaded.value = true;
         observer?.disconnect();
-        console.log('🏁 ALL IMAGES LOADED - End of gallery reached!', { totalImages: images.value.length });
       }
     } catch (e) {
       console.error('❌ Image fetch failed:', e);
@@ -117,13 +87,10 @@
   }
 
   onMounted(async () => {
-    console.log('🔧 GalleryGrid mounted');
-
     // Attach observer for infinite scroll
     observer = new IntersectionObserver(
       entries => {
         if (entries[0].isIntersecting) {
-          console.log('📸 Sentinel intersected');
           loadMoreImages();
         }
       },
@@ -134,7 +101,6 @@
     setTimeout(() => {
       if (sentinel.value) {
         observer.observe(sentinel.value);
-        console.log('👁️ Observer attached to sentinel');
       }
     }, 250);
 

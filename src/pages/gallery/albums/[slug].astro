@@ -15,7 +15,6 @@ const { slug } = Astro.params;
 const gallery = await fetchGalleryBySlug(slug!);
 if (!gallery) throw new Error("Gallery data is missing!");
 
-console.log(gallery);
 
 const pageTitle = buildTitle(`${gallery.title} | Photo Gallery`);
 ---

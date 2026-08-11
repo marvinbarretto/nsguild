@@ -5,10 +5,7 @@ let globalsCache: Globals | null = null;
 
 export async function getCachedGlobals(): Promise<Globals | null> {
   if (!globalsCache) {
-    console.log('Fetching globals from Sanity (cache miss)');
     globalsCache = await fetchGlobals();
-  } else {
-    console.log('Using cached globals (cache hit)');
   }
   return globalsCache;
 }

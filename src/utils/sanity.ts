@@ -16,28 +16,16 @@ let apiCallCounter = 0;
 
 export async function getSanityData<T>(query: string, params?: {}, label?: string): Promise<T> {
   apiCallCounter++;
-  const startTime = Date.now();
-  
-  console.log(`🔥 [Sanity API Hit #${apiCallCounter}] ${label || 'Unknown query'}`);
-  console.log(`📋 Query: ${query.replace(/\s+/g, ' ').slice(0, 150)}${query.length > 150 ? '...' : ''}`);
-  console.log(`📊 Params:`, params || 'none');
-  
-  const result = await sanityClient.fetch<T>(query, params);
-  const duration = Date.now() - startTime;
-  
-  console.log(`✅ [Sanity API Hit #${apiCallCounter}] Completed in ${duration}ms`);
-  console.log(`📦 Response size: ${JSON.stringify(result).length} characters`);
-  console.log(`📈 Total API calls so far: ${apiCallCounter}`);
-  console.log('━'.repeat(60));
-  
-  return result;
+
+  if (import.meta.env.DEV) {
+    console.log(`🔥 [Sanity API Hit #${apiCallCounter}] ${label || 'Unknown query'}`);
+  }
+
+  return await sanityClient.fetch<T>(query, params);
 }
 
 // Function to get API call statistics
 export function getSanityApiStats() {
-  console.log('━'.repeat(80));
-  console.log(`🎯 BUILD SUMMARY: Total Sanity API calls made: ${apiCallCounter}`);
-  console.log('━'.repeat(80));
   return {
     totalCalls: apiCallCounter,
     message: `🎯 Build completed with ${apiCallCounter} Sanity API calls`
