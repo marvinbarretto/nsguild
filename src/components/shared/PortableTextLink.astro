@@ -1,0 +1,16 @@
+---
+// Link mark renderer. The Sanity link annotation stores `internalLink` /
+// `externalUrl` (and linkified bare URLs store `href`) — the library default
+// only reads `href`, which left authored links rendering as <a> with no
+// destination. No usable destination -> render the text without an anchor.
+const { node } = Astro.props as any;
+const def = node?.markDef ?? {};
+const href: string | undefined = def.href || def.externalUrl || def.internalLink || undefined;
+const isExternal = typeof href === "string" && /^https?:\/\//i.test(href);
+---
+
+{href ? (
+  <a href={href} rel={isExternal ? "noopener" : undefined}><slot /></a>
+) : (
+  <slot />
+)}

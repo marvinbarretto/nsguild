@@ -1,15 +1,22 @@
 ---
 import { PortableText as PortableTextInternal } from 'astro-portabletext'
 import PortableTextImage from './PortableTextImage.astro';
+import PortableTextLink from './PortableTextLink.astro';
+import { linkifyBlocks } from '../../utils/linkify';
+
 const { portableText } = Astro.props;
+const value = linkifyBlocks(portableText);
 
 const components = {
   type: {
     image: PortableTextImage
+  },
+  mark: {
+    link: PortableTextLink
   }
 }
 ---
 
 <div class="portable-text">
-  <PortableTextInternal value={portableText} components={components} />
+  <PortableTextInternal value={value} components={components} />
 </div>

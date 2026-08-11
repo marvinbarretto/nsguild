@@ -1,6 +1,17 @@
 .portable-text {
     max-width: 72ch;
-  
+
+    a {
+      color: #0f5aa8;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      word-break: break-word;
+
+      &:hover {
+        color: #062741;
+      }
+    }
+
     // ✅ Larger & more prominent heading sizes
     h3 {
       font-size: clamp(2rem, 3vw, 2.6rem); // Increased size
