@@ -22,7 +22,6 @@ const pageTitle = title
   ? `${title} | ${globals?.siteTitle || "Norfolk & Suffolk Guild of Weavers, Spinners and Dyers"}` 
   : globals?.siteTitle || "Norfolk & Suffolk Guild of Weavers, Spinners and Dyers";
 
-console.log("🔧 Layout loaded", globals);
 
 ---
 <html lang="en">
@@ -44,9 +43,10 @@ console.log("🔧 Layout loaded", globals);
     <GoogleAnalytics />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <Header isHomePage={isHomePage} />
     <Nav />
-    <main>
+    <main id="main-content">
       <slot />
     </main>
     <Footer footerText={globals?.footerText || "NS Guild"} />
