@@ -9,27 +9,18 @@ import HeroOverlaySection from "../components/homepage/HeroOverlaySection.astro"
 import AsideCard from "../components/homepage/AsideCard.astro";
 
 import { buildTitle } from "../utils/meta";
-import { imageBuilder } from "../sanity/lib/images";
+import { getCarouselImageUrl, getCarouselSrcSet } from "../sanity/lib/images";
 import EventBadge from "../components/homepage/EventBadge";
 
 const { homepage: vm, globals, nextEvent, newsPosts } = await fetchHomepageData();
-console.log("🏠 Homepage data loaded with single query:", {
-  hasHomepage: !!vm,
-  hasGlobals: !!globals,
-  hasNextEvent: !!nextEvent,
-  newsCount: newsPosts?.length ?? 0
-});
 
-const firstImage = vm.carouselImages?.[0]; // pass full image object, not just .asset
-const preloadImage = firstImage && {
-  url: imageBuilder.image(firstImage).width(1200).format("webp").url(),
-  srcSet: `
-    ${imageBuilder.image(firstImage).width(400).url()} 400w,
-    ${imageBuilder.image(firstImage).width(800).url()} 800w,
-    ${imageBuilder.image(firstImage).width(1200).url()} 1200w
-  `,
-  sizes: "100vw",
-  type: "image/webp"
+// Preload the exact URLs the carousel renders, or the browser downloads the
+// hero twice (once for the preload, once for the real request).
+const firstAsset = vm.carouselImages?.[0]?.asset;
+const preloadImage = firstAsset && {
+  url: getCarouselImageUrl(firstAsset),
+  srcSet: getCarouselSrcSet(firstAsset),
+  sizes: "100vw"
 };
 
 const title = buildTitle("Home");

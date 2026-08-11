@@ -57,13 +57,18 @@ const { images = [] } = Astro.props; // Default to empty array
 </style>
 
 <script is:inline>
-  let current = 0;
-  const images = document.querySelectorAll(".carousel-image");
-  const TIME_INTERVAL_BETWEEN_TRANSITIONS = 4000;
+  (() => {
+    const images = document.querySelectorAll(".carousel-image");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (images.length < 2 || reduceMotion) return;
 
-  setInterval(() => {
-    images[current].classList.remove("active");
-    current = (current + 1) % images.length;
-    images[current].classList.add("active");
-  }, TIME_INTERVAL_BETWEEN_TRANSITIONS);
+    let current = 0;
+    const TIME_INTERVAL_BETWEEN_TRANSITIONS = 4000;
+
+    setInterval(() => {
+      images[current].classList.remove("active");
+      current = (current + 1) % images.length;
+      images[current].classList.add("active");
+    }, TIME_INTERVAL_BETWEEN_TRANSITIONS);
+  })();
 </script>
