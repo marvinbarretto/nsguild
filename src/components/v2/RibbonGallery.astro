@@ -1,0 +1,106 @@
+---
+// Design-preview component: full-bleed drifting ribbon of the latest gallery photos.
+// Images are decorative (the gallery schema has no alt/caption fields); the whole
+// ribbon is one link through to the gallery.
+//
+// Layering: .ribbon-link carries a band of the nav colour so the cloth reads as
+// laid over the nav; .ribbon-frame is a white layer masked with the zigzag (the
+// stroke); .ribbon-inner is masked with the same zigzag inset vertically, so the
+// white shows as a uniform stroke flush with the pinked edge.
+import type { GalleryImage } from "../../utils/types";
+
+export interface Props {
+  images: GalleryImage[];
+}
+
+const { images } = Astro.props;
+---
+
+{images.length > 0 && (
+  <a class="ribbon-link" href="/gallery" aria-label="Browse the photo gallery">
+    <div class="ribbon-frame">
+      <div class="ribbon-inner">
+        <div class="track">
+          {images.map((img) => (
+            <img src={img.thumb2x} alt="" loading="eager" />
+          ))}
+          {images.map((img) => (
+            <img src={img.thumb2x} alt="" aria-hidden="true" loading="lazy" />
+          ))}
+        </div>
+      </div>
+    </div>
+  </a>
+)}
+
+<style lang="scss">
+  /* ---- ribbon tokens: tweak here (or override from a parent) ---- */
+  .ribbon-link {
+    --ribbon-tooth: 26px;                              /* zigzag tile width; depth = half this */
+    --ribbon-stroke: 6px;                              /* vertical inset of the photo layer */
+    --ribbon-stroke-color: rgba(255, 255, 255, 0.65); /* softened — full white read too harsh */
+    --ribbon-height: clamp(160px, 26vw, 260px);
+    --ribbon-band: var(--nav-bg);                      /* nav colour continuing behind the cloth */
+    --ribbon-band-depth: 40px;
+    --ribbon-gap: 5px;                                 /* gap between photos */
+    --ribbon-photo-width: clamp(180px, 24vw, 320px);
+    --ribbon-drift-duration: 70s;
+
+    display: block;
+    background: linear-gradient(to bottom, var(--ribbon-band) 0 var(--ribbon-band-depth), transparent var(--ribbon-band-depth));
+  }
+
+  .ribbon-frame {
+    height: var(--ribbon-height);
+    background: var(--ribbon-stroke-color); /* shows as the stroke along the pinked edge */
+    -webkit-mask:
+      conic-gradient(from 135deg at top, #000 90deg, #0000 0) 0 0 / var(--ribbon-tooth) 51% repeat-x,
+      conic-gradient(from -45deg at bottom, #000 90deg, #0000 0) 0 100% / var(--ribbon-tooth) 51% repeat-x;
+    mask:
+      conic-gradient(from 135deg at top, #000 90deg, #0000 0) 0 0 / var(--ribbon-tooth) 51% repeat-x,
+      conic-gradient(from -45deg at bottom, #000 90deg, #0000 0) 0 100% / var(--ribbon-tooth) 51% repeat-x;
+  }
+
+  .ribbon-inner {
+    height: 100%;
+    overflow: hidden;
+    /* same zigzag, inset vertically — leaves the frame visible as a stroke flush with the cut */
+    -webkit-mask:
+      conic-gradient(from 135deg at top, #000 90deg, #0000 0) 0 var(--ribbon-stroke) / var(--ribbon-tooth) 51% repeat-x,
+      conic-gradient(from -45deg at bottom, #000 90deg, #0000 0) 0 calc(100% - var(--ribbon-stroke)) / var(--ribbon-tooth) 51% repeat-x;
+    mask:
+      conic-gradient(from 135deg at top, #000 90deg, #0000 0) 0 var(--ribbon-stroke) / var(--ribbon-tooth) 51% repeat-x,
+      conic-gradient(from -45deg at bottom, #000 90deg, #0000 0) 0 calc(100% - var(--ribbon-stroke)) / var(--ribbon-tooth) 51% repeat-x;
+  }
+
+  .track {
+    display: flex;
+    gap: var(--ribbon-gap);
+    height: 100%;
+    width: max-content;
+  }
+
+  .track img {
+    width: var(--ribbon-photo-width);
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* The track holds two identical halves; sliding one half's width loops seamlessly.
+     Static under prefers-reduced-motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    .track {
+      animation: ribbon-drift var(--ribbon-drift-duration) linear infinite;
+    }
+    .ribbon-link:hover .track,
+    .ribbon-link:focus-visible .track {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes ribbon-drift {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+</style>

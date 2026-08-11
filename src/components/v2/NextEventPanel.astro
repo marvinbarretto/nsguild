@@ -1,0 +1,83 @@
+---
+// Design-preview component: the next event as a quiet informational panel
+// (replaces the right-rail AsideCard treatment). Badge label is computed
+// server-side — no React island needed.
+import DateDisplay from "../shared/DateDisplay.astro";
+import PortableText from "../shared/PortableText.astro";
+import { getEventTiming } from "../../utils/dates";
+import type { EventType } from "../../utils/types";
+
+export interface Props {
+  event: EventType;
+}
+
+const { event } = Astro.props;
+const { label } = getEventTiming(event.date);
+---
+
+<section class="event-panel" aria-labelledby="next-event-title">
+  <div class="event-panel__chip">
+    <DateDisplay date={event.date} variant="calendar" />
+  </div>
+  <div class="event-panel__body">
+    <p class="event-panel__eyebrow">
+      Next event
+      {label && <span class="event-panel__badge">{label}</span>}
+    </p>
+    <h2 id="next-event-title">{event.title}</h2>
+    <PortableText portableText={event.description} />
+    <p class="event-panel__more"><a href="/events">All events and this year’s programme →</a></p>
+  </div>
+</section>
+
+<style lang="scss">
+  /* Inherits the v2 token set from the parent page (.v2); fallbacks keep it
+     safe if rendered outside that scope. */
+  .event-panel {
+    background-color: var(--v2-panel, #fff);
+    background-image: var(--v2-texture, url("/images/noise.webp"));
+    border: 3px dotted var(--v2-border, #c8eaff);
+    border-radius: var(--v2-radius, 6px 12px 8px 10px);
+    box-shadow: var(--v2-shadow, 2px 4px 12px rgba(10, 51, 91, 0.12));
+    padding: 1.25rem 1.4rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .event-panel__body {
+    flex: 1;
+    min-width: 260px;
+  }
+
+  .event-panel__eyebrow {
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--v2-accent, #a63a00);
+    font-weight: 700;
+  }
+
+  .event-panel__badge {
+    background: var(--v2-accent, #a63a00);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: normal;
+    text-transform: none;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    margin-left: 0.35rem;
+    white-space: nowrap;
+  }
+
+  h2 {
+    margin: 0.15rem 0 0.3rem;
+  }
+
+  .event-panel__more {
+    font-weight: 700;
+    margin-top: 0.4rem;
+  }
+</style>
