@@ -14,7 +14,6 @@ import ListItem from "../../components/shared/ListItem.astro";
 
 const events: EventType[] = await fetchAllEvents();
 const today = new Date().toISOString().split("T")[0]; // Get today's date
-console.log("Fetched Events:", events.map(e => ({ title: e.title, date: e.date })));
 
 // Separate upcoming & past events
 const upcomingEvents = events.filter(event => event.date >= today);
@@ -32,7 +31,7 @@ const pageTitle = buildTitle("Events");
 ---
 
 <BaseLayout title="Events">
-  <Seo slot="head" title={pageTitle} />
+  <Seo slot="head" title={pageTitle} description={globals?.metaDescriptions?.events} />
   <div class="container">
 
     <PageTitle title="Events" />

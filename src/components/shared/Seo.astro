@@ -1,16 +1,10 @@
 ---
-import type { SeoProps } from '../../utils/types'
-const { title, description, preloadImage } = Astro.props as any;
-
-console.log("title", title);
-console.log("description", description);
-console.log("preloadImage", preloadImage);
-
+// Head extras: meta description + LCP preload. The document <title> is owned
+// by BaseLayout — emitting one here too gave every page two title elements.
+const { description, preloadImage } = Astro.props as any;
 ---
 
-{title && <title>{title}</title>}
 {description && <meta name="description" content={description} />}
-
 
 {preloadImage && (
   <link
@@ -19,6 +13,6 @@ console.log("preloadImage", preloadImage);
     href={preloadImage.url}
     imagesrcset={preloadImage.srcSet}
     imagesizes={preloadImage.sizes || "100vw"}
-    type={preloadImage.type || "image/webp"}
+    type={preloadImage.type}
   />
 )}

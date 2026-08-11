@@ -20,7 +20,7 @@ const pageTitle = buildTitle("Distaff and Shuttle");
 ---
 
 <BaseLayout title="Distaff and Shuttle">
-  <Seo slot="head" title={pageTitle} />
+  <Seo slot="head" title={pageTitle} description={globals?.metaDescriptions?.publications} />
   <div class="container">
     <PageTitle title="Distaff and Shuttle" />
     {distaffDescription && <PageDescription>

@@ -10,7 +10,6 @@ import { buildTitle } from "../../utils/meta";
 import PortableText from '../../components/shared/PortableText.astro';
 
 const equipmentList: EquipmentType[] = await fetchAllEquipment();
-console.log("Fetched Equipment:", JSON.stringify(equipmentList, null, 2));  // ✅ Debug Output
 
 const globals = await getCachedGlobals();
 const equipmentDescription = globals?.pagesContent?.equipmentPageDescription;
@@ -20,7 +19,7 @@ const pageTitle = buildTitle("Equipment");
 ---
 
 <BaseLayout title="Equipment">
-  <Seo slot="head" title={pageTitle} />
+  <Seo slot="head" title={pageTitle} description={globals?.metaDescriptions?.equipment} />
   <PageTitle title="Equipment" />
   {equipmentDescription && <PageDescription>
     <PortableText portableText={equipmentDescription}></PortableText>

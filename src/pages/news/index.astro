@@ -16,13 +16,11 @@ const newsDescription = globals?.pagesContent?.newsPageDescription;
 
 const pageTitle = buildTitle("News");
 
-console.log("Fetched Posts:", posts);
-console.log("DEBUG: posts =", JSON.stringify(posts, null, 2));
 
 ---
 
 <BaseLayout title="News">
-  <Seo slot="head" title={pageTitle} />
+  <Seo slot="head" title={pageTitle} description={globals?.metaDescriptions?.news} />
   <div class="container">
 
     <PageTitle title="News" />

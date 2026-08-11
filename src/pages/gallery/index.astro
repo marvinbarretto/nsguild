@@ -6,14 +6,16 @@ import PageTitle from '../../components/shared/PageTitle.astro';
 import GalleryNav from '../../components/gallery/GalleryNav.astro';
 import { buildTitle } from '../../utils/meta';
 import Seo from '../../components/shared/Seo.astro';
- 
+import { getCachedGlobals } from '../../utils/cache';
+
 const initialImages = await getAllGalleryImages({ limit: 5, offset: 0 });
+const globals = await getCachedGlobals();
 const pageTitle = buildTitle("Photo Gallery");
 
 ---
 
 <BaseLayout title="Photo Gallery">
-  <Seo slot="head" title={pageTitle} />
+  <Seo slot="head" title={pageTitle} description={globals?.metaDescriptions?.gallery} />
   <div class="container">
     <PageTitle title="Photo Gallery" />
     <GalleryNav currentPath={Astro.url.pathname}  />

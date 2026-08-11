@@ -7,14 +7,16 @@ import Seo from "../components/shared/Seo.astro";
 import Image from "astro/components/Image.astro";
 import villageHall from '../images/village-hall.webp';
 import { fetchContactPage } from '../sanity/queries/contact';
+import { getCachedGlobals } from '../utils/cache';
 const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY;
 
 const vm = await fetchContactPage();
+const globals = await getCachedGlobals();
 const pageTitle = buildTitle(vm.title);
 ---
 
 <BaseLayout title={vm.title}>
-  <Seo slot="head" title={pageTitle} />
+  <Seo slot="head" title={pageTitle} description={globals?.metaDescriptions?.contact} />
   <PageTitle title={vm.title} />
   <div class="container" itemscope itemtype="https://schema.org/Organization">
 
