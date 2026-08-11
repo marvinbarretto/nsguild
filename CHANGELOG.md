@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/marvinbarretto/nsguild/compare/v1.7.2...v1.8.0) (2026-08-11)
+
+
+### Features
+
+* add noindexed /preview route with proposed homepage design ([35e7f89](https://github.com/marvinbarretto/nsguild/commit/35e7f899e170bcfcc7f243bd620334701161a081))
+
 ### [1.7.2](https://github.com/marvinbarretto/nsguild/compare/v1.7.1...v1.7.2) (2026-08-10)
 
 
