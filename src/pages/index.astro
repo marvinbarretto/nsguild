@@ -66,6 +66,11 @@ const title = buildTitle("Home");
                 <article class="news-item">
                   <h2>{post.title}</h2>
                   <PortableText portableText={post.body} />
+                  {post.hasMoreDetail && (
+                    <a class="read-more" href={`/news#${post.slug}`}>
+                      Read more<span class="visually-hidden"> about {post.title}</span> →
+                    </a>
+                  )}
                 </article>
               ))}
             </AsideCard>
@@ -161,6 +166,21 @@ const title = buildTitle("Home");
     display: flex;
     flex-direction: column;
     gap: .5rem;
+  }
+
+  .read-more {
+    display: inline-block;
+    margin-top: 0.4rem;
+    font-weight: 700;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   .news-item + .news-item {
