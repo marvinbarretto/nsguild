@@ -1,5 +1,5 @@
 
-import { getSanityData } from "../../utils/sanity";
+import { getSanityData, sanityClient } from "../../utils/sanity";
 import type { Post } from "../../utils/types";
 import type { PagesContent } from "../../utils/types";
 
@@ -71,6 +71,30 @@ export async function fetchPostsPage(): Promise<Post[]> {
   `;
 
   return await getSanityData<Post[]>(posts, {}, 'fetchPostsPage');
+}
+
+/**
+ * Latest posts for the design preview, with unpublished drafts overlaid so the
+ * client can approve one before publishing. Reading drafts needs a token; with
+ * none, this falls back to published posts only and says so in the logs.
+ */
+export async function fetchLatestNewsWithDrafts(limit = 3): Promise<Post[]> {
+  const hasToken = Boolean(import.meta.env.SANITY_TOKEN);
+  if (!hasToken) console.warn("fetchLatestNewsWithDrafts: no SANITY_TOKEN, drafts not shown");
+
+  const query = `
+    *[_type == "post"] | order(coalesce(publishedAt, _updatedAt) desc)[0...$limit] {
+      title,
+      body,
+      moreDetail,
+      "hasMoreDetail": defined(moreDetail),
+      "slug": slug.current,
+      "publishedAt": coalesce(publishedAt, _updatedAt),
+      "isDraft": _originalId in path("drafts.**")
+    }
+  `;
+  const client = hasToken ? sanityClient.withConfig({ perspective: "previewDrafts" }) : sanityClient;
+  return await client.fetch<Post[]>(query, { limit });
 }
 
 export async function fetchPagesContent(): Promise<PagesContent | null> {

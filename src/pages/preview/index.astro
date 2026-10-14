@@ -3,23 +3,35 @@
 // Not linked from navigation, noindexed, and absent from the sitemap allowlist.
 // All content is real CMS data — nothing here assumes fields that don't exist.
 //
+// Round two (client feedback, mockups/2026-10-14-feedback.md): a still photo
+// strip picked in the Studio, the next event leads Coming up, and news shows
+// each post's leader with a link through for the detail.
+//
+// News here includes unpublished drafts (marked "Draft") so the client can
+// approve a post before it goes live. This needs SANITY_TOKEN; without one
+// only published posts show.
+//
 // All design tokens live in the `.v2` block at the top of the styles below —
-// tweak there. The floating switcher (demo device) overrides --v2-body /
-// --v2-panel / --v2-texture inline for live comparison.
+// tweak there.
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PortableText from "../../components/shared/PortableText.astro";
 import DateDisplay from "../../components/shared/DateDisplay.astro";
-import RibbonGallery from "../../components/v2/RibbonGallery.astro";
-import NextEventPanel from "../../components/v2/NextEventPanel.astro";
+import PhotoStrip from "../../components/v2/PhotoStrip.astro";
 import { fetchHomepageData } from "../../sanity/queries/homepage-consolidated";
 import { fetchAllEvents } from "../../sanity/queries/event";
+import { fetchLatestNewsWithDrafts } from "../../sanity/queries/news";
 import { getAllGalleryImages } from "../../sanity/queries/gallery";
 
-const [{ homepage, nextEvent, newsPosts }, allEvents, ribbonImages] = await Promise.all([
+const [{ homepage, nextEvent }, allEvents, newsPosts] = await Promise.all([
   fetchHomepageData(),
   fetchAllEvents(),
-  getAllGalleryImages({ limit: 8 }),
+  fetchLatestNewsWithDrafts(3),
 ]);
+
+// Top up the strip from the newest gallery photos when fewer than four are picked.
+const pickedStrip = (homepage.stripImages ?? []).slice(0, 4);
+const stripFallback =
+  pickedStrip.length < 4 ? await getAllGalleryImages({ limit: 4 - pickedStrip.length }) : [];
 
 const today = new Date().toISOString().split("T")[0];
 const upcomingEvents = allEvents
@@ -44,19 +56,10 @@ const staticSections = [
 ---
 
 <BaseLayout title="Design preview" noindex>
-  <Fragment slot="head">
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap"
-    />
-  </Fragment>
-
-  <div class="v2" data-event-hero="true">
-    <RibbonGallery images={ribbonImages} />
+  <div class="v2">
+    <PhotoStrip picked={pickedStrip} fallback={stripFallback} />
 
     <div class="container">
-      {nextEvent && <NextEventPanel event={nextEvent} />}
-
       <nav class="quick-links" aria-label="About the Guild">
         {staticSections.map((s) => <a href={`#${s.id}`}>{s.heading}</a>)}
       </nav>
@@ -68,8 +71,21 @@ const staticSections = [
             {newsPosts.map((post) => (
               <article class="news-item">
                 <DateDisplay date={post.publishedAt} />
+                {post.isDraft && <span class="draft-badge">Draft: not on the live site yet</span>}
                 <h3>{post.title}</h3>
                 <PortableText portableText={post.body} />
+                {post.hasMoreDetail && !post.isDraft && (
+                  <a class="read-more" href={`/news#${post.slug}`}>
+                    Read more<span class="visually-hidden"> about {post.title}</span> →
+                  </a>
+                )}
+                {/* a draft isn't on /news yet, so its detail opens in place */}
+                {post.hasMoreDetail && post.isDraft && (
+                  <details class="draft-detail">
+                    <summary class="read-more">Read more</summary>
+                    <PortableText portableText={post.moreDetail} />
+                  </details>
+                )}
               </article>
             ))}
             <a class="all-link" href="/news">All news →</a>
@@ -77,11 +93,11 @@ const staticSections = [
         )}
 
         <div class="side-col">
-          {upcomingEvents.length > 0 && (
+          {(nextEvent || upcomingEvents.length > 0) && (
             <section class="panel" aria-labelledby="coming-up-title">
               <h2 class="section-head" id="coming-up-title">Coming up</h2>
               {nextEvent && (
-                <div class="event-row event-row--next">
+                <div class="event-row">
                   <div class="mini-cal" aria-hidden="true">
                     <span class="mini-cal__wd">{chip(nextEvent.date).wd}</span>
                     <span class="mini-cal__day">{chip(nextEvent.date).day}</span>
@@ -127,30 +143,6 @@ const staticSections = [
         </div>
       </div>
 
-      <!-- Demo device: typeface + card switcher for the client review. Not for production. -->
-      <div class="font-switcher" aria-label="Design options">
-        <span class="font-switcher__label" id="fs-font-label">Body typeface</span>
-        <div class="font-switcher__row" role="group" aria-labelledby="fs-font-label">
-          <button type="button" data-set="--v2-body" data-store="v2-body-font" data-value='"Delius Swash Caps", cursive' aria-pressed="false">Production (Delius)</button>
-          <button type="button" data-set="--v2-body" data-store="v2-body-font" data-value='"Andika", system-ui, sans-serif' aria-pressed="true">Andika</button>
-        </div>
-        <span class="font-switcher__label" id="fs-hero-label">Next event</span>
-        <div class="font-switcher__row" role="group" aria-labelledby="fs-hero-label">
-          <button type="button" data-set="data-event-hero" data-store="v2-event-hero" data-value="true" aria-pressed="true">Hero (default)</button>
-          <button type="button" data-set="data-event-hero" data-store="v2-event-hero" data-value="false" aria-pressed="false">In the list</button>
-        </div>
-        <span class="font-switcher__label" id="fs-tex-label">Card texture</span>
-        <div class="font-switcher__row" role="group" aria-labelledby="fs-tex-label">
-          <button type="button" data-set="--v2-texture" data-store="v2-panel-texture" data-value="url('/images/noise.webp')" aria-pressed="true">Textured</button>
-          <button type="button" data-set="--v2-texture" data-store="v2-panel-texture" data-value="none" aria-pressed="false">Flat</button>
-        </div>
-        <span class="font-switcher__label" id="fs-bg-label">Card background</span>
-        <div class="font-switcher__row" role="group" aria-labelledby="fs-bg-label">
-          <button type="button" data-set="--v2-panel" data-store="v2-panel-bg" data-value="#e4f5ff" aria-pressed="true"><span class="swatch" style="background:#e4f5ff"></span>Blue</button>
-          <button type="button" data-set="--v2-panel" data-store="v2-panel-bg" data-value="#f2f8fc" aria-pressed="false"><span class="swatch" style="background:#f2f8fc"></span>Mist</button>
-        </div>
-      </div>
-
       <div class="static-info">
         {staticSections.map((s) => (
           <section class:list={["panel", { wide: s.wide }]} id={s.id} aria-labelledby={`${s.id}-title`}>
@@ -169,8 +161,6 @@ const staticSections = [
 
   /* ================================================================
      v2 design tokens — the whole preview is tuned from this block.
-     The switcher overrides --v2-body / --v2-panel / --v2-texture
-     inline; everything else is fixed here.
      ================================================================ */
   .v2 {
     /* type */
@@ -226,23 +216,10 @@ const staticSections = [
     }
   }
 
-  /* "Next event" placement toggle: hero panel (default) vs a row in Coming up */
-  .event-row--next {
-    display: none;
-  }
-  .v2[data-event-hero="false"] {
-    :global(.event-panel) { display: none; }
-    .event-row--next { display: flex; }
-  }
-
   .container {
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 1rem 3rem;
-    /* pull the next-event panel up over the ribbon's pinked bottom edge */
-    position: relative;
-    z-index: 2;
-    margin-top: -2.5rem;
   }
 
   .panel {
@@ -270,8 +247,16 @@ const staticSections = [
   .quick-links {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 0.5rem;
-    margin: 1.25rem 0 1.5rem;
+    /* chips sit across the strip's pinked bottom edge to tie the two together */
+    position: relative;
+    z-index: 3;
+    margin: -1.35rem 0 1.5rem;
+
+    @media (min-width: $BREAKPOINT_SMALL) {
+      justify-content: flex-start;
+    }
 
     a {
       background: #fff;
@@ -282,6 +267,7 @@ const staticSections = [
       color: var(--v2-navy);
       font-weight: 700;
       font-size: 0.92rem;
+      box-shadow: 0 2px 6px rgba(10, 51, 91, 0.18);
 
       &:hover { background: #e9f5ff; }
     }
@@ -348,6 +334,36 @@ const staticSections = [
     &__mon { font-size: 0.72rem; font-weight: 700; color: var(--v2-navy); }
   }
 
+  .draft-badge {
+    display: inline-block;
+    margin-top: 0.3rem;
+    padding: 0.1rem 0.6rem;
+    border: 2px dashed var(--v2-accent);
+    border-radius: 999px;
+    color: var(--v2-accent);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .draft-detail summary {
+    cursor: pointer;
+  }
+
+  .read-more {
+    display: inline-block;
+    margin-top: 0.4rem;
+    font-weight: 700;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
   .all-link {
     display: inline-block;
     margin-top: 0.75rem;
@@ -379,93 +395,4 @@ const staticSections = [
     display: inline-block;
     margin-top: 0.6rem;
   }
-
-  /* demo device: fixed switcher */
-  .font-switcher {
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
-    z-index: 50;
-    background: #fff;
-    border: 2px dashed #d4b106;
-    border-radius: 8px;
-    padding: 0.5rem 0.7rem;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.35rem;
-    max-width: 280px;
-    box-shadow: 2px 4px 12px rgba(10, 51, 91, 0.2);
-    font-family: "Andika", system-ui, sans-serif;
-
-    &__label {
-      flex-basis: 100%;
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: #7a6400;
-    }
-
-    &__row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
-      flex-basis: 100%;
-    }
-
-    .swatch {
-      display: inline-block;
-      width: 0.7em;
-      height: 0.7em;
-      border-radius: 50%;
-      border: 1px solid #b6cede;
-      margin-right: 0.3em;
-      vertical-align: baseline;
-    }
-
-    button {
-      font-family: inherit;
-      font-size: 0.8rem;
-      cursor: pointer;
-      border: 2px dotted var(--v2-border, #c8eaff);
-      background: #fff;
-      color: var(--v2-navy, #0a335b);
-      border-radius: 999px;
-      padding: 0.15rem 0.7rem;
-
-      &[aria-pressed="true"] {
-        background: var(--v2-navy, #0a335b);
-        border-color: var(--v2-navy, #0a335b);
-        color: #fff;
-      }
-    }
-  }
 </style>
-
-<script>
-  const v2 = document.querySelector<HTMLElement>(".v2");
-  const buttons = [...document.querySelectorAll<HTMLButtonElement>(".font-switcher button")];
-
-  function setOption(key: string, storeKey: string, value: string) {
-    if (!v2) return;
-    if (key.startsWith("--")) v2.style.setProperty(key, value);
-    else v2.setAttribute(key, value);
-    buttons
-      .filter((b) => b.dataset.set === key)
-      .forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.value === value)));
-    try { localStorage.setItem(storeKey, value); } catch {}
-  }
-
-  buttons.forEach((b) =>
-    b.addEventListener("click", () => setOption(b.dataset.set!, b.dataset.store!, b.dataset.value!))
-  );
-
-  for (const storeKey of ["v2-body-font", "v2-panel-bg", "v2-panel-texture", "v2-event-hero"]) {
-    try {
-      const saved = localStorage.getItem(storeKey);
-      const match = buttons.find((b) => b.dataset.store === storeKey && b.dataset.value === saved);
-      if (saved && match) setOption(match.dataset.set!, storeKey, saved);
-    } catch {}
-  }
-</script>

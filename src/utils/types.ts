@@ -87,6 +87,7 @@ export interface Post {
   body: any;
   moreDetail?: any;
   hasMoreDetail?: boolean;
+  isDraft?: boolean;
   snippet?: string;
 }
 export interface Publication {

@@ -1,15 +1,13 @@
 ---
-// Design-preview component: a still strip of four photos under the nav,
-// replacing the drifting RibbonGallery (the client found the movement
-// distracting). The photos are picked in the Studio (Homepage → Photo Strip);
+// Design-preview component: a still strip of four photos under the nav
+// (it replaced a drifting ribbon the client found distracting). The photos are picked in the Studio (Homepage → Photo Strip);
 // with fewer than four picked, the newest gallery photos fill the gaps.
 //
 // Picked photos are cropped to 3:2 server-side so the editor's hotspot is
 // honoured; the cell then covers whatever shape the viewport gives it.
 // Four across from $BREAKPOINT_SMALL up, a 2×2 grid below.
 //
-// The pinked edge and nav-colour band are the same as RibbonGallery's, but
-// layered so the nav's hover/selected black can show through the top notches:
+// The pinked edge sits over a band of the nav colour, layered so the nav's hover/selected black can show through the top notches:
 // band (z 0) < nav tab extension (z 1) < photo frame (z 2). None of these
 // set a stacking context on an ancestor, so they all order in the root one.
 import { imageBuilderFor } from "../../sanity/lib/images";
