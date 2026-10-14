@@ -1,13 +1,17 @@
 ---
 // Design-preview component: a still strip of four photos under the nav
-// (it replaced a drifting ribbon the client found distracting). The photos are picked in the Studio (Homepage → Photo Strip);
-// with fewer than four picked, the newest gallery photos fill the gaps.
+// (it replaced a drifting ribbon the client found distracting). The photos
+// are picked in the Studio (Homepage → Photo Strip); with fewer than four
+// picked, the newest gallery photos fill the gaps.
 //
 // Picked photos are cropped to 3:2 server-side so the editor's hotspot is
 // honoured; the cell then covers whatever shape the viewport gives it.
-// Four across from $BREAKPOINT_SMALL up, a 2×2 grid below.
+// Four across from $BREAKPOINT_SMALL up. Below that, one photo fills the
+// width and the rest are a swipe away (the next one peeks in); nothing
+// moves on its own.
 //
-// The pinked edge sits over a band of the nav colour, layered so the nav's hover/selected black can show through the top notches:
+// The pinked edge sits over a band of the nav colour, layered so the nav's
+// hover/selected black can show through the top notches:
 // band (z 0) < nav tab extension (z 1) < photo frame (z 2). None of these
 // set a stacking context on an ancestor, so they all order in the root one.
 import { imageBuilderFor } from "../../sanity/lib/images";
@@ -50,7 +54,7 @@ const tiles = [
               <img
                 src={t.src}
                 srcset={t.srcset}
-                sizes="(min-width: 700px) 25vw, 50vw"
+                sizes="(min-width: 700px) 25vw, 88vw"
                 alt={t.alt}
                 loading="eager"
               />
@@ -131,14 +135,25 @@ const tiles = [
 
   .strip {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
     gap: var(--strip-gap);
     list-style: none;
     margin: 0;
     padding: 0;
 
+    /* phones: one photo at a time, swipeable */
+    grid-auto-flow: column;
+    grid-auto-columns: 88%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+
+    li { scroll-snap-align: start; }
+
     @media (min-width: $BREAKPOINT_SMALL) {
+      grid-auto-flow: row;
       grid-template-columns: repeat(4, 1fr);
+      overflow: visible;
     }
   }
 
