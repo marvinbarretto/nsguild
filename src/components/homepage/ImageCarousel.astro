@@ -1,13 +1,16 @@
 ---
 import { getCarouselImageUrl, getCarouselSrcSet } from "../../sanity/lib/images";
-const { images = [] } = Astro.props; // Default to empty array
+// loading: "lazy" lets a page include the carousel in markup it hides at some
+// widths (the design preview) without downloading the images there.
+const { images = [], loading = "eager" } = Astro.props; // Default to empty array
 
 ---
 <div class="carousel-bg">
   {images.length > 0 && (
-    images.map(({ asset }: { asset: any }, index: number) => {
-      const src = getCarouselImageUrl(asset); // default 1600x500
-      const srcSet = getCarouselSrcSet(asset); // up to 1920x500
+    images.map((image: { asset: any }, index: number) => {
+      // the whole image, not just its asset, so an editor's hotspot/crop applies
+      const src = getCarouselImageUrl(image); // default 1600x500
+      const srcSet = getCarouselSrcSet(image); // up to 1920x500
 
       return (
         <img
@@ -16,7 +19,7 @@ const { images = [] } = Astro.props; // Default to empty array
           srcset={srcSet}
           sizes="100vw"
           alt={`Guild work ${index + 1}`}
-          loading="eager"
+          loading={loading}
         />
       );
     })

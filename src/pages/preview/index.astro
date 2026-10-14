@@ -18,6 +18,8 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import PortableText from "../../components/shared/PortableText.astro";
 import DateDisplay from "../../components/shared/DateDisplay.astro";
 import PhotoStrip from "../../components/v2/PhotoStrip.astro";
+import HeroOverlaySection from "../../components/homepage/HeroOverlaySection.astro";
+import type { StripImage } from "../../utils/types";
 import { fetchHomepageData } from "../../sanity/queries/homepage-consolidated";
 import { fetchAllEvents } from "../../sanity/queries/event";
 import { fetchNewsWithDrafts } from "../../sanity/queries/news";
@@ -29,10 +31,15 @@ const [{ homepage, nextEvent }, allEvents, newsPosts] = await Promise.all([
   fetchNewsWithDrafts(3),
 ]);
 
-// Top up the strip from the newest gallery photos when fewer than four are picked.
-const pickedStrip = (homepage.stripImages ?? []).slice(0, 4);
+// One list of four photos feeds both the phone carousel and the wider-screen
+// strip: the editor's Photo Strip picks, topped up from the existing Carousel
+// Images, then (strip only) the newest gallery photos.
+const seen = new Set<string>();
+const photos = [...(homepage.stripImages ?? []), ...((homepage.carouselImages ?? []) as StripImage[])]
+  .filter((img) => img?.asset?._id && !seen.has(img.asset._id) && seen.add(img.asset._id))
+  .slice(0, 4);
 const stripFallback =
-  pickedStrip.length < 4 ? await getAllGalleryImages({ limit: 4 - pickedStrip.length }) : [];
+  photos.length < 4 ? await getAllGalleryImages({ limit: 4 - photos.length }) : [];
 
 const today = new Date().toISOString().split("T")[0];
 const upcomingEvents = allEvents
@@ -58,7 +65,13 @@ const staticSections = [
 
 <BaseLayout title="Design preview" noindex>
   <div class="v2">
-    <PhotoStrip picked={pickedStrip} fallback={stripFallback} />
+    {/* Phones get the live homepage's fading carousel; 700px and up, the still strip. */}
+    <div class="hero-phone">
+      <HeroOverlaySection images={photos} loading="lazy" />
+    </div>
+    <div class="hero-wide">
+      <PhotoStrip picked={photos} fallback={stripFallback} />
+    </div>
 
     <div class="container">
       <nav class="quick-links" aria-label="About the Guild">
@@ -207,6 +220,13 @@ const staticSections = [
     :global(html) {
       scroll-behavior: smooth;
     }
+  }
+
+  /* Both are in the page; lazy images mean only the visible one downloads. */
+  .hero-wide { display: none; }
+  @media (min-width: $BREAKPOINT_SMALL) {
+    .hero-phone { display: none; }
+    .hero-wide { display: block; }
   }
 
   .container {

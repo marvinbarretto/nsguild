@@ -1,13 +1,13 @@
 ---
 import ImageCarousel from "./ImageCarousel.astro";
 
-const { images } = Astro.props;
+const { images, loading } = Astro.props;
 
 ---
 
 
 <section class="hero-wrapper">
-  <ImageCarousel images={images} />
+  <ImageCarousel images={images} loading={loading} />
 </section>
 
 <style>
