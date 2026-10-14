@@ -26,7 +26,16 @@ export const postType = defineType({
     }),
     defineField({
       name: "body",
-      type: "blockContent"
+      title: "Leader",
+      type: "blockContent",
+      description: "The headline news, shown on the homepage. Keep it short: a sentence or two.",
+    }),
+    defineField({
+      name: "moreDetail",
+      title: "More detail (optional)",
+      type: "blockContent",
+      description:
+        "Anything wordier: times, prices, booking details. Shown under the leader on the News page only; the homepage links through to it.",
     }),
     defineField({
       name: "mainImage",

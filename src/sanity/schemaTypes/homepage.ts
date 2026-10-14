@@ -53,6 +53,29 @@ export const homepageType = defineType({
       ],
       description: "Images for the homepage carousel.",
     }),
+    defineField({
+      name: "stripImages",
+      title: "Photo Strip",
+      type: "array",
+      of: [
+        {
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            {
+              name: "alt",
+              type: "string",
+              title: "Alternative Text",
+              description: "Optional. Describe the photo for people using screen readers.",
+            },
+          ],
+        },
+      ],
+      options: { layout: "grid" },
+      validation: (Rule) => Rule.max(4),
+      description:
+        "Pick four photos for the strip across the top of the homepage. Use Select to choose photos already uploaded to the gallery, and set the hotspot so the important part stays in view on phones. If none are chosen, the four newest gallery photos are shown.",
+    }),
     // defineField({
     //   name: 'carouselTransitionDuration',
     //   title: 'Carousel Transition Duration',

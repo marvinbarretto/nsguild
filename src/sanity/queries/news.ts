@@ -62,6 +62,7 @@ export async function fetchPostsPage(): Promise<Post[]> {
       publishedAt,
       snippet,
       body,
+      moreDetail,
       mainImage {
         asset,
         alt

@@ -25,6 +25,15 @@ export async function fetchHomepageData(): Promise<HomepageData> {
           url
         }
       },
+      stripImages[]{
+        alt,
+        hotspot,
+        crop,
+        "asset": asset->{
+          _id,
+          url
+        }
+      },
       whoWeAre,
       whatWeDo,
       whenWeMeet,
@@ -46,6 +55,7 @@ export async function fetchHomepageData(): Promise<HomepageData> {
     "newsPosts": *[_type == "post"] | order(publishedAt desc)[0...3] {
       title,
       body,
+      "hasMoreDetail": defined(moreDetail),
       "slug": slug.current,
       mainImage,
       publishedAt

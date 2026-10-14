@@ -1,0 +1,121 @@
+---
+// Design-preview component: a still strip of four photos under the nav,
+// replacing the drifting RibbonGallery (the client found the movement
+// distracting). The photos are picked in the Studio (Homepage → Photo Strip);
+// with fewer than four picked, the newest gallery photos fill the gaps.
+//
+// Picked photos are cropped to 3:2 server-side so the editor's hotspot is
+// honoured; the cell then covers whatever shape the viewport gives it.
+// Four across from $BREAKPOINT_SMALL up, a 2×2 grid below.
+//
+// The pinked edge and nav-colour band are the same as RibbonGallery's.
+import { imageBuilderFor } from "../../sanity/lib/images";
+import type { GalleryImage, StripImage } from "../../utils/types";
+
+export interface Props {
+  picked?: StripImage[];
+  fallback?: GalleryImage[];
+}
+
+const { picked = [], fallback = [] } = Astro.props;
+
+const WIDTHS = [400, 600, 800, 1200];
+const cropped = (img: StripImage, w: number) =>
+  imageBuilderFor(img as any).width(w).height(Math.round((w * 2) / 3)).fit("crop").auto("format").url();
+
+const tiles = [
+  ...picked
+    .filter((img) => img?.asset?._id)
+    .map((img) => ({
+      src: cropped(img, 800),
+      srcset: WIDTHS.map((w) => `${cropped(img, w)} ${w}w`).join(", "),
+      alt: img.alt ?? "",
+    })),
+  ...fallback.map((img) => ({
+    src: img.thumb2x,
+    srcset: `${img.thumb} 400w, ${img.thumb2x} 800w`,
+    alt: "",
+  })),
+].slice(0, 4);
+---
+
+{tiles.length > 0 && (
+  <a class="strip-link" href="/gallery" aria-label="Browse the photo gallery">
+    <div class="strip-frame">
+      <div class="strip-inner">
+        <ul class="strip" role="list">
+          {tiles.map((t) => (
+            <li>
+              <img
+                src={t.src}
+                srcset={t.srcset}
+                sizes="(min-width: 700px) 25vw, 50vw"
+                alt={t.alt}
+                loading="eager"
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </a>
+)}
+
+<style lang="scss">
+  @use "../../styles/_breakpoints.scss" as *;
+
+  /* ---- strip tokens: tweak here (or override from a parent) ---- */
+  .strip-link {
+    --strip-tooth: 26px;                              /* zigzag tile width; depth = half this */
+    --strip-stroke: 6px;                              /* vertical inset of the photo layer */
+    --strip-stroke-color: rgba(255, 255, 255, 0.65);
+    --strip-band: var(--nav-bg);                      /* nav colour continuing behind the cloth */
+    --strip-band-depth: 40px;
+    --strip-gap: 5px;
+    --strip-max-height: 300px;                        /* caps the row on wide screens */
+
+    display: block;
+    background: linear-gradient(to bottom, var(--strip-band) 0 var(--strip-band-depth), transparent var(--strip-band-depth));
+  }
+
+  .strip-frame {
+    background: var(--strip-stroke-color); /* shows as the stroke along the pinked edge */
+    -webkit-mask:
+      conic-gradient(from 135deg at top, #000 90deg, #0000 0) 0 0 / var(--strip-tooth) 51% repeat-x,
+      conic-gradient(from -45deg at bottom, #000 90deg, #0000 0) 0 100% / var(--strip-tooth) 51% repeat-x;
+    mask:
+      conic-gradient(from 135deg at top, #000 90deg, #0000 0) 0 0 / var(--strip-tooth) 51% repeat-x,
+      conic-gradient(from -45deg at bottom, #000 90deg, #0000 0) 0 100% / var(--strip-tooth) 51% repeat-x;
+  }
+
+  .strip-inner {
+    /* same zigzag, inset vertically — leaves the frame visible as a stroke flush with the cut */
+    -webkit-mask:
+      conic-gradient(from 135deg at top, #000 90deg, #0000 0) 0 var(--strip-stroke) / var(--strip-tooth) 51% repeat-x,
+      conic-gradient(from -45deg at bottom, #000 90deg, #0000 0) 0 calc(100% - var(--strip-stroke)) / var(--strip-tooth) 51% repeat-x;
+    mask:
+      conic-gradient(from 135deg at top, #000 90deg, #0000 0) 0 var(--strip-stroke) / var(--strip-tooth) 51% repeat-x,
+      conic-gradient(from -45deg at bottom, #000 90deg, #0000 0) 0 calc(100% - var(--strip-stroke)) / var(--strip-tooth) 51% repeat-x;
+  }
+
+  .strip {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--strip-gap);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    @media (min-width: $BREAKPOINT_SMALL) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .strip img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    max-height: var(--strip-max-height);
+    object-fit: cover;
+  }
+</style>

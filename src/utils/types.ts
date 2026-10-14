@@ -43,6 +43,14 @@ export type Homepage = {
   whereWeMeet: RichTextBlock;
   banner?: Banner;
   carouselImages: { asset: { url: string } }[];
+  stripImages?: StripImage[];
+};
+
+export type StripImage = {
+  alt?: string;
+  hotspot?: { x: number; y: number; height: number; width: number };
+  crop?: { top: number; bottom: number; left: number; right: number };
+  asset: { _id: string; url: string };
 };
 
 export interface EventType {
@@ -77,6 +85,8 @@ export interface Post {
     alt?: string;
   };
   body: any;
+  moreDetail?: any;
+  hasMoreDetail?: boolean;
   snippet?: string;
 }
 export interface Publication {

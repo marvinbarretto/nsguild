@@ -7,6 +7,8 @@ export interface Props {
   slug?: string;
   description?: string; 
   body?: any;
+  moreDetail?: any;
+  id?: string; // anchor target, e.g. /news#<slug>
   basePath: string; // e.g. "/news", "/events", "/publications"
   dateVariant?: "default" | "calendar";
   linkThroughToPage?: boolean;
@@ -27,6 +29,8 @@ const {
   slug, 
   description, 
   body,
+  moreDetail,
+  id,
   basePath, 
   dateVariant = "default", 
   linkThroughToPage = true,
@@ -46,7 +50,7 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
 
 ---
 
-<li class={listItemClass}>
+<li class={listItemClass} id={id}>
   {linkThroughToPage ? (
     <a class="list-item__content" href={url}>
       <ListItemContent 
@@ -68,6 +72,7 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
         title={title} 
         variant={variant} 
         body={body} 
+        moreDetail={moreDetail}
         description={description}
         mainImage={mainImage}
         relatedGallery={relatedGallery}
@@ -83,6 +88,7 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
     @include panel;
     display: flex;
     flex-direction: column;
+    scroll-margin-top: 1rem;
   }
 
   .list-item--news-full {
