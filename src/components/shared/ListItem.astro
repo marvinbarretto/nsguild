@@ -9,7 +9,6 @@ export interface Props {
   body?: any;
   moreDetail?: any;
   id?: string; // anchor target, e.g. /news#<slug>
-  badge?: string; // e.g. "Draft" on the design preview
   basePath: string; // e.g. "/news", "/events", "/publications"
   dateVariant?: "default" | "calendar";
   linkThroughToPage?: boolean;
@@ -32,7 +31,6 @@ const {
   body,
   moreDetail,
   id,
-  badge,
   basePath, 
   dateVariant = "default", 
   linkThroughToPage = true,
@@ -75,7 +73,6 @@ const listItemClass = `list-item ${variant === "news-full" ? "list-item--news-fu
         variant={variant} 
         body={body} 
         moreDetail={moreDetail}
-        badge={badge}
         description={description}
         mainImage={mainImage}
         relatedGallery={relatedGallery}

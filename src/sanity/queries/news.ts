@@ -97,7 +97,6 @@ export async function fetchNewsWithDrafts(limit: number): Promise<Post[]> {
       "hasMoreDetail": defined(moreDetail),
       "slug": coalesce(slug.current, _id),
       "publishedAt": coalesce(publishedAt, _updatedAt),
-      "isDraft": _originalId in path("drafts.**"),
       mainImage {
         asset,
         alt

@@ -8,7 +8,7 @@
 // each post's leader with a link through for the detail.
 //
 // News here, and on /preview/news where "Read more" leads, includes unpublished
-// drafts (marked "Draft") so the client can approve a post before it goes live.
+// drafts so the client can approve a post before it goes live.
 // This needs SANITY_PREVIEW_TOKEN (see fetchNewsWithDrafts); without it only
 // published posts show.
 //
@@ -72,7 +72,6 @@ const staticSections = [
             {newsPosts.map((post) => (
               <article class="news-item">
                 <DateDisplay date={post.publishedAt} />
-                {post.isDraft && <span class="draft-badge">Draft: not on the live site yet</span>}
                 <h3>{post.title}</h3>
                 <PortableText portableText={post.body} />
                 {post.hasMoreDetail && (
@@ -326,17 +325,6 @@ const staticSections = [
     &__wd { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--v2-ink-soft); }
     &__day { font-family: "Caveat Brush", cursive; font-size: 1.5rem; line-height: 1; color: var(--v2-accent); }
     &__mon { font-size: 0.72rem; font-weight: 700; color: var(--v2-navy); }
-  }
-
-  .draft-badge {
-    display: inline-block;
-    margin-top: 0.3rem;
-    padding: 0.1rem 0.6rem;
-    border: 2px dashed var(--v2-accent);
-    border-radius: 999px;
-    color: var(--v2-accent);
-    font-size: 0.8rem;
-    font-weight: 700;
   }
 
   .read-more {

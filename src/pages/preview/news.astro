@@ -1,7 +1,7 @@
 ---
-// Design preview of the News page: the live /news, plus unpublished drafts
-// (badged) so the client can approve a post before it is published. The
-// preview homepage's "Read more" links land here. Noindexed and unlinked.
+// Design preview of the News page: the live /news, plus unpublished drafts so
+// the client can approve a post before it is published. The preview
+// homepage's "Read more" links land here. Noindexed and unlinked.
 import { fetchNewsWithDrafts } from '../../sanity/queries/news';
 import { getCachedGlobals } from '../../utils/cache';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -30,7 +30,6 @@ const newsDescription = globals?.pagesContent?.newsPageDescription;
           body={post.body}
           moreDetail={post.moreDetail}
           id={post.slug}
-          badge={post.isDraft ? "Draft: not on the live site yet" : undefined}
           mainImage={post.mainImage}
           basePath="/news"
           variant="news-full"
