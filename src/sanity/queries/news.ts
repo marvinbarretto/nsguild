@@ -75,28 +75,33 @@ export async function fetchPostsPage(): Promise<Post[]> {
 }
 
 /**
- * Latest posts for the design preview, with unpublished drafts overlaid so the
- * client can approve one before publishing. Reading drafts needs a Viewer
- * token in SANITY_PREVIEW_TOKEN; with none, this shows published posts only
- * and says so in the logs.
+ * Latest posts for the design preview (/preview and /preview/news), with
+ * unpublished drafts overlaid so the client can approve a post before it is
+ * published. Reading drafts needs a Viewer token in SANITY_PREVIEW_TOKEN; with
+ * none, this shows published posts only and says so in the logs.
  *
  * Deliberately not SANITY_TOKEN: the shared sanityClient is on an API version
  * whose default perspective is "raw", so giving it a token would put drafts
  * on every live page.
  */
-export async function fetchLatestNewsWithDrafts(limit = 3): Promise<Post[]> {
+export async function fetchNewsWithDrafts(limit: number): Promise<Post[]> {
   const token = import.meta.env.SANITY_PREVIEW_TOKEN;
-  if (!token) console.warn("fetchLatestNewsWithDrafts: no SANITY_PREVIEW_TOKEN, drafts not shown");
+  if (!token) console.warn("fetchNewsWithDrafts: no SANITY_PREVIEW_TOKEN, drafts not shown");
 
+  // A brand-new draft may not have a slug yet, so anchor on the id instead.
   const query = `
     *[_type == "post"] | order(coalesce(publishedAt, _updatedAt) desc)[0...$limit] {
       title,
       body,
       moreDetail,
       "hasMoreDetail": defined(moreDetail),
-      "slug": slug.current,
+      "slug": coalesce(slug.current, _id),
       "publishedAt": coalesce(publishedAt, _updatedAt),
-      "isDraft": _originalId in path("drafts.**")
+      "isDraft": _originalId in path("drafts.**"),
+      mainImage {
+        asset,
+        alt
+      }
     }
   `;
   const client = token

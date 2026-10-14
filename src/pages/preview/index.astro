@@ -7,9 +7,10 @@
 // strip picked in the Studio, the next event leads Coming up, and news shows
 // each post's leader with a link through for the detail.
 //
-// News here includes unpublished drafts (marked "Draft") so the client can
-// approve a post before it goes live. This needs SANITY_PREVIEW_TOKEN (see
-// fetchLatestNewsWithDrafts); without it only published posts show.
+// News here, and on /preview/news where "Read more" leads, includes unpublished
+// drafts (marked "Draft") so the client can approve a post before it goes live.
+// This needs SANITY_PREVIEW_TOKEN (see fetchNewsWithDrafts); without it only
+// published posts show.
 //
 // All design tokens live in the `.v2` block at the top of the styles below —
 // tweak there.
@@ -19,13 +20,13 @@ import DateDisplay from "../../components/shared/DateDisplay.astro";
 import PhotoStrip from "../../components/v2/PhotoStrip.astro";
 import { fetchHomepageData } from "../../sanity/queries/homepage-consolidated";
 import { fetchAllEvents } from "../../sanity/queries/event";
-import { fetchLatestNewsWithDrafts } from "../../sanity/queries/news";
+import { fetchNewsWithDrafts } from "../../sanity/queries/news";
 import { getAllGalleryImages } from "../../sanity/queries/gallery";
 
 const [{ homepage, nextEvent }, allEvents, newsPosts] = await Promise.all([
   fetchHomepageData(),
   fetchAllEvents(),
-  fetchLatestNewsWithDrafts(3),
+  fetchNewsWithDrafts(3),
 ]);
 
 // Top up the strip from the newest gallery photos when fewer than four are picked.
@@ -74,21 +75,14 @@ const staticSections = [
                 {post.isDraft && <span class="draft-badge">Draft: not on the live site yet</span>}
                 <h3>{post.title}</h3>
                 <PortableText portableText={post.body} />
-                {post.hasMoreDetail && !post.isDraft && (
-                  <a class="read-more" href={`/news#${post.slug}`}>
+                {post.hasMoreDetail && (
+                  <a class="read-more" href={`/preview/news#${post.slug}`}>
                     Read more<span class="visually-hidden"> about {post.title}</span> →
                   </a>
                 )}
-                {/* a draft isn't on /news yet, so its detail opens in place */}
-                {post.hasMoreDetail && post.isDraft && (
-                  <details class="draft-detail">
-                    <summary class="read-more">Read more</summary>
-                    <PortableText portableText={post.moreDetail} />
-                  </details>
-                )}
               </article>
             ))}
-            <a class="all-link" href="/news">All news →</a>
+            <a class="all-link" href="/preview/news">All news →</a>
           </section>
         )}
 
@@ -343,10 +337,6 @@ const staticSections = [
     color: var(--v2-accent);
     font-size: 0.8rem;
     font-weight: 700;
-  }
-
-  .draft-detail summary {
-    cursor: pointer;
   }
 
   .read-more {

@@ -3,7 +3,7 @@ import PortableText from "./PortableText.astro";
 import DateDisplay from "./DateDisplay.astro";
 import { imageBuilderFor } from "../../sanity/lib/images.ts";
 
-const { date, dateVariant, title, variant, body, moreDetail, description, mainImage, relatedGallery} = Astro.props;
+const { date, dateVariant, title, variant, body, moreDetail, badge, description, mainImage, relatedGallery} = Astro.props;
 ---
 
 {mainImage && mainImage.asset && (
@@ -17,6 +17,7 @@ const { date, dateVariant, title, variant, body, moreDetail, description, mainIm
 {date && <DateDisplay date={date} variant={dateVariant} />}
 <div class="list-item__content">
   <div class="list-item__text">
+    {badge && <span class="list-item__badge">{badge}</span>}
     <h3 class="list-item__title">{title}</h3>
 
     {variant === "news-full" && body ? (
@@ -51,6 +52,16 @@ const { date, dateVariant, title, variant, body, moreDetail, description, mainIm
       flex-direction: column;
       justify-content: center;
       gap: 1rem;
+    }
+
+    .list-item__badge {
+      align-self: flex-start;
+      padding: 0.1rem 0.6rem;
+      border: 2px dashed #a63a00;
+      border-radius: 999px;
+      color: #a63a00;
+      font-size: 0.8rem;
+      font-weight: 700;
     }
 
     .snippet {
