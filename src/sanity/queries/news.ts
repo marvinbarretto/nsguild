@@ -1,4 +1,5 @@
 
+import { createClient } from "@sanity/client";
 import { getSanityData, sanityClient } from "../../utils/sanity";
 import type { Post } from "../../utils/types";
 import type { PagesContent } from "../../utils/types";
@@ -75,12 +76,17 @@ export async function fetchPostsPage(): Promise<Post[]> {
 
 /**
  * Latest posts for the design preview, with unpublished drafts overlaid so the
- * client can approve one before publishing. Reading drafts needs a token; with
- * none, this falls back to published posts only and says so in the logs.
+ * client can approve one before publishing. Reading drafts needs a Viewer
+ * token in SANITY_PREVIEW_TOKEN; with none, this shows published posts only
+ * and says so in the logs.
+ *
+ * Deliberately not SANITY_TOKEN: the shared sanityClient is on an API version
+ * whose default perspective is "raw", so giving it a token would put drafts
+ * on every live page.
  */
 export async function fetchLatestNewsWithDrafts(limit = 3): Promise<Post[]> {
-  const hasToken = Boolean(import.meta.env.SANITY_TOKEN);
-  if (!hasToken) console.warn("fetchLatestNewsWithDrafts: no SANITY_TOKEN, drafts not shown");
+  const token = import.meta.env.SANITY_PREVIEW_TOKEN;
+  if (!token) console.warn("fetchLatestNewsWithDrafts: no SANITY_PREVIEW_TOKEN, drafts not shown");
 
   const query = `
     *[_type == "post"] | order(coalesce(publishedAt, _updatedAt) desc)[0...$limit] {
@@ -93,7 +99,16 @@ export async function fetchLatestNewsWithDrafts(limit = 3): Promise<Post[]> {
       "isDraft": _originalId in path("drafts.**")
     }
   `;
-  const client = hasToken ? sanityClient.withConfig({ perspective: "previewDrafts" }) : sanityClient;
+  const client = token
+    ? createClient({
+        projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
+        dataset: import.meta.env.PUBLIC_SANITY_DATASET,
+        useCdn: false,
+        apiVersion: "2025-01-28",
+        token,
+        perspective: "previewDrafts",
+      })
+    : sanityClient;
   return await client.fetch<Post[]>(query, { limit });
 }
 
