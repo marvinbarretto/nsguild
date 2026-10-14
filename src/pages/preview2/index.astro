@@ -6,11 +6,11 @@
 // Changes from /preview: a still photo strip picked in the Studio replaces the
 // drifting ribbon, the next event moves from a hero panel into Coming up, and
 // news shows each post's leader with a link through for the detail. Andika is
-// now the site-wide body face (global.scss), so the typeface switch is gone.
+// now the site-wide body face (global.scss). Cards are settled as blue and
+// textured, so the demo switcher is gone too.
 //
 // All design tokens live in the `.v2` block at the top of the styles below —
-// tweak there. The floating switcher (demo device) overrides --v2-panel /
-// --v2-texture inline for live comparison.
+// tweak there.
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PortableText from "../../components/shared/PortableText.astro";
 import DateDisplay from "../../components/shared/DateDisplay.astro";
@@ -131,20 +131,6 @@ const staticSections = [
         </div>
       </div>
 
-      <!-- Demo device: typeface + card switcher for the client review. Not for production. -->
-      <div class="font-switcher" aria-label="Design options">
-        <span class="font-switcher__label" id="fs-tex-label">Card texture</span>
-        <div class="font-switcher__row" role="group" aria-labelledby="fs-tex-label">
-          <button type="button" data-set="--v2-texture" data-store="v2-panel-texture" data-value="url('/images/noise.webp')" aria-pressed="true">Textured</button>
-          <button type="button" data-set="--v2-texture" data-store="v2-panel-texture" data-value="none" aria-pressed="false">Flat</button>
-        </div>
-        <span class="font-switcher__label" id="fs-bg-label">Card background</span>
-        <div class="font-switcher__row" role="group" aria-labelledby="fs-bg-label">
-          <button type="button" data-set="--v2-panel" data-store="v2-panel-bg" data-value="#e4f5ff" aria-pressed="true"><span class="swatch" style="background:#e4f5ff"></span>Blue</button>
-          <button type="button" data-set="--v2-panel" data-store="v2-panel-bg" data-value="#f2f8fc" aria-pressed="false"><span class="swatch" style="background:#f2f8fc"></span>Mist</button>
-        </div>
-      </div>
-
       <div class="static-info">
         {staticSections.map((s) => (
           <section class:list={["panel", { wide: s.wide }]} id={s.id} aria-labelledby={`${s.id}-title`}>
@@ -163,8 +149,6 @@ const staticSections = [
 
   /* ================================================================
      v2 design tokens — the whole preview is tuned from this block.
-     The switcher overrides --v2-panel / --v2-texture
-     inline; everything else is fixed here.
      ================================================================ */
   .v2 {
     /* type */
@@ -251,8 +235,16 @@ const staticSections = [
   .quick-links {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 0.5rem;
-    margin: 1.25rem 0 1.5rem;
+    /* chips sit across the strip's pinked bottom edge to tie the two together */
+    position: relative;
+    z-index: 3;
+    margin: -1.35rem 0 1.5rem;
+
+    @media (min-width: $BREAKPOINT_SMALL) {
+      justify-content: flex-start;
+    }
 
     a {
       background: #fff;
@@ -263,6 +255,7 @@ const staticSections = [
       color: var(--v2-navy);
       font-weight: 700;
       font-size: 0.92rem;
+      box-shadow: 0 2px 6px rgba(10, 51, 91, 0.18);
 
       &:hover { background: #e9f5ff; }
     }
@@ -375,93 +368,4 @@ const staticSections = [
     display: inline-block;
     margin-top: 0.6rem;
   }
-
-  /* demo device: fixed switcher */
-  .font-switcher {
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
-    z-index: 50;
-    background: #fff;
-    border: 2px dashed #d4b106;
-    border-radius: 8px;
-    padding: 0.5rem 0.7rem;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.35rem;
-    max-width: 280px;
-    box-shadow: 2px 4px 12px rgba(10, 51, 91, 0.2);
-    font-family: "Andika", system-ui, sans-serif;
-
-    &__label {
-      flex-basis: 100%;
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: #7a6400;
-    }
-
-    &__row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
-      flex-basis: 100%;
-    }
-
-    .swatch {
-      display: inline-block;
-      width: 0.7em;
-      height: 0.7em;
-      border-radius: 50%;
-      border: 1px solid #b6cede;
-      margin-right: 0.3em;
-      vertical-align: baseline;
-    }
-
-    button {
-      font-family: inherit;
-      font-size: 0.8rem;
-      cursor: pointer;
-      border: 2px dotted var(--v2-border, #c8eaff);
-      background: #fff;
-      color: var(--v2-navy, #0a335b);
-      border-radius: 999px;
-      padding: 0.15rem 0.7rem;
-
-      &[aria-pressed="true"] {
-        background: var(--v2-navy, #0a335b);
-        border-color: var(--v2-navy, #0a335b);
-        color: #fff;
-      }
-    }
-  }
 </style>
-
-<script>
-  const v2 = document.querySelector<HTMLElement>(".v2");
-  const buttons = [...document.querySelectorAll<HTMLButtonElement>(".font-switcher button")];
-
-  function setOption(key: string, storeKey: string, value: string) {
-    if (!v2) return;
-    if (key.startsWith("--")) v2.style.setProperty(key, value);
-    else v2.setAttribute(key, value);
-    buttons
-      .filter((b) => b.dataset.set === key)
-      .forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.value === value)));
-    try { localStorage.setItem(storeKey, value); } catch {}
-  }
-
-  buttons.forEach((b) =>
-    b.addEventListener("click", () => setOption(b.dataset.set!, b.dataset.store!, b.dataset.value!))
-  );
-
-  for (const storeKey of ["v2-panel-bg", "v2-panel-texture"]) {
-    try {
-      const saved = localStorage.getItem(storeKey);
-      const match = buttons.find((b) => b.dataset.store === storeKey && b.dataset.value === saved);
-      if (saved && match) setOption(match.dataset.set!, storeKey, saved);
-    } catch {}
-  }
-</script>

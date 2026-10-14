@@ -8,7 +8,10 @@
 // honoured; the cell then covers whatever shape the viewport gives it.
 // Four across from $BREAKPOINT_SMALL up, a 2×2 grid below.
 //
-// The pinked edge and nav-colour band are the same as RibbonGallery's.
+// The pinked edge and nav-colour band are the same as RibbonGallery's, but
+// layered so the nav's hover/selected black can show through the top notches:
+// band (z 0) < nav tab extension (z 1) < photo frame (z 2). None of these
+// set a stacking context on an ancestor, so they all order in the root one.
 import { imageBuilderFor } from "../../sanity/lib/images";
 import type { GalleryImage, StripImage } from "../../utils/types";
 
@@ -17,7 +20,7 @@ export interface Props {
   fallback?: GalleryImage[];
 }
 
-const { picked = [], fallback = [] } = Astro.props;
+const { picked = [], fallback = [] }: Props = Astro.props;
 
 const WIDTHS = [400, 600, 800, 1200];
 const cropped = (img: StripImage, w: number) =>
@@ -75,10 +78,40 @@ const tiles = [
     --strip-max-height: 300px;                        /* caps the row on wide screens */
 
     display: block;
-    background: linear-gradient(to bottom, var(--strip-band) 0 var(--strip-band-depth), transparent var(--strip-band-depth));
+    position: relative;
+
+    /* the nav colour continuing behind the cloth */
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: var(--strip-band-depth);
+      background: var(--strip-band);
+      z-index: 0;
+    }
+  }
+
+  /* A hovered or current nav tab runs on down into the notches of the pinked
+     edge. Only where the strip sits under the nav, and only for the desktop
+     row of tabs; the frame (z 2) hides everything below the notches. */
+  @media (min-width: $BREAKPOINT_TABLET_PORTRAIT) {
+    :global(body:has(.strip-link) .nav-links li) {
+      position: relative;
+    }
+    :global(body:has(.strip-link) .nav-links li:is(:hover, .selected)::after) {
+      content: "";
+      position: absolute;
+      inset: 100% 0 auto;
+      height: var(--strip-band-depth, 40px);
+      background: black;
+      z-index: 1;
+      pointer-events: none;
+    }
   }
 
   .strip-frame {
+    position: relative;
+    z-index: 2;
     background: var(--strip-stroke-color); /* shows as the stroke along the pinked edge */
     -webkit-mask:
       conic-gradient(from 135deg at top, #000 90deg, #0000 0) 0 0 / var(--strip-tooth) 51% repeat-x,
