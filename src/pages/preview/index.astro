@@ -21,6 +21,7 @@ import PhotoStrip from "../../components/v2/PhotoStrip.astro";
 import PinkedEdge from "../../components/v2/PinkedEdge.astro";
 import HeroOverlaySection from "../../components/homepage/HeroOverlaySection.astro";
 import type { StripImage } from "../../utils/types";
+import { firstSentence } from "../../utils/firstSentence";
 import { fetchHomepageData } from "../../sanity/queries/homepage-consolidated";
 import { fetchAllEvents } from "../../sanity/queries/event";
 import { fetchNewsWithDrafts } from "../../sanity/queries/news";
@@ -85,18 +86,24 @@ const staticSections = [
         {newsPosts && newsPosts.length > 0 && (
           <section class="panel" aria-labelledby="news-title">
             <h2 class="section-head" id="news-title">Latest news</h2>
-            {newsPosts.map((post) => (
-              <article class="news-item">
-                <DateDisplay date={post.publishedAt} />
-                <h3>{post.title}</h3>
-                <PortableText portableText={post.body} />
-                {post.hasMoreDetail && (
-                  <a class="read-more" href={`/preview/news#${post.slug}`}>
-                    Read more<span class="visually-hidden"> about {post.title}</span> →
-                  </a>
-                )}
-              </article>
-            ))}
+            {/* TEMPORARY preview-only hack: leaders are cut to their first sentence so
+                the client can judge headline-length news without any real post being
+                edited. The full text is on /preview/news. */}
+            {newsPosts.map((post) => {
+              const leader = firstSentence(post.body);
+              return (
+                <article class="news-item">
+                  <DateDisplay date={post.publishedAt} />
+                  <h3>{post.title}</h3>
+                  <PortableText portableText={leader.blocks} />
+                  {(leader.truncated || post.hasMoreDetail) && (
+                    <a class="read-more" href={`/preview/news#${post.slug}`}>
+                      Read more<span class="visually-hidden"> about {post.title}</span> →
+                    </a>
+                  )}
+                </article>
+              );
+            })}
             <a class="all-link" href="/preview/news">All news →</a>
           </section>
         )}
