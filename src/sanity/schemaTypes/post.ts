@@ -13,10 +13,12 @@ export const postType = defineType({
     defineField({
       name: "slug",
       type: "slug",
+      description: "The post's web address. Press Generate. Without it the post is missing from the News page.",
       options: {
         source: "title",
         maxLength: 96,
       },
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "publishedAt",
