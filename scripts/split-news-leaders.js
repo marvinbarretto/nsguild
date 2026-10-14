@@ -9,7 +9,8 @@
 //   node scripts/split-news-leaders.js <slug> [<slug>] # dry run: just these posts
 //   node scripts/split-news-leaders.js ... --live      # write (backs up each body first)
 //
-// Needs SANITY_TOKEN with write access in .env.
+// --live needs SANITY_WRITE_TOKEN in .env (an Editor token from sanity.io/manage
+// → API → Tokens); the site's SANITY_TOKEN is read-only.
 import { loadEnv } from 'vite';
 import { createClient } from '@sanity/client';
 import { randomBytes } from 'crypto';
@@ -25,7 +26,7 @@ const client = createClient({
   dataset: env.PUBLIC_SANITY_DATASET,
   useCdn: false,
   apiVersion: '2025-01-28',
-  token: env.SANITY_TOKEN,
+  token: env.SANITY_WRITE_TOKEN || env.SANITY_TOKEN,
 });
 
 const args = process.argv.slice(2);
