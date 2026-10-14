@@ -20,6 +20,15 @@
   onload="this.media='all'"
 />
 
+<!-- @ts-expect-error - Performance hack: this.media dynamically changes media attribute -->
+<link
+  id="font-loader--andika"
+  href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap"
+  rel="stylesheet"
+  media="print"
+  onload="this.media='all'"
+/>
+
 <noscript>
   <link 
     href="https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&display=swap" 
@@ -27,4 +36,5 @@
   />
 
   <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
 </noscript>

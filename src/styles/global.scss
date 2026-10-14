@@ -25,8 +25,15 @@ body {
     font-family: "Delius Swash Caps", sans-serif;
 }
 
+// Page content reads in Andika (clearer at body sizes — client feedback
+// 2026-10-14); the header, nav, footer and page headings keep Delius.
 main {
   background-image: url('/images/noise.webp');
+  font-family: "Andika", system-ui, sans-serif;
+
+  h1, h2 {
+    font-family: "Delius Swash Caps", sans-serif;
+  }
 }
 
 a {
