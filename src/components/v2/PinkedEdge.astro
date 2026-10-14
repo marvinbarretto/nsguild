@@ -1,0 +1,93 @@
+---
+// Design-preview wrapper: cuts whatever it holds with a pinked (zigzag) top
+// and bottom edge, like pinking shears on cloth, over a band of the nav
+// colour so the cloth reads as laid over the nav. Used by PhotoStrip and by
+// the phone carousel on /preview.
+//
+// Layering, so the nav's hover/selected black can show through the top
+// notches: band (z 0) < nav tab extension (z 1) < frame (z 2). None of these
+// set a stacking context on an ancestor, so they all order in the root one.
+// .pinked-frame is a white layer masked with the zigzag (the stroke);
+// .pinked-inner is masked with the same zigzag inset vertically, so the white
+// shows as a uniform stroke flush with the cut.
+export interface Props {
+  href?: string;
+  label?: string;
+}
+
+const { href, label }: Props = Astro.props;
+const Tag = href ? "a" : "div";
+---
+
+<Tag class="pinked" href={href} aria-label={label}>
+  <div class="pinked-frame">
+    <div class="pinked-inner">
+      <slot />
+    </div>
+  </div>
+</Tag>
+
+<style lang="scss">
+  @use "../../styles/_breakpoints.scss" as *;
+
+  /* ---- pinked-edge tokens: tweak here (or override from a parent) ---- */
+  .pinked {
+    --pinked-tooth: 26px;                              /* zigzag tile width; depth = half this */
+    --pinked-stroke: 6px;                              /* vertical inset of the content layer */
+    --pinked-stroke-color: rgba(255, 255, 255, 0.65);
+    --pinked-band: var(--nav-bg);                      /* nav colour continuing behind the cloth */
+    --pinked-band-depth: 40px;
+
+    display: block;
+    position: relative;
+
+    /* the nav colour continuing behind the cloth */
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: var(--pinked-band-depth);
+      background: var(--pinked-band);
+      z-index: 0;
+    }
+  }
+
+  /* A hovered or current nav tab runs on down into the notches of the pinked
+     edge. Only where a pinked edge sits under the nav, and only for the
+     desktop row of tabs; the frame (z 2) hides everything below the notches. */
+  @media (min-width: $BREAKPOINT_TABLET_PORTRAIT) {
+    :global(body:has(.pinked) .nav-links li) {
+      position: relative;
+    }
+    :global(body:has(.pinked) .nav-links li:is(:hover, .selected)::after) {
+      content: "";
+      position: absolute;
+      inset: 100% 0 auto;
+      height: 40px;
+      background: black;
+      z-index: 1;
+      pointer-events: none;
+    }
+  }
+
+  .pinked-frame {
+    position: relative;
+    z-index: 2;
+    background: var(--pinked-stroke-color); /* shows as the stroke along the pinked edge */
+    -webkit-mask:
+      conic-gradient(from 135deg at top, #000 90deg, #0000 0) 0 0 / var(--pinked-tooth) 51% repeat-x,
+      conic-gradient(from -45deg at bottom, #000 90deg, #0000 0) 0 100% / var(--pinked-tooth) 51% repeat-x;
+    mask:
+      conic-gradient(from 135deg at top, #000 90deg, #0000 0) 0 0 / var(--pinked-tooth) 51% repeat-x,
+      conic-gradient(from -45deg at bottom, #000 90deg, #0000 0) 0 100% / var(--pinked-tooth) 51% repeat-x;
+  }
+
+  .pinked-inner {
+    -webkit-mask:
+      conic-gradient(from 135deg at top, #000 90deg, #0000 0) 0 var(--pinked-stroke) / var(--pinked-tooth) 51% repeat-x,
+      conic-gradient(from -45deg at bottom, #000 90deg, #0000 0) 0 calc(100% - var(--pinked-stroke)) / var(--pinked-tooth) 51% repeat-x;
+    mask:
+      conic-gradient(from 135deg at top, #000 90deg, #0000 0) 0 var(--pinked-stroke) / var(--pinked-tooth) 51% repeat-x,
+      conic-gradient(from -45deg at bottom, #000 90deg, #0000 0) 0 calc(100% - var(--pinked-stroke)) / var(--pinked-tooth) 51% repeat-x;
+  }
+</style>

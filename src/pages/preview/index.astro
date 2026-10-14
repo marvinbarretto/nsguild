@@ -18,6 +18,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import PortableText from "../../components/shared/PortableText.astro";
 import DateDisplay from "../../components/shared/DateDisplay.astro";
 import PhotoStrip from "../../components/v2/PhotoStrip.astro";
+import PinkedEdge from "../../components/v2/PinkedEdge.astro";
 import HeroOverlaySection from "../../components/homepage/HeroOverlaySection.astro";
 import type { StripImage } from "../../utils/types";
 import { fetchHomepageData } from "../../sanity/queries/homepage-consolidated";
@@ -67,7 +68,9 @@ const staticSections = [
   <div class="v2">
     {/* Phones get the live homepage's fading carousel; 700px and up, the still strip. */}
     <div class="hero-phone">
-      <HeroOverlaySection images={photos} loading="lazy" />
+      <PinkedEdge>
+        <HeroOverlaySection images={photos} loading="lazy" />
+      </PinkedEdge>
     </div>
     <div class="hero-wide">
       <PhotoStrip picked={photos} fallback={stripFallback} />
