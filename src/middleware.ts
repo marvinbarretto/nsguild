@@ -10,11 +10,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
     return response;
   }
 
-  // Add caching headers for all pages (except API routes)
+  // Add caching headers for all pages (except API routes). Short, so a
+  // published Studio change shows within about two minutes.
   if (!context.url.pathname.startsWith('/api/')) {
     response.headers.set(
-      'Cache-Control', 
-      'public, s-maxage=300, stale-while-revalidate=600'
+      'Cache-Control',
+      'public, s-maxage=60, stale-while-revalidate=60'
     );
   }
   
