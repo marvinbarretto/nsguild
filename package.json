@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "status": "node $HOME/.jimbo/hooks/jimbo-api/scripts/claude-code-hooks/handoff.mjs status"
   },
   "dependencies": {
     "@astrojs/react": "4.3.0",
