@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from 'astro-sitemap';
 import sanity from '@sanity/astro';
-import vercel from '@astrojs/vercel';
+import cloudflare from '@astrojs/cloudflare';
 import react from '@astrojs/react';
 import vue from '@astrojs/vue';
 import { loadEnv } from 'vite';
@@ -17,7 +17,8 @@ const { PUBLIC_SANITY_DATASET, PUBLIC_SANITY_PROJECT_ID } = loadEnv(
 export default defineConfig({
   site: 'https://norfolksuffolkwsd.org.uk',
   output: 'server',
-  adapter: vercel(),
+  // Cloudflare Pages since 5 Nov 2026: Vercel's free plan paused the team on 3 Nov.
+  adapter: cloudflare(),
   integrations: [
     sitemap(),
     sanity({

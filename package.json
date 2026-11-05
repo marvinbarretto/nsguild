@@ -15,8 +15,8 @@
     "status": "node $HOME/.jimbo/hooks/jimbo-api/scripts/claude-code-hooks/handoff.mjs status"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "12.6.13",
     "@astrojs/react": "4.3.0",
-    "@astrojs/vercel": "8.2.1",
     "@astrojs/vue": "5.1.0",
     "@portabletext/types": "2.0.13",
     "@sanity/astro": "3.1.9",
@@ -26,8 +26,6 @@
     "@sanity/visual-editing": "2.11.3",
     "@types/react": "19.0.2",
     "@types/react-dom": "19.0.2",
-    "@vercel/analytics": "1.4.1",
-    "@vercel/speed-insights": "1.1.0",
     "astro": "5.11.0",
     "astro-portabletext": "0.11.0",
     "astro-sitemap": "1.0.0",

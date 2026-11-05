@@ -9,8 +9,6 @@ import Footer from '../components/global/Footer.astro';
 import Nav from '../components/global/Nav.astro';
 import GoogleFonts from '../components/base/GoogleFonts.astro';
 import { getCachedGlobals } from '../utils/cache';
-import Analytics from '@vercel/analytics/astro';
-import SpeedInsights from '@vercel/speed-insights/astro';
 import GoogleAnalytics from '../components/base/GoogleAnalytics.astro';
 import '../styles/global.scss';
 
@@ -39,7 +37,6 @@ const pageTitle = title
     <slot name="head" />
 
     <GoogleFonts />
-    <Analytics/>
     <GoogleAnalytics />
   </head>
   <body>
@@ -50,7 +47,6 @@ const pageTitle = title
       <slot />
     </main>
     <Footer footerText={globals?.footerText || "NS Guild"} />
-    <SpeedInsights />
   </body>
 </html>
 

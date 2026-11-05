@@ -1,0 +1,6 @@
+# Cloudflare Pages (5 Nov 2026). Astro's Cloudflare adapter builds dist/ with _worker.js.
+name = "nsguild"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-11-01"
+# Sanity's client and Astro's server code import Node built-ins.
+compatibility_flags = ["nodejs_compat"]
