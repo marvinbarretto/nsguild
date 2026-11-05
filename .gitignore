@@ -34,3 +34,6 @@ pnpm-debug.log*
 
 ACTION_PLAN.md
 PLAYWRIGHT_CHEATSHEET.md
+
+# Cloudflare Pages local secrets (wrangler pages dev)
+.dev.vars
